@@ -70,7 +70,7 @@ export default function Creatures() {
       sort_by: sortBy, 
       sort_direction: sortDirection,
     });
-    const response = await fetch(`http://localhost/api/creatures?${params.toString()}`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/creatures?${params.toString()}`);
     const json = await response.json();
     setCreatures(json.data);
     setPageSize(json.pagination.size);
