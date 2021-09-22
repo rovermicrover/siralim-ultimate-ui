@@ -1,47 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useReducer } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
+import TableFooter from '@mui/material/TableFooter';
 import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/Pagination';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import TablePagination from '@mui/material/TablePagination';
 
-interface SortArrowParams {
-  field: string;
-  name: string;
-  sortBy: string;
-  sortAscDirection: boolean;
-  setSort: (field: string) => void;
-}
+import paginationReducer, { IPagination } from '../reducers/pagination';
+import sortReducer, { ISort } from '../reducers/sort';
 
-function SortedTableHeader({field, name, sortBy, sortAscDirection, setSort}: SortArrowParams) {
-  const isActive = field == sortBy;
-  const direction = isActive ? sortAscDirection ? 'asc' : 'desc' : 'asc';
-
-  const style = isActive ? sortAscDirection ? { borderTop: "5px solid #ccc" } : { borderBottom: "5px solid #ccc" } : {}
-
-  return (
-    <TableCell
-      style={style}
-      align="center"
-      key={field}
-      sortDirection={direction}
-    >
-      <TableSortLabel
-        active={isActive}
-        direction={direction}
-        onClick={() => setSort(field)}
-      >
-        {name}
-      </TableSortLabel>
-    </TableCell>
-  );
-}
+import SortedTableHeader from '../components/SortedTableHeader'
+import TagsPills from '../components/TagsPills'
 
 const SORTABLE_FIELDS = [
   { field: 'name', name: 'Name' },
@@ -55,82 +27,92 @@ const SORTABLE_FIELDS = [
   { field: 'speed', name: 'Speed' },
 ]
 
+const paginationInit: IPagination = { page: 0, size: 25, count: 0 };
+const sortInit: ISort = { by: 'race_name', direction: 'asc' };
+
 export default function Creatures() {
   const [creatures, setCreatures] = useState<any[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(0);
-  const [sortBy, setSortBy] = useState<string>('race_name');
-  const [sortAscDirection, setSortAcsDirection] = useState<boolean>(true);
+  const [pagination, reducePagination] = useReducer(paginationReducer, paginationInit)
+  const [sort, reduceSort] = useReducer(sortReducer, sortInit);
 
-
-  const fetchCreatures = useCallback(async (page: number, sortBy: string, sortAscDirection: boolean) => {
-    const sortDirection = sortAscDirection ? 'asc' : 'desc'
+  const fetchCreatures = useCallback(async (page: number, size: number, sort: ISort) => {
     const params = new URLSearchParams({ 
-      page: String(page - 1), 
-      sort_by: sortBy, 
-      sort_direction: sortDirection,
+      page: String(page), 
+      size: String(size),
+      sort_by: sort.by, 
+      sort_direction: sort.direction,
     });
     const response = await fetch(`${process.env.REACT_APP_API_URL}/creatures?${params.toString()}`);
     const json = await response.json();
     setCreatures(json.data);
-    setPageSize(json.pagination.size);
+    reducePagination({ count: json.pagination.count });
   }, []);
 
   useEffect(() => {
-    fetchCreatures(page, sortBy, sortAscDirection)
-  }, [fetchCreatures, page, sortBy, sortAscDirection]);
+    fetchCreatures(pagination.page, pagination.size, sort)
+  }, [pagination.page, pagination.size, sort]);
 
-  const pageChange = useCallback((event: React.ChangeEvent<unknown>, page: number) => {
-    setPage(page);
+  const pageChange = useCallback(( event: React.MouseEvent<HTMLButtonElement> | null, newPage: number,) => {
+    reducePagination({ page: newPage });
   }, []);
 
-  const setSort = useCallback((newSortBy: string) => {
-    if(newSortBy === sortBy) {
-      setSortAcsDirection(!sortAscDirection)
-    } else {
-      setSortAcsDirection(true)
-      setSortBy(newSortBy)
-    }
-  }, [sortBy, sortAscDirection]);
-
-  const page_count = page + (pageSize > creatures.length ? 0 : 1)
+  const sizeChange = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    reducePagination({ size: parseInt(event.target.value), page: 0 });
+  }, []);
 
   return (
-    <>
-      <TablePagination page={page} count={page_count} onChange={pageChange} />
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Sprite</TableCell>
-              {SORTABLE_FIELDS.map(({field, name}) => (
-                <SortedTableHeader field={field} name={name} sortBy={sortBy} sortAscDirection={sortAscDirection} setSort={setSort} />
-              ))}
-              <TableCell align="right">Tags</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {creatures.map((creature) => 
-              <TableRow
-                key={creature.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row"><img src={creature.battle_sprite}/></TableCell>
-                <TableCell align="center">{creature.name}</TableCell>
-                <TableCell align="center"><img src={creature.klass.icon}/></TableCell>
-                <TableCell align="center">{creature.race.name}</TableCell>
-                <TableCell align="center">{creature.trait.name}</TableCell>
-                <TableCell align="center">{creature.health}</TableCell>
-                <TableCell align="center">{creature.attack}</TableCell>
-                <TableCell align="center">{creature.intelligence}</TableCell>
-                <TableCell align="center">{creature.defense}</TableCell>
-                <TableCell align="center">{creature.speed}</TableCell>
-                <TableCell align="right">{creature.trait.tags.join(' ')}</TableCell>
-              </TableRow> 
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+    <TableContainer style={{maxHeight: '100%'}} component={Paper}>
+      <Table stickyHeader>
+        <TableHead>
+          <TableRow>
+            <TablePagination
+              count={pagination.count}
+              page={pagination.page}
+              onPageChange={pageChange}
+              rowsPerPage={pagination.size}
+              onRowsPerPageChange={sizeChange}
+            />
+          </TableRow>
+          <TableRow>
+            <TableCell>Sprite</TableCell>
+            {SORTABLE_FIELDS.map(({field, name}) => (
+              <SortedTableHeader key={field} field={field} name={name} sort={sort} reduceSort={reduceSort} />
+            ))}
+            <TableCell align="right">Tags</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {creatures.map((creature) => 
+            <TableRow key={creature.id}>
+              <TableCell component="th" scope="row"><img src={creature.battle_sprite}/></TableCell>
+              <TableCell align="center">{creature.name}</TableCell>
+              <TableCell align="center"><img src={creature.klass.icon}/></TableCell>
+              <TableCell align="center">{creature.race.name}</TableCell>
+              <TableCell align="center">{creature.trait.name}</TableCell>
+              <TableCell align="center">{creature.health}</TableCell>
+              <TableCell align="center">{creature.attack}</TableCell>
+              <TableCell align="center">{creature.intelligence}</TableCell>
+              <TableCell align="center">{creature.defense}</TableCell>
+              <TableCell align="center">{creature.speed}</TableCell>
+              <TableCell align="right">
+                <TagsPills tags={creature.trait.tags} justifyContent="flex-end"/>
+              </TableCell>
+            </TableRow> 
+          )}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+              <TablePagination
+                style={{borderTop: '1px solid rgba(224, 224, 224, 1)'}}
+                count={pagination.count}
+                page={pagination.page}
+                onPageChange={pageChange}
+                rowsPerPage={pagination.size}
+                onRowsPerPageChange={sizeChange}
+              />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableContainer>
   );
 }
