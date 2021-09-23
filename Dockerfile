@@ -1,12 +1,13 @@
-FROM node:16
+FROM node:16-alpine
 
-WORKDIR /code
+WORKDIR /ui
 
-COPY package*.json ./
+COPY package.json ./
+COPY package-lock.json ./
 
-RUN npm install
+RUN npm ci
 
-COPY . .
+COPY ./ ./
 
 EXPOSE 3000
 
