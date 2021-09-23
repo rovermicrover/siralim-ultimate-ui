@@ -21,7 +21,8 @@
     "jsx": "react-jsx",
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "jsxImportSource": "@emotion/react"
   },
   "include": [
     "src"

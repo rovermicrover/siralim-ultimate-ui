@@ -37,7 +37,7 @@ export default function Header() {
       >
         <Toolbar />
         <List>
-          {['Creatures', 'Traits', 'Spell-Gems', 'Classes', 'Races', 'Status-Effects'].map((text) => (
+          {['Creatures', 'Traits', 'Spells', 'Classes', 'Races', 'Status-Effects'].map((text) => (
             <ListItem button key={text} component={Link} to={`/${text.toLowerCase()}`}>
               <ListItemText primary={text} />
             </ListItem>

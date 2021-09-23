@@ -17,39 +17,32 @@ import TagsPills from '../components/TagsPills'
 
 const SORTABLE_FIELDS = [
   { field: 'name', name: 'Name' },
-  { field: 'klass_name', name: 'Class' },
-  { field: 'race_name', name: 'Race' },
-  { field: 'trait_name', name: 'Trait' },
-  { field: 'health', name: 'Health' },
-  { field: 'attack', name: 'Attack' },
-  { field: 'intelligence', name: 'Intelligence' },
-  { field: 'defense', name: 'Defense' },
-  { field: 'speed', name: 'Speed' },
+  { field: 'material_name', name: 'Material Name' },
 ]
 
 const paginationInit: IPagination = { page: 0, size: 25, count: 0 };
-const sortInit: ISort = { by: 'race_name', direction: 'asc' };
+const sortInit: ISort = { by: 'name', direction: 'asc' };
 
-export default function Creatures() {
-  const [creatures, setCreatures] = useState<any[]>([]);
+export default function Traits() {
+  const [traits, setTraits] = useState<any[]>([]);
   const [pagination, reducePagination] = useReducer(paginationReducer, paginationInit)
   const [sort, reduceSort] = useReducer(sortReducer, sortInit);
 
-  const fetchCreatures = useCallback(async (page: number, size: number, sort: ISort) => {
+  const fetchTraits = useCallback(async (page: number, size: number, sort: ISort) => {
     const params = new URLSearchParams({ 
       page: String(page), 
       size: String(size),
       sort_by: sort.by, 
       sort_direction: sort.direction,
     });
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/creatures?${params.toString()}`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/traits?${params.toString()}`);
     const json = await response.json();
-    setCreatures(json.data);
+    setTraits(json.data);
     reducePagination({ count: json.pagination.count });
   }, []);
 
   useEffect(() => {
-    fetchCreatures(pagination.page, pagination.size, sort)
+    fetchTraits(pagination.page, pagination.size, sort)
   }, [pagination.page, pagination.size, sort]);
 
   const pageChange = useCallback(( event: React.MouseEvent<HTMLButtonElement> | null, newPage: number,) => {
@@ -74,28 +67,20 @@ export default function Creatures() {
             />
           </TableRow>
           <TableRow>
-            <TableCell>Sprite</TableCell>
-            {SORTABLE_FIELDS.map(({field, name}) => (
-              <SortedTableHeader align="center" key={field} field={field} name={name} sort={sort} reduceSort={reduceSort} />
-            ))}
+            <SortedTableHeader align="left" field={'name'} name={'Name'} sort={sort} reduceSort={reduceSort} />
+            <SortedTableHeader align="left" field={'material_name'} name={'Material Name'} sort={sort} reduceSort={reduceSort} />
+            <TableCell align="center">Description</TableCell>
             <TableCell align="right">Tags</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {creatures.map((creature) => 
-            <TableRow key={creature.id}>
-              <TableCell component="th" scope="row"><img src={creature.battle_sprite}/></TableCell>
-              <TableCell align="center">{creature.name}</TableCell>
-              <TableCell align="center"><img src={creature.klass.icon}/></TableCell>
-              <TableCell align="center">{creature.race.name}</TableCell>
-              <TableCell align="center">{creature.trait.name}</TableCell>
-              <TableCell align="center">{creature.health}</TableCell>
-              <TableCell align="center">{creature.attack}</TableCell>
-              <TableCell align="center">{creature.intelligence}</TableCell>
-              <TableCell align="center">{creature.defense}</TableCell>
-              <TableCell align="center">{creature.speed}</TableCell>
+          {traits.map((trait) => 
+            <TableRow key={trait.id}>
+              <TableCell>{trait.name}</TableCell>
+              <TableCell>{trait.material_name}</TableCell>
+              <TableCell align="center">{trait.description}</TableCell>
               <TableCell align="right">
-                <TagsPills tags={creature.trait.tags} justifyContent="flex-end"/>
+                <TagsPills tags={trait.tags} justifyContent="flex-end"/>
               </TableCell>
             </TableRow> 
           )}

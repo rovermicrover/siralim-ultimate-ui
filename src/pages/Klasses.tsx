@@ -17,39 +17,32 @@ import TagsPills from '../components/TagsPills'
 
 const SORTABLE_FIELDS = [
   { field: 'name', name: 'Name' },
-  { field: 'klass_name', name: 'Class' },
-  { field: 'race_name', name: 'Race' },
-  { field: 'trait_name', name: 'Trait' },
-  { field: 'health', name: 'Health' },
-  { field: 'attack', name: 'Attack' },
-  { field: 'intelligence', name: 'Intelligence' },
-  { field: 'defense', name: 'Defense' },
-  { field: 'speed', name: 'Speed' },
+  { field: 'material_name', name: 'Material Name' },
 ]
 
 const paginationInit: IPagination = { page: 0, size: 25, count: 0 };
-const sortInit: ISort = { by: 'race_name', direction: 'asc' };
+const sortInit: ISort = { by: 'name', direction: 'asc' };
 
-export default function Creatures() {
-  const [creatures, setCreatures] = useState<any[]>([]);
+export default function Klasses() {
+  const [klasses, setKlasses] = useState<any[]>([]);
   const [pagination, reducePagination] = useReducer(paginationReducer, paginationInit)
   const [sort, reduceSort] = useReducer(sortReducer, sortInit);
 
-  const fetchCreatures = useCallback(async (page: number, size: number, sort: ISort) => {
+  const fetchKlasses = useCallback(async (page: number, size: number, sort: ISort) => {
     const params = new URLSearchParams({ 
       page: String(page), 
       size: String(size),
       sort_by: sort.by, 
       sort_direction: sort.direction,
     });
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/creatures?${params.toString()}`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/classes?${params.toString()}`);
     const json = await response.json();
-    setCreatures(json.data);
+    setKlasses(json.data);
     reducePagination({ count: json.pagination.count });
   }, []);
 
   useEffect(() => {
-    fetchCreatures(pagination.page, pagination.size, sort)
+    fetchKlasses(pagination.page, pagination.size, sort)
   }, [pagination.page, pagination.size, sort]);
 
   const pageChange = useCallback(( event: React.MouseEvent<HTMLButtonElement> | null, newPage: number,) => {
@@ -74,29 +67,17 @@ export default function Creatures() {
             />
           </TableRow>
           <TableRow>
-            <TableCell>Sprite</TableCell>
-            {SORTABLE_FIELDS.map(({field, name}) => (
-              <SortedTableHeader align="center" key={field} field={field} name={name} sort={sort} reduceSort={reduceSort} />
-            ))}
-            <TableCell align="right">Tags</TableCell>
+            <SortedTableHeader field={'name'} name={'Name'} sort={sort} reduceSort={reduceSort} />
+            <TableCell align="center">Icon</TableCell>
+            <TableCell align="right">Description</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {creatures.map((creature) => 
-            <TableRow key={creature.id}>
-              <TableCell component="th" scope="row"><img src={creature.battle_sprite}/></TableCell>
-              <TableCell align="center">{creature.name}</TableCell>
-              <TableCell align="center"><img src={creature.klass.icon}/></TableCell>
-              <TableCell align="center">{creature.race.name}</TableCell>
-              <TableCell align="center">{creature.trait.name}</TableCell>
-              <TableCell align="center">{creature.health}</TableCell>
-              <TableCell align="center">{creature.attack}</TableCell>
-              <TableCell align="center">{creature.intelligence}</TableCell>
-              <TableCell align="center">{creature.defense}</TableCell>
-              <TableCell align="center">{creature.speed}</TableCell>
-              <TableCell align="right">
-                <TagsPills tags={creature.trait.tags} justifyContent="flex-end"/>
-              </TableCell>
+          {klasses.map((klass) => 
+            <TableRow key={klass.id}>
+              <TableCell>{klass.name}</TableCell>
+              <TableCell align="center"><img src={klass.icon}/></TableCell>
+              <TableCell align="right">{klass.description}</TableCell>
             </TableRow> 
           )}
         </TableBody>
