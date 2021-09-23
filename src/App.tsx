@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import createPersistedState from 'use-persisted-state';
 
 import {
   BrowserRouter as Router,
@@ -20,38 +23,62 @@ import Klasses from './pages/Klasses';
 import Races from './pages/Races';
 import StatusEffects from './pages/StatusEffects';
 
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+function getBrowserIsDarkTheme() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? true : false;
+}
+
+const useIsDarkThemeState = createPersistedState('isDarkTheme');
+
 function App() {
+  const browserIsDarkTheme = getBrowserIsDarkTheme();
+  const [isDarkTheme, setIsDarkTheme] = useIsDarkThemeState<boolean>(browserIsDarkTheme);
+
   return (
-    <Router>
-      <Box sx={{ display: 'flex' }}>
-        <Header />
-        <Nav />
-        <Box sx={{ flexGrow: 1, p: 3 }} style={{ height: '100vh', paddingTop: '0px', paddingBottom: '0px', display: 'flex' }}>
-          <div style={{ width: '100%', paddingTop: '84px', paddingBottom: '24px' }}>
-            <Switch>
-              <Route path="/creatures">
-                <Creatures />
-              </Route>
-              <Route path="/traits">
-                <Traits />
-              </Route>
-              <Route path="/spells">
-                <Spells />
-              </Route>
-              <Route path="/classes">
-                <Klasses />
-              </Route>
-              <Route path="/races">
-                <Races />
-              </Route>
-              <Route path="/status-effects">
-                <StatusEffects />
-              </Route>
-            </Switch>
-          </div>
+    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+      <CssBaseline/>
+      <Router>
+        <Box sx={{ display: 'flex' }}>
+          <Header />
+          <Nav isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
+          <Box sx={{ flexGrow: 1, p: 3 }} style={{ height: '100vh', paddingTop: '0px', paddingBottom: '0px', display: 'flex' }}>
+            <div style={{ width: '100%', paddingTop: '84px', paddingBottom: '24px' }}>
+              <Switch>
+                <Route path="/creatures">
+                  <Creatures />
+                </Route>
+                <Route path="/traits">
+                  <Traits />
+                </Route>
+                <Route path="/spells">
+                  <Spells />
+                </Route>
+                <Route path="/classes">
+                  <Klasses />
+                </Route>
+                <Route path="/races">
+                  <Races />
+                </Route>
+                <Route path="/status-effects">
+                  <StatusEffects />
+                </Route>
+              </Switch>
+            </div>
+          </Box>
         </Box>
-      </Box>
-    </Router>
+      </Router>
+    </ThemeProvider>
   );
 }
 

@@ -11,8 +11,12 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { Theme } from '@mui/material/styles';
+import Switch from '@mui/material/Switch';
+import Grid from '@mui/material/Grid';
+
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -24,7 +28,14 @@ function MuiRouterLink(props: any) {
   )
 }
 
-export default function Header() {
+interface INavProps {
+  isDarkTheme: boolean;
+  setIsDarkTheme: (isDarkTheme: boolean) => void;
+}
+
+export default function Nav({ isDarkTheme, setIsDarkTheme }: INavProps) {
+  const themeText = isDarkTheme ? 'Dark Theme' : 'Light Theme';
+
   return (
     <Drawer
         variant="permanent"
@@ -53,6 +64,13 @@ export default function Header() {
           </ListItem>
           <ListItem component={Link} href="https://store.steampowered.com/app/1289810/Siralim_Ultimate/" target="_blank">
             <ListItemText primary='SU On Steam'/>
+          </ListItem>
+          <ListItem>
+            <FormControl component="fieldset">
+              <FormGroup>
+                <FormControlLabel control={<Switch checked={isDarkTheme} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsDarkTheme(event.target.checked)} />} label={themeText} />
+              </FormGroup>
+            </FormControl>
           </ListItem>
         </List>
       </Drawer>
