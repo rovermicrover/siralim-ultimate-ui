@@ -18,6 +18,7 @@ import Traits from './pages/Traits';
 import Spells from './pages/Spells';
 import Klasses from './pages/Klasses';
 import Races from './pages/Races';
+import StatusEffects from './pages/StatusEffects';
 
 function App() {
   return (
@@ -42,6 +43,9 @@ function App() {
               </Route>
               <Route path="/races">
                 <Races />
+              </Route>
+              <Route path="/status-effects">
+                <StatusEffects />
               </Route>
             </Switch>
           </div>
