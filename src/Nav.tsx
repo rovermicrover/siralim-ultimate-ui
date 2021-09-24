@@ -65,6 +65,7 @@ export default function Nav({ isDarkTheme, setIsDarkTheme }: INavProps) {
           component={Link}
           href="https://github.com/rovermicrover/siralim-ultimate-ui"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <ListItemText primary="Source Code" />
         </ListItem>
@@ -72,6 +73,7 @@ export default function Nav({ isDarkTheme, setIsDarkTheme }: INavProps) {
           component={Link}
           href="https://github.com/rovermicrover/"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <ListItemText primary="Author" />
         </ListItem>
@@ -79,6 +81,7 @@ export default function Nav({ isDarkTheme, setIsDarkTheme }: INavProps) {
           component={Link}
           href="https://store.steampowered.com/app/1289810/Siralim_Ultimate/"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <ListItemText primary="SU On Steam" />
         </ListItem>
