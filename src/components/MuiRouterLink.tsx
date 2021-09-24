@@ -1,4 +1,5 @@
 import React from "react";
+import Link, { LinkProps } from "@mui/material/Link";
 import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,
@@ -13,7 +14,7 @@ export const RefRouterLink = React.forwardRef<
 
 export const MuiRouterLink = React.forwardRef<
   HTMLAnchorElement,
-  RouterLinkProps
->((props: RouterLinkProps, ref) => {
-  return <RefRouterLink ref={ref} {...props} />;
+  RouterLinkProps | LinkProps
+>((props: RouterLinkProps | LinkProps, ref) => {
+  return <Link component={RefRouterLink} ref={ref} {...props} />;
 });
