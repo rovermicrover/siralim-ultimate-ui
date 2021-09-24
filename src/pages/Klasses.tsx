@@ -33,7 +33,7 @@ const queryParamsStructure = {
   sort_direction: withDefault(StringParam, 'asc'),
 }
 
-const fetchKlasses = buildSearch<IKlassesSearchRequest, IKlassesSearchSchema>('classes');
+const fetchKlasses = buildSearch<IKlassesSearchSchema>('classes');
 
 export default function Klasses() {
   const [klasses, setKlasses] = useState<IKlassModel[]>([]);

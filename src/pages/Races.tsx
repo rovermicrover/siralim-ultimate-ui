@@ -34,7 +34,7 @@ const queryParamsStructure = {
   sort_direction: withDefault(StringParam, 'asc'),
 }
 
-const fetchRaces = buildSearch<IRacesSearchRequest, IRacesSearchSchema>('races');
+const fetchRaces = buildSearch<IRacesSearchSchema>('races');
 
 export default function Races() {
   const [races, setRaces] = useState<IRaceModel[]>([]);

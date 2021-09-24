@@ -34,7 +34,7 @@ const queryParamsStructure = {
   sort_direction: withDefault(StringParam, 'asc'),
 }
 
-const fetchTraits = buildSearch<ITraitsSearchRequest, ITraitsSearchSchema>('traits');
+const fetchTraits = buildSearch<ITraitsSearchSchema>('traits');
 
 export default function Traits() {
   const [traits, setTraits] = useState<ITraitModel[]>([]);

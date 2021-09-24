@@ -34,10 +34,10 @@ const queryParamsStructure = {
   sort_direction: withDefault(StringParam, 'asc'),
 }
 
-const fetchStatusEffects = buildSearch<IStatusEffectsSearchRequest, IStatusEffectsSearchSchema>('status-effects');
+const fetchStatusEffects = buildSearch<IStatusEffectsSearchSchema>('status-effects');
 
 export default function StatusEffects() {
-  const [statusEffects, setStatusEffects] = useState<IStatusEffect[]>([]);
+  const [statusEffects, setStatusEffects] = useState<IStatusEffectModel[]>([]);
   const [count, setCount] = useState<number>(0);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 

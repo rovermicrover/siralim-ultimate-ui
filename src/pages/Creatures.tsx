@@ -41,7 +41,7 @@ const queryParamsStructure = {
   sort_direction: withDefault(StringParam, 'asc'),
 }
 
-const fetchCreatures = buildSearch<ICreaturesSearchRequest, ICreaturesSearchRequest>('creatures');
+const fetchCreatures = buildSearch<ICreaturesSearchSchema>('creatures');
 
 export default function Creatures() {
   const [creatures, setCreatures] = useState<ICreatureModel[]>([]);
@@ -49,7 +49,7 @@ export default function Creatures() {
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
   useEffect(() => {
-    fetchCreatures(query).then(({ data, pagination: { count }}: ICreaturesSearchSchema) => {
+    fetchCreatures(query).then(({ data, pagination: { count } }: ICreaturesSearchSchema) => {
       setCreatures(data);
       setCount(count);
     });

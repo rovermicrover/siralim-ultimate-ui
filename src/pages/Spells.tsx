@@ -33,7 +33,7 @@ const queryParamsStructure = {
   sort_direction: withDefault(StringParam, 'asc'),
 }
 
-const fetchSpells = buildSearch<ISpellsSearchRequest, ISpellsSearchSchema>('spells');
+const fetchSpells = buildSearch<ISpellsSearchSchema>('spells');
 
 export default function Spells() {
   const [spells, setSpells] = useState<ISpellModel[]>([]);

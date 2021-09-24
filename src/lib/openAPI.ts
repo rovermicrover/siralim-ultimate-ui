@@ -37,9 +37,9 @@ export interface ICreatureModel {
   updated_at: string;
 }
 
-export interface ICreatureSortingSchema {
-  by?: CreatureSortingEnum;
-  direction?: SortDirections;
+export interface ICreatureSortingResponseSchema {
+  by: CreatureSortingEnum;
+  direction: SortDirections;
 }
 
 export interface ICreatureStrFilterSchema {
@@ -55,20 +55,20 @@ export interface ICreaturesGetSchema {
 export interface ICreaturesIndexSchema {
   data: Array<ICreatureModel>;
   pagination: IPaginationResponseSchema;
-  sorting: ICreatureSortingSchema;
+  sorting: ICreatureSortingResponseSchema;
 }
 
 export interface ICreaturesSearchRequest {
   filter: ICreatureFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: ICreatureSortingSchema;
+  sorting?: IPaginationRequestSchema;
 }
 
 export interface ICreaturesSearchSchema {
   data: Array<ICreatureModel>;
   filter: ICreatureFiltersSchema;
   pagination: IPaginationResponseSchema;
-  sorting: ICreatureSortingSchema;
+  sorting: ICreatureSortingResponseSchema;
 }
 
 export interface IHTTPValidationError {
@@ -100,9 +100,14 @@ export interface IKlassModel {
   updated_at: string;
 }
 
-export interface IKlassSortingSchema {
+export interface IKlassSortingRequestSchema {
   by?: KlassSortingEnum;
   direction?: SortDirections;
+}
+
+export interface IKlassSortingResponseSchema {
+  by: KlassSortingEnum;
+  direction: SortDirections;
 }
 
 export interface IKlassStrFilterSchema {
@@ -118,20 +123,20 @@ export interface IKlassesGetSchema {
 export interface IKlassesIndexSchema {
   data: Array<IKlassModel>;
   pagination: IPaginationResponseSchema;
-  sorting: IKlassSortingSchema;
+  sorting: IKlassSortingResponseSchema;
 }
 
 export interface IKlassesSearchRequest {
   filter: IKlassFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: IKlassSortingSchema;
+  sorting?: IKlassSortingRequestSchema;
 }
 
 export interface IKlassesSearchSchema {
   data: Array<IKlassModel>;
   filter: IKlassFiltersSchema;
   pagination: IPaginationResponseSchema;
-  sorting: IKlassSortingSchema;
+  sorting: IKlassSortingResponseSchema;
 }
 
 export interface IPaginationRequestSchema {
@@ -140,9 +145,9 @@ export interface IPaginationRequestSchema {
 }
 
 export interface IPaginationResponseSchema {
-  page?: number;
-  size?: number;
-  count?: number;
+  page: number;
+  size: number;
+  count: number;
 }
 
 export interface IRaceFiltersSchema {
@@ -165,9 +170,14 @@ export interface IRaceModel {
   updated_at: string;
 }
 
-export interface IRaceSortingSchema {
+export interface IRaceSortingRequestSchema {
   by?: RaceSortingEnum;
   direction?: SortDirections;
+}
+
+export interface IRaceSortingResponseSchema {
+  by: RaceSortingEnum;
+  direction: SortDirections;
 }
 
 export interface IRaceStrFilterSchema {
@@ -183,20 +193,20 @@ export interface IRacesGetSchema {
 export interface IRacesIndexSchema {
   data: Array<IRaceModel>;
   pagination: IPaginationResponseSchema;
-  sorting: IRaceSortingSchema;
+  sorting: IRaceSortingResponseSchema;
 }
 
 export interface IRacesSearchRequest {
   filter: IRaceFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: IRaceSortingSchema;
+  sorting?: IRaceSortingRequestSchema;
 }
 
 export interface IRacesSearchSchema {
   data: Array<IRaceModel>;
   filter: IRaceFiltersSchema;
   pagination: IPaginationResponseSchema;
-  sorting: IRaceSortingSchema;
+  sorting: IRaceSortingResponseSchema;
 }
 
 export interface IRootSchema {
@@ -222,9 +232,9 @@ export interface ISourceModel {
   updated_at: string;
 }
 
-export interface ISourceSortingSchema {
-  by?: SourceSortingEnum;
-  direction?: SortDirections;
+export interface ISourceSortingResponseSchema {
+  by: SourceSortingEnum;
+  direction: SortDirections;
 }
 
 export interface ISourceStrFilterSchema {
@@ -240,20 +250,20 @@ export interface ISourcesGetSchema {
 export interface ISourcesIndexSchema {
   data: Array<ISourceModel>;
   pagination: IPaginationResponseSchema;
-  sorting: ISourceSortingSchema;
+  sorting: ISourceSortingResponseSchema;
 }
 
 export interface ISourcesSearchRequest {
   filter: ISourceFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: ISourceSortingSchema;
+  sorting?: IPaginationRequestSchema;
 }
 
 export interface ISourcesSearchSchema {
   data: Array<ISourceModel>;
   filter: ISourceFiltersSchema;
   pagination: IPaginationResponseSchema;
-  sorting: ISourceSortingSchema;
+  sorting: ISourceSortingResponseSchema;
 }
 
 export interface ISpellArrayStrFilterSchema {
@@ -285,9 +295,9 @@ export interface ISpellModel {
   updated_at: string;
 }
 
-export interface ISpellSortingSchema {
-  by?: SpellSortingEnum;
-  direction?: SortDirections;
+export interface ISpellSortingResponseSchema {
+  by: SpellSortingEnum;
+  direction: SortDirections;
 }
 
 export interface ISpellStrFilterSchema {
@@ -303,20 +313,20 @@ export interface ISpellsGetSchema {
 export interface ISpellsIndexSchema {
   data: Array<ISpellModel>;
   pagination: IPaginationResponseSchema;
-  sorting: ISpellSortingSchema;
+  sorting: ISpellSortingResponseSchema;
 }
 
 export interface ISpellsSearchRequest {
   filter: ISpellFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: ISpellSortingSchema;
+  sorting?: IPaginationRequestSchema;
 }
 
 export interface ISpellsSearchSchema {
   data: Array<ISpellModel>;
   filter: ISpellFiltersSchema;
   pagination: IPaginationResponseSchema;
-  sorting: ISpellSortingSchema;
+  sorting: ISpellSortingResponseSchema;
 }
 
 export interface IStatusEffectFiltersSchema {
@@ -356,25 +366,25 @@ export interface IStatusEffectsGetSchema {
 export interface IStatusEffectsIndexSchema {
   data: Array<IStatusEffectModel>;
   pagination: IPaginationResponseSchema;
-  sorting: IStatusEffetSortingSchema;
+  sorting: IStatusEffetSortingResponseSchema;
 }
 
 export interface IStatusEffectsSearchRequest {
   filter: IStatusEffectFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: IStatusEffetSortingSchema;
+  sorting?: IPaginationRequestSchema;
 }
 
 export interface IStatusEffectsSearchSchema {
   data: Array<IStatusEffectModel>;
   filter: IStatusEffectFiltersSchema;
   pagination: IPaginationResponseSchema;
-  sorting: IStatusEffetSortingSchema;
+  sorting: IStatusEffetSortingResponseSchema;
 }
 
-export interface IStatusEffetSortingSchema {
-  by?: StatusEffetSortingEnum;
-  direction?: SortDirections;
+export interface IStatusEffetSortingResponseSchema {
+  by: StatusEffetSortingEnum;
+  direction: SortDirections;
 }
 
 export interface ITraitArrayStrFilterSchema {
@@ -404,9 +414,9 @@ export interface ITraitModel {
   updated_at: string;
 }
 
-export interface ITraitSortingSchema {
-  by?: TraitSortingEnum;
-  direction?: SortDirections;
+export interface ITraitSortingResponseSchema {
+  by: TraitSortingEnum;
+  direction: SortDirections;
 }
 
 export interface ITraitStrFilterSchema {
@@ -422,20 +432,20 @@ export interface ITraitsGetSchema {
 export interface ITraitsIndexSchema {
   data: Array<ITraitModel>;
   pagination: IPaginationResponseSchema;
-  sorting: ITraitSortingSchema;
+  sorting: ITraitSortingResponseSchema;
 }
 
 export interface ITraitsSearchRequest {
   filter: ITraitFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: ITraitSortingSchema;
+  sorting?: IPaginationRequestSchema;
 }
 
 export interface ITraitsSearchSchema {
   data: Array<ITraitModel>;
   filter: ITraitFiltersSchema;
   pagination: IPaginationResponseSchema;
-  sorting: ITraitSortingSchema;
+  sorting: ITraitSortingResponseSchema;
 }
 
 export interface IValidationError {
