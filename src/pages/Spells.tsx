@@ -9,8 +9,13 @@ import TableFooter from '@mui/material/TableFooter';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
-import paginationReducer, { IPagination } from '../reducers/pagination';
-import sortReducer, { ISort } from '../reducers/sort';
+import {
+  useQueryParams,
+  StringParam,
+  NumberParam,
+  withDefault,
+} from 'use-query-params';
+import { IQueryParams, ISort, ISortAction } from '../lib/queryParams';
 
 import SortedTableHeader from '../components/SortedTableHeader'
 import TagsPills from '../components/TagsPills'
@@ -19,39 +24,46 @@ const SORTABLE_FIELDS = [
   { field: 'name', name: 'Name' },
   { field: 'material_name', name: 'Material Name' },
 ]
-
-const paginationInit: IPagination = { page: 0, size: 25, count: 0 };
-const sortInit: ISort = { by: 'name', direction: 'asc' };
+const queryParamsStructure = {
+  page: withDefault(NumberParam, 0),
+  size: withDefault(NumberParam, 25),
+  sort_by: withDefault(StringParam, 'name'),
+  sort_direction: withDefault(StringParam, 'asc'),
+}
 
 export default function Spells() {
   const [spells, setSpells] = useState<any[]>([]);
-  const [pagination, reducePagination] = useReducer(paginationReducer, paginationInit)
-  const [sort, reduceSort] = useReducer(sortReducer, sortInit);
+  const [count, setCount] = useState<number>(0);
+  const [query, setQuery] = useQueryParams(queryParamsStructure);
 
-  const fetchSpells = useCallback(async (page: number, size: number, sort: ISort) => {
+  const fetchSpells = useCallback(async (page: number, size: number, sort_by: string, sort_direction: string) => {
     const params = new URLSearchParams({ 
       page: String(page), 
       size: String(size),
-      sort_by: sort.by, 
-      sort_direction: sort.direction,
+      sort_by, 
+      sort_direction,
     });
     const response = await fetch(`${process.env.REACT_APP_API_URL}/spells?${params.toString()}`);
     const json = await response.json();
     setSpells(json.data);
-    reducePagination({ count: json.pagination.count });
+    setCount(json.pagination.count);
   }, []);
 
   useEffect(() => {
-    fetchSpells(pagination.page, pagination.size, sort)
-  }, [pagination.page, pagination.size, sort]);
+    fetchSpells(query.page, query.size, query.sort_by, query.sort_direction)
+  }, [query]);
 
   const pageChange = useCallback(( event: React.MouseEvent<HTMLButtonElement> | null, newPage: number,) => {
-    reducePagination({ page: newPage });
-  }, []);
+    setQuery({...query, page: newPage});
+  }, [query]);
 
   const sizeChange = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    reducePagination({ size: parseInt(event.target.value), page: 0 });
-  }, []);
+    setQuery({ ...query, size: parseInt(event.target.value), page: 0 });
+  }, [query]);
+
+  const reduceSort = useCallback((sort: ISortAction) => {
+    setQuery({ ...query, ...sort });
+  }, [query]);
 
   return (
     <TableContainer style={{maxHeight: '100%'}} component={Paper}>
@@ -59,17 +71,17 @@ export default function Spells() {
         <TableHead>
           <TableRow>
             <TablePagination
-              count={pagination.count}
-              page={pagination.page}
+              count={count}
+              page={query.page}
               onPageChange={pageChange}
-              rowsPerPage={pagination.size}
+              rowsPerPage={query.size}
               onRowsPerPageChange={sizeChange}
             />
           </TableRow>
           <TableRow>
-            <SortedTableHeader align="left" field={'name'} name={'Name'} sort={sort} reduceSort={reduceSort} />
-            <SortedTableHeader align="center" field={'klass_name'} name={'Class'} sort={sort} reduceSort={reduceSort} />
-            <SortedTableHeader align="center" field={'charges'} name={'Charges'} sort={sort} reduceSort={reduceSort} />
+            <SortedTableHeader align="left" field={'name'} name={'Name'} sort={query} reduceSort={reduceSort} />
+            <SortedTableHeader align="center" field={'klass_name'} name={'Class'} sort={query} reduceSort={reduceSort} />
+            <SortedTableHeader align="center" field={'charges'} name={'Charges'} sort={query} reduceSort={reduceSort} />
             <TableCell align="center">Source</TableCell>
             <TableCell align="center">Description</TableCell>
             <TableCell align="right">Tags</TableCell>
@@ -93,10 +105,10 @@ export default function Spells() {
           <TableRow>
               <TablePagination
                 style={{borderTop: '1px solid rgba(224, 224, 224, 1)'}}
-                count={pagination.count}
-                page={pagination.page}
+                count={count}
+                page={query.page}
                 onPageChange={pageChange}
-                rowsPerPage={pagination.size}
+                rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
               />
           </TableRow>

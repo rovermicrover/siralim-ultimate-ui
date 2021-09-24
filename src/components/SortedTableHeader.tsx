@@ -6,7 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import FormatLineSpacingIcon from '@mui/icons-material/FormatLineSpacing';
 
-import { ISort, ISortAction } from '../reducers/sort'
+import { ISort, ISortAction, TSortDirection } from '../lib/queryParams';
 
 interface ISortedTableHeaderProps {
   field: string;
@@ -17,17 +17,17 @@ interface ISortedTableHeaderProps {
 }
 
 function setSort(reduceSort: (sortAction: ISortAction) => void, sort: ISort, newSortBy: string) {
-  if(newSortBy === sort.by) {
-    reduceSort({direction: sort.direction == 'asc' ? 'desc' : 'asc'});
+  if(newSortBy === sort.sort_by) {
+    reduceSort({sort_direction: sort.sort_direction == 'asc' ? 'desc' : 'asc'});
   } else {
-    reduceSort({direction: 'asc', by: newSortBy});
+    reduceSort({sort_direction: 'asc', sort_by: newSortBy});
   }
 }
 
 export default function SortedTableHeader({field, name, sort, reduceSort, align = "left"}: ISortedTableHeaderProps) {
-  const isActive = field == sort.by;
-  const direction = isActive ? sort.direction : 'asc';
-  const style = isActive ? sort.direction == 'asc' ? { borderTop: "5px solid #ccc" } : { borderBottom: "5px solid #ccc" } : {}
+  const isActive = field == sort.sort_by;
+  const direction: TSortDirection = isActive ? sort.sort_direction == 'asc' ? 'asc' : 'desc'  : 'asc';
+  const style = isActive ? sort.sort_direction == 'asc' ? { borderTop: "5px solid #ccc" } : { borderBottom: "5px solid #ccc" } : {}
 
   return (
     <TableCell
