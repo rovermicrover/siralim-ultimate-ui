@@ -3,17 +3,11 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { QueryParamProvider } from "use-query-params";
 
 ReactDOM.render(
-  <Router>
-    <QueryParamProvider ReactRouterRoute={Route}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </QueryParamProvider>
-  </Router>,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
