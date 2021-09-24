@@ -14,13 +14,9 @@ import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-import { Link as RouterLink } from "react-router-dom";
+import { MuiRouterLink } from "./components/MuiRouterLink";
 
 const drawerWidth = 240;
-
-function MuiRouterLink(props: any) {
-  return <Link component={RouterLink} {...props} />;
-}
 
 interface INavProps {
   isDarkTheme: boolean;
