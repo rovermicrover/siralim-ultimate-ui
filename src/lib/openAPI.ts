@@ -9,7 +9,11 @@ export interface ICreatureArrayStrFilterSchema {
 }
 
 export interface ICreatureFiltersSchema {
-  filters: Array<ICreatureIntFilterSchema | ICreatureStrFilterSchema | ICreatureArrayStrFilterSchema>;
+  filters: Array<
+    | ICreatureIntFilterSchema
+    | ICreatureStrFilterSchema
+    | ICreatureArrayStrFilterSchema
+  >;
 }
 
 export interface ICreatureIntFilterSchema {
@@ -283,7 +287,9 @@ export interface ISpellArrayStrFilterSchema {
 }
 
 export interface ISpellFiltersSchema {
-  filters: Array<ISpellIntFilterSchema | ISpellStrFilterSchema | ISpellArrayStrFilterSchema>;
+  filters: Array<
+    ISpellIntFilterSchema | ISpellStrFilterSchema | ISpellArrayStrFilterSchema
+  >;
 }
 
 export interface ISpellIntFilterSchema {
@@ -414,7 +420,9 @@ export interface ITraitArrayStrFilterSchema {
 }
 
 export interface ITraitFiltersSchema {
-  filters: Array<ITraitIntFilterSchema | ITraitStrFilterSchema | ITraitArrayStrFilterSchema>;
+  filters: Array<
+    ITraitIntFilterSchema | ITraitStrFilterSchema | ITraitArrayStrFilterSchema
+  >;
 }
 
 export interface ITraitIntFilterSchema {
@@ -482,145 +490,210 @@ export interface IValidationError {
 /**
  * An enumeration.
  */
-export type ArrayFilterComparators = '&&' | '@>' | '<@' | '==' | '!=' | 'is_null' | 'is_not_null';
+export type ArrayFilterComparators =
+  | "&&"
+  | "@>"
+  | "<@"
+  | "=="
+  | "!="
+  | "is_null"
+  | "is_not_null";
 
 /**
  * An enumeration.
  */
-export type CreatureArrayStrFilterEnum = 'trait_tags';
+export type CreatureArrayStrFilterEnum = "trait_tags";
 
 /**
  * An enumeration.
  */
-export type CreatureIntFilterEnum = 'id' | 'health' | 'attack' | 'intelligence' | 'defense' | 'speed' | 'klass_id' | 'race_id' | 'trait_id';
+export type CreatureIntFilterEnum =
+  | "id"
+  | "health"
+  | "attack"
+  | "intelligence"
+  | "defense"
+  | "speed"
+  | "klass_id"
+  | "race_id"
+  | "trait_id";
 
 /**
  * An enumeration.
  */
-export type CreatureSortingEnum = 'id' | 'name' | 'health' | 'attack' | 'intelligence' | 'defense' | 'speed' | 'klass_id' | 'klass_name' | 'race_id' | 'race_name' | 'trait_id' | 'trait_name' | 'trait_tags';
+export type CreatureSortingEnum =
+  | "id"
+  | "name"
+  | "health"
+  | "attack"
+  | "intelligence"
+  | "defense"
+  | "speed"
+  | "klass_id"
+  | "klass_name"
+  | "race_id"
+  | "race_name"
+  | "trait_id"
+  | "trait_name"
+  | "trait_tags";
 
 /**
  * An enumeration.
  */
-export type CreatureStrFilterEnum = 'name' | 'klass_name' | 'race_name' | 'trait_name';
+export type CreatureStrFilterEnum =
+  | "name"
+  | "klass_name"
+  | "race_name"
+  | "trait_name";
 
 /**
  * An enumeration.
  */
-export type KlassIntFilterEnum = 'id';
+export type KlassIntFilterEnum = "id";
 
 /**
  * An enumeration.
  */
-export type KlassSortingEnum = 'id' | 'name';
+export type KlassSortingEnum = "id" | "name";
 
 /**
  * An enumeration.
  */
-export type KlassStrFilterEnum = 'name';
+export type KlassStrFilterEnum = "name";
 
 /**
  * An enumeration.
  */
-export type NumericFilterComparators = '==' | '!=' | '>' | '>=' | '<' | '<=' | 'is_null' | 'is_not_null';
+export type NumericFilterComparators =
+  | "=="
+  | "!="
+  | ">"
+  | ">="
+  | "<"
+  | "<="
+  | "is_null"
+  | "is_not_null";
 
 /**
  * An enumeration.
  */
-export type RaceIntFilterEnum = 'id' | 'default_klass_id';
+export type RaceIntFilterEnum = "id" | "default_klass_id";
 
 /**
  * An enumeration.
  */
-export type RaceSortingEnum = 'id' | 'name' | 'default_klass_id' | 'default_klass_name';
+export type RaceSortingEnum =
+  | "id"
+  | "name"
+  | "default_klass_id"
+  | "default_klass_name";
 
 /**
  * An enumeration.
  */
-export type RaceStrFilterEnum = 'name' | 'default_klass_name';
+export type RaceStrFilterEnum = "name" | "default_klass_name";
 
 /**
  * An enumeration.
  */
-export type SortDirections = 'asc' | 'desc';
+export type SortDirections = "asc" | "desc";
 
 /**
  * An enumeration.
  */
-export type SourceIntFilterEnum = 'id';
+export type SourceIntFilterEnum = "id";
 
 /**
  * An enumeration.
  */
-export type SourceSortingEnum = 'id' | 'name';
+export type SourceSortingEnum = "id" | "name";
 
 /**
  * An enumeration.
  */
-export type SourceStrFilterEnum = 'name';
+export type SourceStrFilterEnum = "name";
 
 /**
  * An enumeration.
  */
-export type SpellArrayStrFilterEnum = 'tags';
+export type SpellArrayStrFilterEnum = "tags";
 
 /**
  * An enumeration.
  */
-export type SpellIntFilterEnum = 'id' | 'charges' | 'klass_id' | 'source_id';
+export type SpellIntFilterEnum = "id" | "charges" | "klass_id" | "source_id";
 
 /**
  * An enumeration.
  */
-export type SpellSortingEnum = 'id' | 'name' | 'charges' | 'klass_id' | 'klass_name' | 'source_id' | 'source_name' | 'tags';
+export type SpellSortingEnum =
+  | "id"
+  | "name"
+  | "charges"
+  | "klass_id"
+  | "klass_name"
+  | "source_id"
+  | "source_name"
+  | "tags";
 
 /**
  * An enumeration.
  */
-export type SpellStrFilterEnum = 'name' | 'klass_name' | 'source_name';
+export type SpellStrFilterEnum = "name" | "klass_name" | "source_name";
 
 /**
  * An enumeration.
  */
-export type StatusEffectCategoriesEnum = 'buff' | 'debuff' | 'minion';
+export type StatusEffectCategoriesEnum = "buff" | "debuff" | "minion";
 
 /**
  * An enumeration.
  */
-export type StatusEffectIntFilterEnum = 'id' | 'leave_chance' | 'max_stacks';
+export type StatusEffectIntFilterEnum = "id" | "leave_chance" | "max_stacks";
 
 /**
  * An enumeration.
  */
-export type StatusEffectStrFilterEnum = 'name' | 'category' | 'turns';
+export type StatusEffectStrFilterEnum = "name" | "category" | "turns";
 
 /**
  * An enumeration.
  */
-export type StatusEffetSortingEnum = 'id' | 'name' | 'category' | 'turns' | 'leave_chance' | 'max_stacks';
+export type StatusEffetSortingEnum =
+  | "id"
+  | "name"
+  | "category"
+  | "turns"
+  | "leave_chance"
+  | "max_stacks";
 
 /**
  * An enumeration.
  */
-export type StringFilterComparators = '==' | '!=' | 'is_null' | 'is_not_null' | 'like' | 'ilike';
+export type StringFilterComparators =
+  | "=="
+  | "!="
+  | "is_null"
+  | "is_not_null"
+  | "like"
+  | "ilike";
 
 /**
  * An enumeration.
  */
-export type TraitArrayStrFilterEnum = 'tags';
+export type TraitArrayStrFilterEnum = "tags";
 
 /**
  * An enumeration.
  */
-export type TraitIntFilterEnum = 'id';
+export type TraitIntFilterEnum = "id";
 
 /**
  * An enumeration.
  */
-export type TraitSortingEnum = 'id' | 'name' | 'material_name' | 'tags';
+export type TraitSortingEnum = "id" | "name" | "material_name" | "tags";
 
 /**
  * An enumeration.
  */
-export type TraitStrFilterEnum = 'name' | 'material_name';
-
+export type TraitStrFilterEnum = "name" | "material_name";

@@ -1,60 +1,70 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import './App.css';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import createPersistedState from 'use-persisted-state';
-import { parse } from 'jsonref';
+import React from "react";
+import "./App.css";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import createPersistedState from "use-persisted-state";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Header from './Header';
-import Nav from './Nav';
+import Header from "./Header";
+import Nav from "./Nav";
 
-import Creatures from './pages/Creatures';
-import Traits from './pages/Traits';
-import Spells from './pages/Spells';
-import Klasses from './pages/Klasses';
-import Races from './pages/Races';
-import StatusEffects from './pages/StatusEffects';
+import Creatures from "./pages/Creatures";
+import Traits from "./pages/Traits";
+import Spells from "./pages/Spells";
+import Klasses from "./pages/Klasses";
+import Races from "./pages/Races";
+import StatusEffects from "./pages/StatusEffects";
 
 const lightTheme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
   },
 });
 
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
   },
 });
 
 function getBrowserIsDarkTheme() {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? true : false;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? true
+    : false;
 }
 
-const useIsDarkThemeState = createPersistedState('isDarkTheme');
+const useIsDarkThemeState = createPersistedState("isDarkTheme");
 
 function App() {
   const browserIsDarkTheme = getBrowserIsDarkTheme();
-  const [isDarkTheme, setIsDarkTheme] = useIsDarkThemeState<boolean>(browserIsDarkTheme);
+  const [isDarkTheme, setIsDarkTheme] =
+    useIsDarkThemeState<boolean>(browserIsDarkTheme);
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <CssBaseline/>
+      <CssBaseline />
       <Router>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: "flex" }}>
           <Header />
           <Nav isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
-          <Box sx={{ flexGrow: 1, p: 3 }} style={{ height: '100vh', paddingTop: '0px', paddingBottom: '0px', display: 'flex' }}>
-            <div style={{ width: '100%', paddingTop: '84px', paddingBottom: '24px' }}>
+          <Box
+            sx={{ flexGrow: 1, p: 3 }}
+            style={{
+              height: "100vh",
+              paddingTop: "0px",
+              paddingBottom: "0px",
+              display: "flex",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                paddingTop: "84px",
+                paddingBottom: "24px",
+              }}
+            >
               <Switch>
                 <Route path="/creatures">
                   <Creatures />
