@@ -37,6 +37,11 @@ export interface ICreatureModel {
   updated_at: string;
 }
 
+export interface ICreatureSortingRequestSchema {
+  by?: CreatureSortingEnum;
+  direction?: SortDirections;
+}
+
 export interface ICreatureSortingResponseSchema {
   by: CreatureSortingEnum;
   direction: SortDirections;
@@ -61,7 +66,7 @@ export interface ICreaturesIndexSchema {
 export interface ICreaturesSearchRequest {
   filter: ICreatureFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: IPaginationRequestSchema;
+  sorting?: ICreatureSortingRequestSchema;
 }
 
 export interface ICreaturesSearchSchema {
@@ -232,6 +237,11 @@ export interface ISourceModel {
   updated_at: string;
 }
 
+export interface ISourceSortingRequestSchema {
+  by?: SourceSortingEnum;
+  direction?: SortDirections;
+}
+
 export interface ISourceSortingResponseSchema {
   by: SourceSortingEnum;
   direction: SortDirections;
@@ -256,7 +266,7 @@ export interface ISourcesIndexSchema {
 export interface ISourcesSearchRequest {
   filter: ISourceFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: IPaginationRequestSchema;
+  sorting?: ISourceSortingRequestSchema;
 }
 
 export interface ISourcesSearchSchema {
@@ -295,6 +305,11 @@ export interface ISpellModel {
   updated_at: string;
 }
 
+export interface ISpellSortingRequestSchema {
+  by?: SpellSortingEnum;
+  direction?: SortDirections;
+}
+
 export interface ISpellSortingResponseSchema {
   by: SpellSortingEnum;
   direction: SortDirections;
@@ -319,7 +334,7 @@ export interface ISpellsIndexSchema {
 export interface ISpellsSearchRequest {
   filter: ISpellFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: IPaginationRequestSchema;
+  sorting?: ISpellSortingRequestSchema;
 }
 
 export interface ISpellsSearchSchema {
@@ -372,7 +387,7 @@ export interface IStatusEffectsIndexSchema {
 export interface IStatusEffectsSearchRequest {
   filter: IStatusEffectFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: IPaginationRequestSchema;
+  sorting?: IStatusEffetSortingRequestSchema;
 }
 
 export interface IStatusEffectsSearchSchema {
@@ -380,6 +395,11 @@ export interface IStatusEffectsSearchSchema {
   filter: IStatusEffectFiltersSchema;
   pagination: IPaginationResponseSchema;
   sorting: IStatusEffetSortingResponseSchema;
+}
+
+export interface IStatusEffetSortingRequestSchema {
+  by?: StatusEffetSortingEnum;
+  direction?: SortDirections;
 }
 
 export interface IStatusEffetSortingResponseSchema {
@@ -414,6 +434,11 @@ export interface ITraitModel {
   updated_at: string;
 }
 
+export interface ITraitSortingRequestSchema {
+  by?: TraitSortingEnum;
+  direction?: SortDirections;
+}
+
 export interface ITraitSortingResponseSchema {
   by: TraitSortingEnum;
   direction: SortDirections;
@@ -438,7 +463,7 @@ export interface ITraitsIndexSchema {
 export interface ITraitsSearchRequest {
   filter: ITraitFiltersSchema;
   pagination?: IPaginationRequestSchema;
-  sorting?: IPaginationRequestSchema;
+  sorting?: ITraitSortingRequestSchema;
 }
 
 export interface ITraitsSearchSchema {
