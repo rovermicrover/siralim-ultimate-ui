@@ -17,8 +17,10 @@ import {
 } from 'use-query-params';
 import { IQueryParams, ISort, ISortAction } from '../lib/queryParams';
 
-import SortedTableHeader from '../components/SortedTableHeader'
-import TagsPills from '../components/TagsPills'
+import SortedTableHeader from '../components/SortedTableHeader';
+import TagsPills from '../components/TagsPills';
+import { IRaceModel, IRacesSearchRequest, IRacesSearchSchema } from '../lib/openAPI';
+import { buildSearch } from '../lib/search';
 
 const SORTABLE_FIELDS = [
   { field: 'name', name: 'Name' },
@@ -32,26 +34,18 @@ const queryParamsStructure = {
   sort_direction: withDefault(StringParam, 'asc'),
 }
 
+const fetchRaces = buildSearch<IRacesSearchRequest, IRacesSearchSchema>('races');
+
 export default function Races() {
-  const [races, setRaces] = useState<any[]>([]);
+  const [races, setRaces] = useState<IRaceModel[]>([]);
   const [count, setCount] = useState<number>(0);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
-  const fetchRaces = useCallback(async (page: number, size: number, sort_by: string, sort_direction: string) => {
-    const params = new URLSearchParams({ 
-      page: String(page), 
-      size: String(size),
-      sort_by, 
-      sort_direction,
-    });
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/races?${params.toString()}`);
-    const json = await response.json();
-    setRaces(json.data);
-    setCount(json.pagination.count);
-  }, []);
-
   useEffect(() => {
-    fetchRaces(query.page, query.size, query.sort_by, query.sort_direction)
+    fetchRaces(query).then(({ data, pagination: { count }}: IRacesSearchSchema) => {
+      setRaces(data);
+      setCount(count);
+    });
   }, [query]);
 
   const pageChange = useCallback(( event: React.MouseEvent<HTMLButtonElement> | null, newPage: number,) => {

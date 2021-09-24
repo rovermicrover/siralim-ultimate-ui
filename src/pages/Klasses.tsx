@@ -18,6 +18,8 @@ import {
 import { IQueryParams, ISort, ISortAction } from '../lib/queryParams';
 import SortedTableHeader from '../components/SortedTableHeader'
 import TagsPills from '../components/TagsPills'
+import { IKlassModel, IKlassesSearchRequest, IKlassesSearchSchema } from '../lib/openAPI';
+import { buildSearch } from '../lib/search';
 
 const SORTABLE_FIELDS = [
   { field: 'name', name: 'Name' },
@@ -31,26 +33,18 @@ const queryParamsStructure = {
   sort_direction: withDefault(StringParam, 'asc'),
 }
 
+const fetchKlasses = buildSearch<IKlassesSearchRequest, IKlassesSearchSchema>('classes');
+
 export default function Klasses() {
-  const [klasses, setKlasses] = useState<any[]>([]);
+  const [klasses, setKlasses] = useState<IKlassModel[]>([]);
   const [count, setCount] = useState<number>(0);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
-  const fetchKlasses = useCallback(async (page: number, size: number, sort_by: string, sort_direction: string) => {
-    const params = new URLSearchParams({ 
-      page: String(page), 
-      size: String(size),
-      sort_by, 
-      sort_direction,
-    });
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/classes?${params.toString()}`);
-    const json = await response.json();
-    setKlasses(json.data);
-    setCount(json.pagination.count);
-  }, []);
-
   useEffect(() => {
-    fetchKlasses(query.page, query.size, query.sort_by, query.sort_direction)
+    fetchKlasses(query).then(({ data, pagination: { count }}: IKlassesSearchSchema) => {
+      setKlasses(data);
+      setCount(count);
+    })
   }, [query]);
 
   const pageChange = useCallback(( event: React.MouseEvent<HTMLButtonElement> | null, newPage: number,) => {

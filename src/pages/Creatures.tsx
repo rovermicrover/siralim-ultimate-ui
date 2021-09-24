@@ -19,6 +19,8 @@ import { IQueryParams, ISort, ISortAction } from '../lib/queryParams';
 
 import SortedTableHeader from '../components/SortedTableHeader';
 import TagsPills from '../components/TagsPills';
+import { ICreatureModel, ICreaturesSearchRequest, ICreaturesSearchSchema } from '../lib/openAPI';
+import { buildSearch } from '../lib/search';
 
 const SORTABLE_FIELDS = [
   { field: 'name', name: 'Name' },
@@ -39,26 +41,18 @@ const queryParamsStructure = {
   sort_direction: withDefault(StringParam, 'asc'),
 }
 
+const fetchCreatures = buildSearch<ICreaturesSearchRequest, ICreaturesSearchRequest>('creatures');
+
 export default function Creatures() {
-  const [creatures, setCreatures] = useState<any[]>([]);
+  const [creatures, setCreatures] = useState<ICreatureModel[]>([]);
   const [count, setCount] = useState<number>(0);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
-  const fetchCreatures = useCallback(async (page: number, size: number, sort_by: string, sort_direction: string) => {
-    const params = new URLSearchParams({ 
-      page: String(page), 
-      size: String(size),
-      sort_by, 
-      sort_direction,
-    });
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/creatures?${params.toString()}`);
-    const json = await response.json();
-    setCreatures(json.data);
-    setCount(json.pagination.count);
-  }, []);
-
   useEffect(() => {
-    fetchCreatures(query.page, query.size, query.sort_by, query.sort_direction)
+    fetchCreatures(query).then(({ data, pagination: { count }}: ICreaturesSearchSchema) => {
+      setCreatures(data);
+      setCount(count);
+    });
   }, [query]);
 
   const pageChange = useCallback(( event: React.MouseEvent<HTMLButtonElement> | null, newPage: number,) => {
