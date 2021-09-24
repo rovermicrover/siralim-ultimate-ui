@@ -110,11 +110,17 @@ export default function Creatures() {
           {creatures.map((creature) => (
             <TableRow key={creature.id}>
               <TableCell component="th" scope="row">
-                <img src={creature.battle_sprite} />
+                <img
+                  src={creature.battle_sprite}
+                  alt={`${creature.name} Battle Sprite`}
+                />
               </TableCell>
               <TableCell align="center">{creature.name}</TableCell>
               <TableCell align="center">
-                <img src={creature.klass.icon} />
+                <img
+                  src={creature.klass.icon}
+                  alt={`${creature.name} Klass Icon ${creature.klass.name}`}
+                />
               </TableCell>
               <TableCell align="center">{creature.race.name}</TableCell>
               <TableCell align="center">{creature.trait.name}</TableCell>

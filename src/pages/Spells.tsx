@@ -111,7 +111,10 @@ export default function Spells() {
             <TableRow key={spell.id}>
               <TableCell>{spell.name}</TableCell>
               <TableCell align="center">
-                <img src={spell.klass.icon} />
+                <img
+                  src={spell.klass.icon}
+                  alt={`${spell.name} Klass Icon ${spell.klass.name}`}
+                />
               </TableCell>
               <TableCell align="center">{spell.charges}</TableCell>
               <TableCell align="center">{spell.source.name}</TableCell>

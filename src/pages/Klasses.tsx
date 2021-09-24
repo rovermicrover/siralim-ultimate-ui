@@ -93,7 +93,7 @@ export default function Klasses() {
             <TableRow key={klass.id}>
               <TableCell>{klass.name}</TableCell>
               <TableCell align="center">
-                <img src={klass.icon} />
+                <img src={klass.icon} alt={`Klass Icon ${klass.name}`} />
               </TableCell>
               <TableCell align="right">{klass.description}</TableCell>
             </TableRow>

@@ -123,7 +123,10 @@ export default function StatusEffects() {
               <TableCell>{statusEffect.name}</TableCell>
               <TableCell>{statusEffect.category}</TableCell>
               <TableCell align="center">
-                <img src={statusEffect.icon} />
+                <img
+                  src={statusEffect.icon}
+                  alt={`Status Effect Icon ${statusEffect.name}`}
+                />
               </TableCell>
               <TableCell align="center">{statusEffect.turns}</TableCell>
               <TableCell align="center">{statusEffect.leave_chance}</TableCell>

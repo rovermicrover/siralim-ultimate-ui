@@ -100,7 +100,10 @@ export default function Races() {
             <TableRow key={race.id}>
               <TableCell>{race.name}</TableCell>
               <TableCell align="center">
-                <img src={race.default_klass.icon} />
+                <img
+                  src={race.default_klass.icon}
+                  alt={`${race.name} Default Klass Icon ${race.default_klass.name}`}
+                />
               </TableCell>
               <TableCell align="right">{race.description}</TableCell>
             </TableRow>
