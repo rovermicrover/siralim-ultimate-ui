@@ -75,6 +75,7 @@ export default function Klasses() {
               onPageChange={pageChange}
               rowsPerPage={query.size}
               onRowsPerPageChange={sizeChange}
+              rowsPerPageOptions={[5]}
             />
           </TableRow>
           <TableRow>
@@ -108,6 +109,7 @@ export default function Klasses() {
               onPageChange={pageChange}
               rowsPerPage={query.size}
               onRowsPerPageChange={sizeChange}
+              rowsPerPageOptions={[5]}
             />
           </TableRow>
         </TableFooter>
