@@ -16,14 +16,28 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 
 import { MuiRouterLink } from "./components/MuiRouterLink";
 
-const drawerWidth = 240;
+import CreaturesPng from "./images/nav/creatures.png";
+import TraitsPng from "./images/nav/traits.png";
+import SpellsPng from "./images/nav/spells.png";
+import KlassesPng from "./images/nav/classes.png";
+import RacesPng from "./images/nav/races.png";
+import StatusEffectsPng from "./images/nav/status_effects.png";
+
+import GitLightSvg from "./images/nav/github/favicon-light.svg";
+import GitDarkSvg from "./images/nav/github/favicon-dark.svg";
+
+import AuthorJpg from "./images/nav/author.jpg";
+
+import SteamJpg from "./images/nav/steam.jpg";
+
 
 interface INavProps {
   isDarkTheme: boolean;
   setIsDarkTheme: (isDarkTheme: boolean) => void;
+  drawerWidth: number;
 }
 
-export default function Nav({ isDarkTheme, setIsDarkTheme }: INavProps) {
+export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavProps) {
   const themeText = isDarkTheme ? "Dark Theme" : "Light Theme";
 
   return (
@@ -37,32 +51,44 @@ export default function Nav({ isDarkTheme, setIsDarkTheme }: INavProps) {
       }}
     >
       <Toolbar />
-      <List>
+      <List
+        sx={{
+          whiteSpace: 'nowrap', 
+          overflow: 'hidden',
+        }}
+      >
         {[
-          "Creatures",
-          "Traits",
-          "Spells",
-          "Classes",
-          "Races",
-          "Status-Effects",
-        ].map((text) => (
+          ["Creatures", CreaturesPng],
+          ["Traits", TraitsPng],
+          ["Spells", SpellsPng],
+          ["Classes", KlassesPng],
+          ["Races", RacesPng],
+          ["Status-Effects", StatusEffectsPng],
+        ].map(([text, icon]) => (
           <ListItem
             key={text}
             component={MuiRouterLink}
             to={`/${text.toLowerCase()}`}
           >
+            <ListItemIcon><img src={icon} width={32}/></ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
       </List>
       <Divider />
-      <List>
+      <List
+        sx={{
+          whiteSpace: 'nowrap', 
+          overflow: 'hidden',
+        }}
+      >
         <ListItem
           component={Link}
           href="https://github.com/rovermicrover/siralim-ultimate-ui"
           target="_blank"
           rel="noopener noreferrer"
         >
+          <ListItemIcon><img src={isDarkTheme ? GitDarkSvg : GitLightSvg} width={32}/></ListItemIcon>
           <ListItemText primary="Source Code" />
         </ListItem>
         <ListItem
@@ -71,6 +97,7 @@ export default function Nav({ isDarkTheme, setIsDarkTheme }: INavProps) {
           target="_blank"
           rel="noopener noreferrer"
         >
+          <ListItemIcon><img src={AuthorJpg} width={32}/></ListItemIcon>
           <ListItemText primary="Author" />
         </ListItem>
         <ListItem
@@ -79,6 +106,7 @@ export default function Nav({ isDarkTheme, setIsDarkTheme }: INavProps) {
           target="_blank"
           rel="noopener noreferrer"
         >
+          <ListItemIcon><img src={SteamJpg} width={32}/></ListItemIcon>
           <ListItemText primary="SU On Steam" />
         </ListItem>
         <ListItem>

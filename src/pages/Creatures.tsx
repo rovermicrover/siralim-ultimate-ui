@@ -13,6 +13,7 @@ import {
   useQueryParams,
   StringParam,
   NumberParam,
+  JsonParam,
   withDefault,
 } from "use-query-params";
 import { ISortAction } from "../lib/queryParams";
@@ -39,6 +40,7 @@ const queryParamsStructure = {
   size: withDefault(NumberParam, 25),
   sort_by: withDefault(StringParam, "race_name"),
   sort_direction: withDefault(StringParam, "asc"),
+  filters: withDefault(JsonParam, []),
 };
 
 const fetchCreatures = buildSearch<ICreaturesSearchSchema>("creatures");

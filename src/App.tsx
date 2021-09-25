@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import createPersistedState from "use-persisted-state";
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
@@ -42,6 +43,8 @@ function App() {
   const browserIsDarkTheme = getBrowserIsDarkTheme();
   const [isDarkTheme, setIsDarkTheme] =
     useIsDarkThemeState<boolean>(browserIsDarkTheme);
+  
+  const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
@@ -49,8 +52,8 @@ function App() {
       <Router>
         <QueryParamProvider ReactRouterRoute={Route}>
           <Box sx={{ display: "flex" }}>
-            <Header />
-            <Nav isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
+            <Header isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
+            <Nav isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} drawerWidth={isNavOpen ? 240 : 64} />
             <Box
               sx={{ flexGrow: 1, p: 3 }}
               style={{

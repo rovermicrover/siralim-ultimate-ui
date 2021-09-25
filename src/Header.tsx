@@ -1,18 +1,39 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
 import { Theme } from "@mui/material/styles";
 
-export default function Header() {
+interface IHeaderProps {
+  isNavOpen: boolean;
+  setIsNavOpen: (isNavOpen: boolean) => void;
+}
+
+export default function Header({ isNavOpen, setIsNavOpen }: IHeaderProps) {
+  const toggleNav = useCallback(() => {
+    setIsNavOpen(!isNavOpen);
+  }, [isNavOpen]);
   return (
     <AppBar
       position="fixed"
       sx={{ zIndex: (theme: Theme) => theme.zIndex.drawer + 1 }}
     >
-      <Typography variant="h6" component="h1" style={{ padding: "0.5em" }}>
-        Siralim Ultimate Unofficial Codex
-      </Typography>
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open nav"
+          onClick={() => toggleNav()}
+          edge="start"
+        >
+          <MenuIcon/>
+        </IconButton>
+        <Typography variant="h6" component="h1" style={{ padding: "0.5em" }}>
+          Siralim Ultimate Unofficial Codex
+        </Typography>
+      </Toolbar>
     </AppBar>
   );
 }
