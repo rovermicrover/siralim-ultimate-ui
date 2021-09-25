@@ -78,17 +78,18 @@ export default function Creatures() {
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
   useEffect(() => {
-    fetchCreatures(query).then(
-      (response: ICreaturesSearchSchema) => {
-        if(response.pagination) {
-          const { data, pagination: { count } } = response;
-          setCreatures(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        };
+    fetchCreatures(query).then((response: ICreaturesSearchSchema) => {
+      if (response.pagination) {
+        const {
+          data,
+          pagination: { count },
+        } = response;
+        setCreatures(data);
+        setCount(count);
+      } else {
+        // TODO: handle validation error
       }
-    );
+    });
   }, [query]);
 
   const pageChange = useCallback(

@@ -1,6 +1,6 @@
 import { IQueryParams } from "../lib/queryParams";
 
-const COMPARATOR_LIKES = ['like', 'ilike'];
+const COMPARATOR_LIKES = ["like", "ilike"];
 
 export function buildSearch<IResponse>(path: string) {
   return async function ({
@@ -12,9 +12,11 @@ export function buildSearch<IResponse>(path: string) {
   }: IQueryParams): Promise<IResponse> {
     const newFilters = filters.map((f) => {
       const { value, comparator } = f;
-      const newValue = COMPARATOR_LIKES.some((c) => c === comparator) ? `%${value}%` : value
+      const newValue = COMPARATOR_LIKES.some((c) => c === comparator)
+        ? `%${value}%`
+        : value;
       return { ...f, value: newValue };
-    })
+    });
     const body = {
       pagination: { page, size },
       sorting: { by: sort_by, direction: sort_direction },

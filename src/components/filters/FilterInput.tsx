@@ -57,22 +57,22 @@ const NUMBER_COMPARITORS: NumericFilterComparators[] = [
 ];
 
 const COMPARITOR_TO_LABELS = {
-  "ilike": "Contains",
-  "like": "Case Sensitive Contains",
+  ilike: "Contains",
+  like: "Case Sensitive Contains",
   "==": "Equals",
   "!=": "Does Not Equals",
-  "is_null": "Does Not Exist",
-  "is_not_null": "Exists",
+  is_null: "Does Not Exist",
+  is_not_null: "Exists",
   ">": ">",
   ">=": ">=",
   "<": "<",
   "<=": "<=",
-}
+};
 
 const TYPE_TO_COMPARITORS = {
   string: STRING_COMPARITORS,
   number: NUMBER_COMPARITORS,
-}
+};
 
 type StrFilterEnum =
   | CreatureStrFilterEnum
@@ -89,7 +89,7 @@ type StrFilterEnum =
   | StatusEffectIntFilterEnum;
 
 export interface IFieldToType {
-  [Key: string]: 'string' | 'number';
+  [Key: string]: "string" | "number";
 }
 
 export default function FilterInput<
@@ -119,13 +119,18 @@ export default function FilterInput<
   fieldsToType: IFieldToType;
 }) {
   const fields = Object.keys(fieldsToType);
-  const fieldType = fieldsToType[filter.field]
+  const fieldType = fieldsToType[filter.field];
   const comparitors = TYPE_TO_COMPARITORS[fieldType];
   const handleFieldChange = useCallback(
     (e: SelectChangeEvent<string>) => {
       const newField = e.target.value;
-      const newValue = fieldsToType[newField] === 'number' ? 1 : '';
-      updateFilter(index, { ...filter, field: e.target.value, comparator: "==", value: newValue } as IFilter);
+      const newValue = fieldsToType[newField] === "number" ? 1 : "";
+      updateFilter(index, {
+        ...filter,
+        field: e.target.value,
+        comparator: "==",
+        value: newValue,
+      } as IFilter);
     },
     [index, filter, fieldsToType]
   );
@@ -140,7 +145,10 @@ export default function FilterInput<
   const handleValueChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const targetValue = e.target.value;
-      const newValue = fieldsToType[targetValue] === 'number' ? parseInt(targetValue) : `${targetValue}`;
+      const newValue =
+        fieldsToType[targetValue] === "number"
+          ? parseInt(targetValue)
+          : `${targetValue}`;
       updateFilter(index, { ...filter, value: newValue } as IFilter);
     },
     [index, filter]
