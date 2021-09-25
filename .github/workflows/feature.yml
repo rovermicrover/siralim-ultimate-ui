@@ -1,0 +1,26 @@
+name: siralim-ultimate-api-ci
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 'rovermicrover/siralim-ultimate-dev'
+      - uses: actions/checkout@v2
+        with:
+          path: ./siralim-ultimate-api
+      - uses: actions/checkout@v2
+        with:
+          repository: 'rovermicrover/siralim-ultimate-nginx'
+          path: ./siralim-ultimate-nginx
+      - uses: actions/checkout@v2
+        with:
+          repository: 'rovermicrover/siralim-ultimate-ui'
+          path: ./siralim-ultimate-ui
+      - name: Build and run checks
+        run: ./commands/ui/ci
