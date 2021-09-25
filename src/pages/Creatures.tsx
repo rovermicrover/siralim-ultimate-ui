@@ -33,16 +33,16 @@ import {
 import { buildSearch } from "../lib/search";
 
 const FIELDS_TO_LABELS: Record<string, string> = {
-  "name": "Name",
-  "klass_name": "Class",
-  "race_name": "Race",
-  "trait_name": "Trait",
-  "health": "Health",
-  "attack": "Attack",
-  "intelligence": "Intelligence",
-  "defense": "Defense",
-  "speed": "Speed",
-}
+  name: "Name",
+  klass_name: "Class",
+  race_name: "Race",
+  trait_name: "Trait",
+  health: "Health",
+  attack: "Attack",
+  intelligence: "Intelligence",
+  defense: "Defense",
+  speed: "Speed",
+};
 
 const FILTER_FIELDS_TO_TYPE: IFieldToType = {
   name: "string",
@@ -107,7 +107,9 @@ export default function Creatures() {
     addFilter,
     removeFilter,
     clearFilters,
-  } = buildQueryParamsMutators<ICreatureStrFilterSchema | ICreatureIntFilterSchema>(query, setQuery);
+  } = buildQueryParamsMutators<
+    ICreatureStrFilterSchema | ICreatureIntFilterSchema
+  >(query, setQuery);
 
   return (
     <>

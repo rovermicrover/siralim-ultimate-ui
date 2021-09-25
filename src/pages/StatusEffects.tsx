@@ -32,12 +32,12 @@ import { IFieldToType } from "../components/filters/types";
 import FilterDrawer from "../components/filters/FilterDrawer";
 
 const FIELDS_TO_LABELS: Record<string, string> = {
-  "name": "Name",
-  "category": "Category",
-  "turns": "Turns",
-  "leave_chance": "Leave Chance",
-  "max_stacks": "Max Stacks"
-}
+  name: "Name",
+  category: "Category",
+  turns: "Turns",
+  leave_chance: "Leave Chance",
+  max_stacks: "Max Stacks",
+};
 
 const FILTER_FIELDS_TO_TYPE: IFieldToType = {
   name: "string",
@@ -65,20 +65,18 @@ export default function StatusEffects() {
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
   useEffect(() => {
-    fetchStatusEffects(query).then(
-      (response: IStatusEffectsSearchSchema) => {
-        if (response.pagination) {
-          const {
-            data,
-            pagination: { count },
-          } = response;
-          setStatusEffects(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        }
+    fetchStatusEffects(query).then((response: IStatusEffectsSearchSchema) => {
+      if (response.pagination) {
+        const {
+          data,
+          pagination: { count },
+        } = response;
+        setStatusEffects(data);
+        setCount(count);
+      } else {
+        // TODO: handle validation error
       }
-    );
+    });
   }, [query]);
 
   const {
@@ -89,7 +87,9 @@ export default function StatusEffects() {
     addFilter,
     removeFilter,
     clearFilters,
-  } = buildQueryParamsMutators<IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema>(query, setQuery);
+  } = buildQueryParamsMutators<
+    IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
+  >(query, setQuery);
 
   return (
     <>

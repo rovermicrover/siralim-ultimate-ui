@@ -33,15 +33,15 @@ import { IFieldToType } from "../components/filters/types";
 import FilterDrawer from "../components/filters/FilterDrawer";
 
 const FIELDS_TO_LABELS: Record<string, string> = {
-  "name": "Name",
-  "klass_name": "Class",
-  "charges": "Charges",
-}
+  name: "Name",
+  klass_name: "Class",
+  charges: "Charges",
+};
 
 const FILTER_FIELDS_TO_TYPE: IFieldToType = {
   name: "string",
   klass_name: "string",
-  charges: "number"
+  charges: "number",
 };
 
 const queryParamsStructure = {
@@ -61,20 +61,18 @@ export default function Spells() {
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
   useEffect(() => {
-    fetchSpells(query).then(
-      (response: ISpellsSearchSchema) => {
-        if (response.pagination) {
-          const {
-            data,
-            pagination: { count },
-          } = response;
-          setSpells(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        }
+    fetchSpells(query).then((response: ISpellsSearchSchema) => {
+      if (response.pagination) {
+        const {
+          data,
+          pagination: { count },
+        } = response;
+        setSpells(data);
+        setCount(count);
+      } else {
+        // TODO: handle validation error
       }
-    );
+    });
   }, [query]);
 
   const {
@@ -85,7 +83,10 @@ export default function Spells() {
     addFilter,
     removeFilter,
     clearFilters,
-  } = buildQueryParamsMutators<ISpellStrFilterSchema | ISpellIntFilterSchema>(query, setQuery);
+  } = buildQueryParamsMutators<ISpellStrFilterSchema | ISpellIntFilterSchema>(
+    query,
+    setQuery
+  );
 
   return (
     <>

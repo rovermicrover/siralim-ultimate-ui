@@ -74,10 +74,7 @@ export function buildQueryParamsMutators<IFilter extends TAllFilters>(
   );
 
   const updateFilter = useCallback(
-    (
-      index: number,
-      filter: IFilter
-    ) => {
+    (index: number, filter: IFilter) => {
       const { filters } = query;
       const newFilters = [...filters];
       newFilters[index] = filter;

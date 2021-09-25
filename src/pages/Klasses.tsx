@@ -37,20 +37,18 @@ export default function Klasses() {
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
   useEffect(() => {
-    fetchKlasses(query).then(
-      (response: IKlassesSearchSchema) => {
-        if (response.pagination) {
-          const {
-            data,
-            pagination: { count },
-          } = response;
-          setKlasses(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        }
+    fetchKlasses(query).then((response: IKlassesSearchSchema) => {
+      if (response.pagination) {
+        const {
+          data,
+          pagination: { count },
+        } = response;
+        setKlasses(data);
+        setCount(count);
+      } else {
+        // TODO: handle validation error
       }
-    );
+    });
   }, [query]);
 
   const { pageChange, sizeChange, reduceSort } = buildQueryParamsMutators(

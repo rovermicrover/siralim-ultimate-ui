@@ -30,7 +30,7 @@ import AuthorJpg from "./images/nav/author.jpg";
 
 import SteamJpg from "./images/nav/steam.jpg";
 
-import SourceIcon from '@mui/icons-material/Source';
+import SourceIcon from "@mui/icons-material/Source";
 
 interface INavProps {
   isDarkTheme: boolean;
@@ -129,7 +129,7 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <SourceIcon sx={{fontSize: "36px"}} />
+            <SourceIcon sx={{ fontSize: "36px" }} />
           </ListItemIcon>
           <ListItemText primary="Source 1" />
         </ListItem>
@@ -140,7 +140,7 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <SourceIcon sx={{fontSize: "36px"}} />
+            <SourceIcon sx={{ fontSize: "36px" }} />
           </ListItemIcon>
           <ListItemText primary="Source 2" />
         </ListItem>
@@ -151,7 +151,7 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <SourceIcon sx={{fontSize: "36px"}} />
+            <SourceIcon sx={{ fontSize: "36px" }} />
           </ListItemIcon>
           <ListItemText primary="Source 3" />
         </ListItem>

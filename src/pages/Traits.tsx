@@ -47,20 +47,18 @@ export default function Traits() {
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
   useEffect(() => {
-    fetchTraits(query).then(
-      (response: ITraitsSearchSchema) => {
-        if (response.pagination) {
-          const {
-            data,
-            pagination: { count },
-          } = response;
-          setTraits(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        }
+    fetchTraits(query).then((response: ITraitsSearchSchema) => {
+      if (response.pagination) {
+        const {
+          data,
+          pagination: { count },
+        } = response;
+        setTraits(data);
+        setCount(count);
+      } else {
+        // TODO: handle validation error
       }
-    );
+    });
   }, [query]);
 
   const {
@@ -71,7 +69,10 @@ export default function Traits() {
     addFilter,
     removeFilter,
     clearFilters,
-  } = buildQueryParamsMutators<ITraitStrFilterSchema | ITraitIntFilterSchema>(query, setQuery);
+  } = buildQueryParamsMutators<ITraitStrFilterSchema | ITraitIntFilterSchema>(
+    query,
+    setQuery
+  );
 
   return (
     <>

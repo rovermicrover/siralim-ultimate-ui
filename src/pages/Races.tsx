@@ -32,9 +32,9 @@ import { IFieldToType } from "../components/filters/types";
 import FilterDrawer from "../components/filters/FilterDrawer";
 
 const FIELDS_TO_LABELS: Record<string, string> = {
-  "name": "Name",
-  "default_klass_name": "Class",
-}
+  name: "Name",
+  default_klass_name: "Class",
+};
 
 const FILTER_FIELDS_TO_TYPE: IFieldToType = {
   name: "string",
@@ -58,20 +58,18 @@ export default function Races() {
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
   useEffect(() => {
-    fetchRaces(query).then(
-      (response: IRacesSearchSchema) => {
-        if (response.pagination) {
-          const {
-            data,
-            pagination: { count },
-          } = response;
-          setRaces(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        }
+    fetchRaces(query).then((response: IRacesSearchSchema) => {
+      if (response.pagination) {
+        const {
+          data,
+          pagination: { count },
+        } = response;
+        setRaces(data);
+        setCount(count);
+      } else {
+        // TODO: handle validation error
       }
-    );
+    });
   }, [query]);
 
   const {
