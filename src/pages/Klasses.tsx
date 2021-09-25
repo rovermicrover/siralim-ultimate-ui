@@ -79,23 +79,23 @@ export default function Klasses() {
             />
           </TableRow>
           <TableRow>
+            <TableCell>Icon</TableCell>
             <SortedTableHeader
               field={"name"}
               name={"Name"}
               sort={query}
               reduceSort={reduceSort}
             />
-            <TableCell align="center">Icon</TableCell>
             <TableCell align="right">Description</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {klasses.map((klass) => (
             <TableRow key={klass.id}>
-              <TableCell>{klass.name}</TableCell>
-              <TableCell align="center">
+              <TableCell>
                 <img src={klass.icon} alt={`Klass Icon ${klass.name}`} />
               </TableCell>
+              <TableCell>{klass.name}</TableCell>
               <TableCell align="right">{klass.description}</TableCell>
             </TableRow>
           ))}
