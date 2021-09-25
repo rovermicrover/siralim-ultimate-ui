@@ -39,12 +39,11 @@ import {
 } from "../../lib/openAPI";
 
 const STRING_COMPARITORS: StringFilterComparators[] = [
+  "ilike",
   "==",
   "!=",
-  "is_null",
   "is_not_null",
-  "like",
-  "ilike",
+  "is_null",
 ];
 const NUMBER_COMPARITORS: NumericFilterComparators[] = [
   "==",
@@ -53,9 +52,22 @@ const NUMBER_COMPARITORS: NumericFilterComparators[] = [
   ">=",
   "<",
   "<=",
-  "is_null",
   "is_not_null",
+  "is_null",
 ];
+
+const COMPARITOR_TO_LABELS = {
+  "ilike": "Contains",
+  "like": "Case Sensitive Contains",
+  "==": "Equals",
+  "!=": "Does Not Equals",
+  "is_null": "Does Not Exist",
+  "is_not_null": "Exists",
+  ">": ">",
+  ">=": ">=",
+  "<": "<",
+  "<=": "<=",
+}
 
 const TYPE_TO_COMPARITORS = {
   string: STRING_COMPARITORS,
@@ -174,7 +186,7 @@ export default function FilterInput<
               >
                 {comparitors.map((f) => (
                   <MenuItem key={f} value={f}>
-                    {f}
+                    {COMPARITOR_TO_LABELS[f]}
                   </MenuItem>
                 ))}
               </Select>

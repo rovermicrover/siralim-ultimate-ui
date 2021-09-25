@@ -1,6 +1,6 @@
 import { IQueryParams } from "../lib/queryParams";
 
-const COMPARATOR_LIKES = ['like', 'likes'];
+const COMPARATOR_LIKES = ['like', 'ilike'];
 
 export function buildSearch<IResponse>(path: string) {
   return async function ({

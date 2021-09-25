@@ -168,7 +168,7 @@ export default function Creatures() {
           color="inherit"
           aria-label="open filters"
           onClick={() =>
-            addFilter({ field: "name", comparator: "==", value: "" })
+            addFilter({ field: "name", comparator: "ilike", value: "" })
           }
           edge="start"
         >
