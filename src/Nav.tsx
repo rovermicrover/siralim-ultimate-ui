@@ -30,6 +30,8 @@ import AuthorJpg from "./images/nav/author.jpg";
 
 import SteamJpg from "./images/nav/steam.jpg";
 
+import SourceIcon from '@mui/icons-material/Source';
+
 interface INavProps {
   isDarkTheme: boolean;
   setIsDarkTheme: (isDarkTheme: boolean) => void;
@@ -119,6 +121,39 @@ export default function Nav({
             <img src={SteamJpg} width={32} />
           </ListItemIcon>
           <ListItemText primary="SU On Steam" />
+        </ListItem>
+        <ListItem
+          component={Link}
+          href="https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <ListItemIcon>
+            <SourceIcon sx={{fontSize: "36px"}} />
+          </ListItemIcon>
+          <ListItemText primary="Source 1" />
+        </ListItem>
+        <ListItem
+          component={Link}
+          href="https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <ListItemIcon>
+            <SourceIcon sx={{fontSize: "36px"}} />
+          </ListItemIcon>
+          <ListItemText primary="Source 2" />
+        </ListItem>
+        <ListItem
+          component={Link}
+          href="https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <ListItemIcon>
+            <SourceIcon sx={{fontSize: "36px"}} />
+          </ListItemIcon>
+          <ListItemText primary="Source 3" />
         </ListItem>
         <ListItem>
           <FormControl component="fieldset">
