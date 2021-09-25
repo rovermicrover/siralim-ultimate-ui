@@ -80,6 +80,7 @@ export default function StatusEffects() {
             />
           </TableRow>
           <TableRow>
+            <TableCell>Icon</TableCell>
             <SortedTableHeader
               field={"name"}
               name={"Name"}
@@ -92,7 +93,6 @@ export default function StatusEffects() {
               sort={query}
               reduceSort={reduceSort}
             />
-            <TableCell align="center">Icon</TableCell>
             <SortedTableHeader
               align="center"
               field={"turns"}
@@ -120,14 +120,14 @@ export default function StatusEffects() {
         <TableBody>
           {statusEffects.map((statusEffect) => (
             <TableRow key={statusEffect.id}>
-              <TableCell>{statusEffect.name}</TableCell>
-              <TableCell>{statusEffect.category}</TableCell>
-              <TableCell align="center">
+              <TableCell>
                 <img
                   src={statusEffect.icon}
                   alt={`Status Effect Icon ${statusEffect.name}`}
                 />
               </TableCell>
+              <TableCell>{statusEffect.name}</TableCell>
+              <TableCell>{statusEffect.category}</TableCell>
               <TableCell align="center">{statusEffect.turns}</TableCell>
               <TableCell align="center">{statusEffect.leave_chance}</TableCell>
               <TableCell align="center">{statusEffect.max_stacks}</TableCell>
