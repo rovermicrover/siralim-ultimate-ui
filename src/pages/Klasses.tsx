@@ -16,7 +16,7 @@ import {
   JsonParam,
   withDefault,
 } from "use-query-params";
-import { ISortAction } from "../lib/queryParams";
+import { buildQueryParamsMutators } from "../lib/queryParams";
 import SortedTableHeader from "../components/SortedTableHeader";
 import { IKlassModel, IKlassesSearchSchema } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
@@ -38,32 +38,24 @@ export default function Klasses() {
 
   useEffect(() => {
     fetchKlasses(query).then(
-      ({ data, pagination: { count } }: IKlassesSearchSchema) => {
-        setKlasses(data);
-        setCount(count);
+      (response: IKlassesSearchSchema) => {
+        if (response.pagination) {
+          const {
+            data,
+            pagination: { count },
+          } = response;
+          setKlasses(data);
+          setCount(count);
+        } else {
+          // TODO: handle validation error
+        }
       }
     );
   }, [query]);
 
-  const pageChange = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-      setQuery({ ...query, page: newPage });
-    },
-    [query]
-  );
-
-  const sizeChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setQuery({ ...query, size: parseInt(event.target.value), page: 0 });
-    },
-    [query]
-  );
-
-  const reduceSort = useCallback(
-    (sort: ISortAction) => {
-      setQuery({ ...query, ...sort });
-    },
-    [query]
+  const { pageChange, sizeChange, reduceSort } = buildQueryParamsMutators(
+    query,
+    setQuery
   );
 
   return (

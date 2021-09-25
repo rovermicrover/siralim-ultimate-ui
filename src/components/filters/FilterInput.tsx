@@ -10,30 +10,9 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import { IFieldToType, TAllFilters } from "./types";
+
 import {
-  ICreatureStrFilterSchema,
-  ITraitStrFilterSchema,
-  IRaceStrFilterSchema,
-  ISpellStrFilterSchema,
-  IKlassStrFilterSchema,
-  IStatusEffectStrFilterSchema,
-  ICreatureIntFilterSchema,
-  ITraitIntFilterSchema,
-  IRaceIntFilterSchema,
-  ISpellIntFilterSchema,
-  IStatusEffectIntFilterSchema,
-  CreatureStrFilterEnum,
-  TraitStrFilterEnum,
-  RaceStrFilterEnum,
-  SpellStrFilterEnum,
-  KlassStrFilterEnum,
-  StatusEffectStrFilterEnum,
-  CreatureIntFilterEnum,
-  TraitIntFilterEnum,
-  RaceIntFilterEnum,
-  SpellIntFilterEnum,
-  KlassIntFilterEnum,
-  StatusEffectIntFilterEnum,
   NumericFilterComparators,
   StringFilterComparators,
 } from "../../lib/openAPI";
@@ -74,49 +53,20 @@ const TYPE_TO_COMPARITORS = {
   number: NUMBER_COMPARITORS,
 };
 
-type StrFilterEnum =
-  | CreatureStrFilterEnum
-  | TraitStrFilterEnum
-  | RaceStrFilterEnum
-  | SpellStrFilterEnum
-  | KlassStrFilterEnum
-  | StatusEffectStrFilterEnum
-  | CreatureIntFilterEnum
-  | TraitIntFilterEnum
-  | RaceIntFilterEnum
-  | SpellIntFilterEnum
-  | KlassIntFilterEnum
-  | StatusEffectIntFilterEnum;
-
-export interface IFieldToType {
-  [Key: string]: "string" | "number";
-}
-
-export default function FilterInput<
-  IFilter extends
-    | ICreatureStrFilterSchema
-    | ITraitStrFilterSchema
-    | IRaceStrFilterSchema
-    | ISpellStrFilterSchema
-    | IKlassStrFilterSchema
-    | IStatusEffectStrFilterSchema
-    | ICreatureIntFilterSchema
-    | ITraitIntFilterSchema
-    | IRaceIntFilterSchema
-    | ISpellIntFilterSchema
-    | IStatusEffectIntFilterSchema
->({
+export default function FilterInput<IFilter extends TAllFilters>({
   filter,
   index,
   updateFilter,
   removeFilter,
   fieldsToType,
+  fieldsToLabel,
 }: {
   filter: IFilter;
   index: number;
   updateFilter: (index: number, filter: IFilter) => void;
   removeFilter: (index: number) => void;
   fieldsToType: IFieldToType;
+  fieldsToLabel: Record<string, string>;
 }) {
   const fields = Object.keys(fieldsToType);
   const fieldType = fieldsToType[filter.field];
@@ -125,10 +75,11 @@ export default function FilterInput<
     (e: SelectChangeEvent<string>) => {
       const newField = e.target.value;
       const newValue = fieldsToType[newField] === "number" ? 1 : "";
+      const newComparator = fieldsToType[newField] === "number" ? ">=" : "==";
       updateFilter(index, {
         ...filter,
         field: e.target.value,
-        comparator: "==",
+        comparator: newComparator,
         value: newValue,
       } as IFilter);
     },
@@ -178,7 +129,7 @@ export default function FilterInput<
               >
                 {fields.map((field, i) => (
                   <MenuItem key={i} value={field}>
-                    {field}
+                    {fieldsToLabel[field]}
                   </MenuItem>
                 ))}
               </Select>

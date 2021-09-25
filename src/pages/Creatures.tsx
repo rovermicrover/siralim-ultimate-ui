@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,14 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import Toolbar from "@mui/material/Toolbar";
-import AddIcon from "@mui/icons-material/Add";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
 
 import {
   useQueryParams,
@@ -24,11 +18,12 @@ import {
   JsonParam,
   withDefault,
 } from "use-query-params";
-import { ISortAction } from "../lib/queryParams";
+import { buildQueryParamsMutators } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import TagsPills from "../components/TagsPills";
-import FilterInput, { IFieldToType } from "../components/filters/FilterInput";
+import FilterDrawer from "../components/filters/FilterDrawer";
+import { IFieldToType } from "../components/filters/types";
 import {
   ICreatureModel,
   ICreaturesSearchSchema,
@@ -37,17 +32,17 @@ import {
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 
-const SORTABLE_FIELDS = [
-  { field: "name", name: "Name" },
-  { field: "klass_name", name: "Class" },
-  { field: "race_name", name: "Race" },
-  { field: "trait_name", name: "Trait" },
-  { field: "health", name: "Health" },
-  { field: "attack", name: "Attack" },
-  { field: "intelligence", name: "Intelligence" },
-  { field: "defense", name: "Defense" },
-  { field: "speed", name: "Speed" },
-];
+const FIELDS_TO_LABELS: Record<string, string> = {
+  "name": "Name",
+  "klass_name": "Class",
+  "race_name": "Race",
+  "trait_name": "Trait",
+  "health": "Health",
+  "attack": "Attack",
+  "intelligence": "Intelligence",
+  "defense": "Defense",
+  "speed": "Speed",
+}
 
 const FILTER_FIELDS_TO_TYPE: IFieldToType = {
   name: "string",
@@ -60,6 +55,18 @@ const FILTER_FIELDS_TO_TYPE: IFieldToType = {
   defense: "number",
   speed: "number",
 };
+
+const SORTABLE_FIELDS = [
+  "name",
+  "klass_name",
+  "race_name",
+  "trait_name",
+  "health",
+  "attack",
+  "intelligence",
+  "defense",
+  "speed",
+];
 
 const queryParamsStructure = {
   page: withDefault(NumberParam, 0),
@@ -92,120 +99,29 @@ export default function Creatures() {
     });
   }, [query]);
 
-  const pageChange = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-      setQuery({ ...query, page: newPage });
-    },
-    [query]
-  );
-
-  const sizeChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setQuery({ ...query, size: parseInt(event.target.value), page: 0 });
-    },
-    [query]
-  );
-
-  const reduceSort = useCallback(
-    (sort: ISortAction) => {
-      setQuery({ ...query, ...sort });
-    },
-    [query]
-  );
-
-  const updateFilter = useCallback(
-    (
-      index: number,
-      filter: ICreatureStrFilterSchema | ICreatureIntFilterSchema
-    ) => {
-      const { filters } = query;
-      const newFilters = [...filters];
-      newFilters[index] = filter;
-      setQuery({ ...query, filters: newFilters });
-    },
-    [query]
-  );
-
-  const addFilter = useCallback(
-    (filter: ICreatureStrFilterSchema | ICreatureIntFilterSchema) => {
-      const { filters } = query;
-      const newFilters = [...filters];
-      newFilters.push(filter);
-      setQuery({ ...query, filters: newFilters });
-    },
-    [query]
-  );
-
-  const removeFilter = useCallback(
-    (index: number) => {
-      const { filters } = query;
-      const newFilters = [
-        ...filters.slice(0, index),
-        ...filters.slice(index + 1, filters.length),
-      ];
-      setQuery({ ...query, filters: newFilters });
-    },
-    [query]
-  );
-
-  const clearFilters = useCallback(() => {
-    setQuery({ ...query, filters: [] });
-  }, [query]);
+  const {
+    pageChange,
+    sizeChange,
+    reduceSort,
+    updateFilter,
+    addFilter,
+    removeFilter,
+    clearFilters,
+  } = buildQueryParamsMutators<ICreatureStrFilterSchema | ICreatureIntFilterSchema>(query, setQuery);
 
   return (
     <>
-      <Drawer
-        anchor="right"
-        open={isFilterDrawerOpen}
-        onClose={() => setIsFilterDrawerOpen(false)}
-        sx={{
-          width: 500,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: 500, boxSizing: "border-box" },
-        }}
-      >
-        <Toolbar />
-        <IconButton
-          color="inherit"
-          aria-label="open filters"
-          onClick={() =>
-            addFilter({ field: "name", comparator: "ilike", value: "" })
-          }
-          edge="start"
-        >
-          <AddIcon />
-        </IconButton>
-        <IconButton
-          color="inherit"
-          aria-label="open filters"
-          onClick={() => clearFilters()}
-          edge="start"
-        >
-          <ClearAllIcon />
-        </IconButton>
-        <Paper elevation={1} sx={{ p: 2 }}>
-          <Grid container spacing={2}>
-            {query.filters.map(
-              (
-                f: ICreatureStrFilterSchema | ICreatureIntFilterSchema,
-                i: number
-              ) => (
-                <Grid key={i} item xs={12}>
-                  <FilterInput<
-                    ICreatureStrFilterSchema | ICreatureIntFilterSchema
-                  >
-                    filter={f}
-                    index={i}
-                    updateFilter={updateFilter}
-                    removeFilter={removeFilter}
-                    fieldsToType={FILTER_FIELDS_TO_TYPE}
-                  />
-                </Grid>
-              )
-            )}
-          </Grid>
-        </Paper>
-      </Drawer>
+      <FilterDrawer<ICreatureStrFilterSchema | ICreatureIntFilterSchema>
+        isFilterDrawerOpen={isFilterDrawerOpen}
+        setIsFilterDrawerOpen={setIsFilterDrawerOpen}
+        filters={query.filters}
+        addFilter={addFilter}
+        updateFilter={updateFilter}
+        removeFilter={removeFilter}
+        clearFilters={clearFilters}
+        fieldsToType={FILTER_FIELDS_TO_TYPE}
+        fieldsToLabel={FIELDS_TO_LABELS}
+      />
       <TableContainer style={{ maxHeight: "100%" }} component={Paper}>
         <Table stickyHeader>
           <TableHead>
@@ -230,12 +146,12 @@ export default function Creatures() {
             </TableRow>
             <TableRow>
               <TableCell>Sprite</TableCell>
-              {SORTABLE_FIELDS.map(({ field, name }) => (
+              {SORTABLE_FIELDS.map((field) => (
                 <SortedTableHeader
                   align="center"
                   key={field}
                   field={field}
-                  name={name}
+                  name={FIELDS_TO_LABELS[field]}
                   sort={query}
                   reduceSort={reduceSort}
                 />

@@ -8,6 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import IconButton from "@mui/material/IconButton";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 import {
   useQueryParams,
@@ -16,11 +18,28 @@ import {
   JsonParam,
   withDefault,
 } from "use-query-params";
-import { ISortAction } from "../lib/queryParams";
+import { buildQueryParamsMutators } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
-import { IRaceModel, IRacesSearchSchema } from "../lib/openAPI";
+import {
+  IRaceModel,
+  IRacesSearchSchema,
+  IRaceStrFilterSchema,
+  IRaceIntFilterSchema,
+} from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
+import { IFieldToType } from "../components/filters/types";
+import FilterDrawer from "../components/filters/FilterDrawer";
+
+const FIELDS_TO_LABELS: Record<string, string> = {
+  "name": "Name",
+  "default_klass_name": "Class",
+}
+
+const FILTER_FIELDS_TO_TYPE: IFieldToType = {
+  name: "string",
+  default_klass_name: "string",
+};
 
 const queryParamsStructure = {
   page: withDefault(NumberParam, 0),
@@ -35,95 +54,116 @@ const fetchRaces = buildSearch<IRacesSearchSchema>("races");
 export default function Races() {
   const [races, setRaces] = useState<IRaceModel[]>([]);
   const [count, setCount] = useState<number>(0);
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
 
   useEffect(() => {
     fetchRaces(query).then(
-      ({ data, pagination: { count } }: IRacesSearchSchema) => {
-        setRaces(data);
-        setCount(count);
+      (response: IRacesSearchSchema) => {
+        if (response.pagination) {
+          const {
+            data,
+            pagination: { count },
+          } = response;
+          setRaces(data);
+          setCount(count);
+        } else {
+          // TODO: handle validation error
+        }
       }
     );
   }, [query]);
 
-  const pageChange = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-      setQuery({ ...query, page: newPage });
-    },
-    [query]
-  );
-
-  const sizeChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setQuery({ ...query, size: parseInt(event.target.value), page: 0 });
-    },
-    [query]
-  );
-
-  const reduceSort = useCallback(
-    (sort: ISortAction) => {
-      setQuery({ ...query, ...sort });
-    },
-    [query]
-  );
+  const {
+    pageChange,
+    sizeChange,
+    reduceSort,
+    updateFilter,
+    addFilter,
+    removeFilter,
+    clearFilters,
+  } = buildQueryParamsMutators(query, setQuery);
 
   return (
-    <TableContainer style={{ maxHeight: "100%" }} component={Paper}>
-      <Table stickyHeader>
-        <TableHead>
-          <TableRow>
-            <TablePagination
-              count={count}
-              page={query.page}
-              onPageChange={pageChange}
-              rowsPerPage={query.size}
-              onRowsPerPageChange={sizeChange}
-            />
-          </TableRow>
-          <TableRow>
-            <SortedTableHeader
-              field={"name"}
-              name={"Name"}
-              sort={query}
-              reduceSort={reduceSort}
-            />
-            <SortedTableHeader
-              align="center"
-              field={"default_klass_name"}
-              name={"Class"}
-              sort={query}
-              reduceSort={reduceSort}
-            />
-            <TableCell align="right">Description</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {races.map((race) => (
-            <TableRow key={race.id}>
-              <TableCell>{race.name}</TableCell>
-              <TableCell align="center">
-                <img
-                  src={race.default_klass.icon}
-                  alt={`${race.name} Default Klass Icon ${race.default_klass.name}`}
-                />
+    <>
+      <FilterDrawer<IRaceStrFilterSchema | IRaceIntFilterSchema>
+        isFilterDrawerOpen={isFilterDrawerOpen}
+        setIsFilterDrawerOpen={setIsFilterDrawerOpen}
+        filters={query.filters}
+        addFilter={addFilter}
+        updateFilter={updateFilter}
+        removeFilter={removeFilter}
+        clearFilters={clearFilters}
+        fieldsToType={FILTER_FIELDS_TO_TYPE}
+        fieldsToLabel={FIELDS_TO_LABELS}
+      />
+      <TableContainer style={{ maxHeight: "100%" }} component={Paper}>
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <IconButton
+                  color="inherit"
+                  aria-label="open filters"
+                  onClick={() => setIsFilterDrawerOpen(true)}
+                  edge="start"
+                >
+                  <FilterListIcon />
+                </IconButton>
               </TableCell>
-              <TableCell align="right">{race.description}</TableCell>
+              <TablePagination
+                count={count}
+                page={query.page}
+                onPageChange={pageChange}
+                rowsPerPage={query.size}
+                onRowsPerPageChange={sizeChange}
+              />
             </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
-              count={count}
-              page={query.page}
-              onPageChange={pageChange}
-              rowsPerPage={query.size}
-              onRowsPerPageChange={sizeChange}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+            <TableRow>
+              <SortedTableHeader
+                field={"name"}
+                name={FIELDS_TO_LABELS["name"]}
+                sort={query}
+                reduceSort={reduceSort}
+              />
+              <SortedTableHeader
+                align="center"
+                field={"default_klass_name"}
+                name={FIELDS_TO_LABELS["default_klass_name"]}
+                sort={query}
+                reduceSort={reduceSort}
+              />
+              <TableCell align="right">Description</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {races.map((race) => (
+              <TableRow key={race.id}>
+                <TableCell>{race.name}</TableCell>
+                <TableCell align="center">
+                  <img
+                    src={race.default_klass.icon}
+                    alt={`${race.name} Default Klass Icon ${race.default_klass.name}`}
+                  />
+                </TableCell>
+                <TableCell align="right">{race.description}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
+                count={count}
+                page={query.page}
+                onPageChange={pageChange}
+                rowsPerPage={query.size}
+                onRowsPerPageChange={sizeChange}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
