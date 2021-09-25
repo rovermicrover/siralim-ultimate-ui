@@ -54,7 +54,7 @@ export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavPr
       <List
         sx={{
           whiteSpace: 'nowrap', 
-          overflow: 'hidden',
+          overflowX: 'hidden',
         }}
       >
         {[
@@ -79,7 +79,7 @@ export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavPr
       <List
         sx={{
           whiteSpace: 'nowrap', 
-          overflow: 'hidden',
+          overflowX: 'hidden',
         }}
       >
         <ListItem
