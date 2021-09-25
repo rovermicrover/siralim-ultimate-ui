@@ -3,8 +3,8 @@ import React, { useCallback } from "react";
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
 import { Theme } from "@mui/material/styles";
 
 interface IHeaderProps {
@@ -28,7 +28,7 @@ export default function Header({ isNavOpen, setIsNavOpen }: IHeaderProps) {
           onClick={() => toggleNav()}
           edge="start"
         >
-          <MenuIcon/>
+          <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="h1" style={{ padding: "0.5em" }}>
           Siralim Ultimate Unofficial Codex

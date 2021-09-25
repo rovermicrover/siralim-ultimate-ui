@@ -30,14 +30,17 @@ import AuthorJpg from "./images/nav/author.jpg";
 
 import SteamJpg from "./images/nav/steam.jpg";
 
-
 interface INavProps {
   isDarkTheme: boolean;
   setIsDarkTheme: (isDarkTheme: boolean) => void;
   drawerWidth: number;
 }
 
-export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavProps) {
+export default function Nav({
+  isDarkTheme,
+  setIsDarkTheme,
+  drawerWidth,
+}: INavProps) {
   const themeText = isDarkTheme ? "Dark Theme" : "Light Theme";
 
   return (
@@ -53,8 +56,8 @@ export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavPr
       <Toolbar />
       <List
         sx={{
-          whiteSpace: 'nowrap', 
-          overflowX: 'hidden',
+          whiteSpace: "nowrap",
+          overflowX: "hidden",
         }}
       >
         {[
@@ -70,7 +73,9 @@ export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavPr
             component={MuiRouterLink}
             to={`/${text.toLowerCase()}`}
           >
-            <ListItemIcon><img src={icon} width={32}/></ListItemIcon>
+            <ListItemIcon>
+              <img src={icon} width={32} />
+            </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
@@ -78,8 +83,8 @@ export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavPr
       <Divider />
       <List
         sx={{
-          whiteSpace: 'nowrap', 
-          overflowX: 'hidden',
+          whiteSpace: "nowrap",
+          overflowX: "hidden",
         }}
       >
         <ListItem
@@ -88,7 +93,9 @@ export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavPr
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon><img src={isDarkTheme ? GitDarkSvg : GitLightSvg} width={32}/></ListItemIcon>
+          <ListItemIcon>
+            <img src={isDarkTheme ? GitDarkSvg : GitLightSvg} width={32} />
+          </ListItemIcon>
           <ListItemText primary="Source Code" />
         </ListItem>
         <ListItem
@@ -97,7 +104,9 @@ export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavPr
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon><img src={AuthorJpg} width={32}/></ListItemIcon>
+          <ListItemIcon>
+            <img src={AuthorJpg} width={32} />
+          </ListItemIcon>
           <ListItemText primary="Author" />
         </ListItem>
         <ListItem
@@ -106,7 +115,9 @@ export default function Nav({ isDarkTheme, setIsDarkTheme, drawerWidth }: INavPr
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon><img src={SteamJpg} width={32}/></ListItemIcon>
+          <ListItemIcon>
+            <img src={SteamJpg} width={32} />
+          </ListItemIcon>
           <ListItemText primary="SU On Steam" />
         </ListItem>
         <ListItem>

@@ -13,6 +13,7 @@ import {
   useQueryParams,
   StringParam,
   NumberParam,
+  JsonParam,
   withDefault,
 } from "use-query-params";
 import { ISortAction } from "../lib/queryParams";
@@ -25,6 +26,7 @@ const queryParamsStructure = {
   size: withDefault(NumberParam, 5),
   sort_by: withDefault(StringParam, "name"),
   sort_direction: withDefault(StringParam, "asc"),
+  filters: withDefault(JsonParam, []),
 };
 
 const fetchKlasses = buildSearch<IKlassesSearchSchema>("classes");
