@@ -107,7 +107,7 @@ export default function Spells() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell colSpan={2}>
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
