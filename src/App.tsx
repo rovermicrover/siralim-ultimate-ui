@@ -64,6 +64,7 @@ function App() {
                 paddingTop: "0px",
                 paddingBottom: "0px",
                 display: "flex",
+                overflow: "auto",
               }}
             >
               <div
