@@ -177,6 +177,7 @@ export default function Creatures() {
                   <TableCell align="center">
                     <img
                       src={creature.klass.icon}
+                      width="32"
                       alt={`${creature.name} Klass Icon ${creature.klass.name}`}
                     />
                   </TableCell>

@@ -86,7 +86,11 @@ export default function Klasses() {
           {klasses.map((klass) => (
             <TableRow key={klass.id}>
               <TableCell>
-                <img src={klass.icon} alt={`Klass Icon ${klass.name}`} />
+                <img
+                  src={klass.icon}
+                  width="32"
+                  alt={`Klass Icon ${klass.name}`}
+                />
               </TableCell>
               <TableCell>{klass.name}</TableCell>
               <TableCell align="right">{klass.description}</TableCell>

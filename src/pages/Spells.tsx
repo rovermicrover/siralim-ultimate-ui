@@ -159,6 +159,7 @@ export default function Spells() {
                   <TableCell align="center">
                     <img
                       src={spell.klass.icon}
+                      width="32"
                       alt={`${spell.name} Klass Icon ${spell.klass.name}`}
                     />
                   </TableCell>

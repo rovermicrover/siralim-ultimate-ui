@@ -172,6 +172,7 @@ export default function StatusEffects() {
                 >
                   <TableCell>
                     <img
+                      width="32"
                       src={statusEffect.icon}
                       alt={`Status Effect Icon ${statusEffect.name}`}
                     />
