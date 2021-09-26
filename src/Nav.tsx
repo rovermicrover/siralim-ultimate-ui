@@ -162,6 +162,7 @@ export default function Nav({
               <FormControlLabel
                 control={
                   <Switch
+                    inputProps={{ role: 'switch' }}
                     size={isMd ? "medium" : "small"}
                     checked={isDarkTheme}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -169,7 +170,7 @@ export default function Nav({
                     }
                   />
                 }
-                label={themeText}
+                label="Dark Theme"
               />
             </FormGroup>
           </FormControl>
