@@ -80,7 +80,7 @@ export default function Nav({
             component={MuiRouterLink}
             to={`/${text.toLowerCase()}`}
           >
-            <ListItemIcon>
+            <ListItemIcon aria-hidden="true">
               <img src={icon} width={iconWidth} alt={text} />
             </ListItemIcon>
             <ListItemText primary={text} sx={itemTextStyle} />
@@ -92,7 +92,7 @@ export default function Nav({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon>
+          <ListItemIcon aria-hidden="true">
             <img
               src={isDarkTheme ? GitDarkSvg : GitLightSvg}
               width={iconWidth}
@@ -107,7 +107,7 @@ export default function Nav({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon>
+          <ListItemIcon aria-hidden="true">
             <img src={AuthorJpg} width={iconWidth} alt="Author" />
           </ListItemIcon>
           <ListItemText primary="Author" sx={itemTextStyle} />
@@ -118,7 +118,7 @@ export default function Nav({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon>
+          <ListItemIcon aria-hidden="true">
             <img src={SteamJpg} width={iconWidth} alt="Steam" />
           </ListItemIcon>
           <ListItemText primary="SU On Steam" sx={itemTextStyle} />
@@ -129,7 +129,7 @@ export default function Nav({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon>
+          <ListItemIcon aria-hidden="true">
             <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
           </ListItemIcon>
           <ListItemText primary="Source 1" sx={itemTextStyle} />
@@ -140,7 +140,7 @@ export default function Nav({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon>
+          <ListItemIcon aria-hidden="true">
             <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
           </ListItemIcon>
           <ListItemText primary="Source 2" sx={itemTextStyle} />
@@ -151,7 +151,7 @@ export default function Nav({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon>
+          <ListItemIcon aria-hidden="true">
             <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
           </ListItemIcon>
           <ListItemText primary="Source 3" sx={itemTextStyle} />
