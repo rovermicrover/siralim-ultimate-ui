@@ -8,6 +8,7 @@ export function buildSearch<IResponse>(path: string) {
     size,
     sort_by,
     sort_direction,
+    q,
     filters,
   }: IQueryParams): Promise<IResponse> {
     const newFilters = filters.map((f) => {
@@ -17,10 +18,18 @@ export function buildSearch<IResponse>(path: string) {
         : value;
       return { ...f, value: newValue };
     });
+
+    const allNewFilters = [
+      ...newFilters,
+      ...(q
+        ? [{ value: `%${q}%`, comparator: "ilike", field: "full_text" }]
+        : []),
+    ];
+
     const body = {
       pagination: { page, size },
       sorting: { by: sort_by, direction: sort_direction },
-      filter: { filters: newFilters },
+      filter: { filters: allNewFilters },
     };
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/${path}/search`,

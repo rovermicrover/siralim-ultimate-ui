@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
@@ -13,9 +13,9 @@ interface IHeaderProps {
 }
 
 export default function Header({ isNavOpen, setIsNavOpen }: IHeaderProps) {
-  const toggleNav = useCallback(() => {
+  const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
-  }, [isNavOpen]);
+  };
   return (
     <AppBar
       position="fixed"

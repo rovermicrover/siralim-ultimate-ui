@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,8 +8,6 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import IconButton from "@mui/material/IconButton";
-import FilterListIcon from "@mui/icons-material/FilterList";
 
 import {
   useQueryParams,
@@ -21,6 +19,7 @@ import {
 import { buildQueryParamsMutators } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
+import SearchInput from "../components/SearchInput";
 import {
   IRaceModel,
   IRacesSearchSchema,
@@ -29,6 +28,7 @@ import {
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 import { IFieldToType } from "../components/filters/types";
+import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 
 const FIELDS_TO_LABELS: Record<string, string> = {
@@ -46,6 +46,7 @@ const queryParamsStructure = {
   size: withDefault(NumberParam, 25),
   sort_by: withDefault(StringParam, "name"),
   sort_direction: withDefault(StringParam, "asc"),
+  q: withDefault(StringParam, ""),
   filters: withDefault(JsonParam, []),
 };
 
@@ -76,6 +77,7 @@ export default function Races() {
     pageChange,
     sizeChange,
     reduceSort,
+    qChange,
     updateFilter,
     addFilter,
     removeFilter,
@@ -100,14 +102,14 @@ export default function Races() {
           <TableHead>
             <TableRow>
               <TableCell>
-                <IconButton
-                  color="inherit"
-                  aria-label="open filters"
-                  onClick={() => setIsFilterDrawerOpen(true)}
-                  edge="start"
-                >
-                  <FilterListIcon />
-                </IconButton>
+                <FilterButtons
+                  hasFilters={query.filters.length ? true : false}
+                  setIsFilterDrawerOpen={setIsFilterDrawerOpen}
+                  clearFilters={clearFilters}
+                />
+              </TableCell>
+              <TableCell>
+                <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
               <TablePagination
                 count={count}

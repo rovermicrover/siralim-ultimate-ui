@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import createPersistedState from "use-persisted-state";
-import MenuIcon from "@mui/icons-material/Menu";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";

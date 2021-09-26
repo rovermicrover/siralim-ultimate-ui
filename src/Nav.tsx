@@ -76,7 +76,7 @@ export default function Nav({
             to={`/${text.toLowerCase()}`}
           >
             <ListItemIcon>
-              <img src={icon} width={32} />
+              <img src={icon} width={32} alt={text} />
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
@@ -96,7 +96,11 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <img src={isDarkTheme ? GitDarkSvg : GitLightSvg} width={32} />
+            <img
+              src={isDarkTheme ? GitDarkSvg : GitLightSvg}
+              width={32}
+              alt="Source Code"
+            />
           </ListItemIcon>
           <ListItemText primary="Source Code" />
         </ListItem>
@@ -107,7 +111,7 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <img src={AuthorJpg} width={32} />
+            <img src={AuthorJpg} width={32} alt="Author" />
           </ListItemIcon>
           <ListItemText primary="Author" />
         </ListItem>
@@ -118,7 +122,7 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <img src={SteamJpg} width={32} />
+            <img src={SteamJpg} width={32} alt="Steam" />
           </ListItemIcon>
           <ListItemText primary="SU On Steam" />
         </ListItem>

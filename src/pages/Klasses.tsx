@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -26,6 +26,7 @@ const queryParamsStructure = {
   size: withDefault(NumberParam, 5),
   sort_by: withDefault(StringParam, "name"),
   sort_direction: withDefault(StringParam, "asc"),
+  q: withDefault(StringParam, ""),
   filters: withDefault(JsonParam, []),
 };
 

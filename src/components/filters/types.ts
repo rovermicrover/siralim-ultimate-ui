@@ -22,8 +22,6 @@ import {
   SpellIntFilterEnum,
   KlassIntFilterEnum,
   StatusEffectIntFilterEnum,
-  NumericFilterComparators,
-  StringFilterComparators,
 } from "../../lib/openAPI";
 
 export type StrFilterEnum =

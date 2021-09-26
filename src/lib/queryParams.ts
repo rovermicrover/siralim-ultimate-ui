@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { TAllFilters } from "../components/filters/types";
 
 import {
@@ -35,6 +34,7 @@ export interface IQueryParams {
   size: number;
   sort_by: string;
   sort_direction: string;
+  q: string;
   filters: IFilters[];
 }
 
@@ -52,67 +52,59 @@ export function buildQueryParamsMutators<IFilter extends TAllFilters>(
   query: IQueryParams,
   setQuery: (query: IQueryParams) => void
 ) {
-  const pageChange = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-      setQuery({ ...query, page: newPage });
-    },
-    [query]
-  );
+  const pageChange = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setQuery({ ...query, page: newPage });
+  };
 
-  const sizeChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setQuery({ ...query, size: parseInt(event.target.value), page: 0 });
-    },
-    [query]
-  );
+  const sizeChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setQuery({ ...query, size: parseInt(event.target.value), page: 0 });
+  };
 
-  const reduceSort = useCallback(
-    (sort: ISortAction) => {
-      setQuery({ ...query, ...sort });
-    },
-    [query]
-  );
+  const reduceSort = (sort: ISortAction) => {
+    setQuery({ ...query, ...sort });
+  };
 
-  const updateFilter = useCallback(
-    (index: number, filter: IFilter) => {
-      const { filters } = query;
-      const newFilters = [...filters];
-      newFilters[index] = filter;
-      setQuery({ ...query, filters: newFilters });
-    },
-    [query]
-  );
+  const qChange = (newQ: string) => {
+    setQuery({ ...query, q: newQ });
+  };
 
-  const addFilter = useCallback(
-    (filter: IFilter) => {
-      const { filters } = query;
-      const newFilters = [...filters];
-      newFilters.push(filter);
-      setQuery({ ...query, filters: newFilters });
-    },
-    [query]
-  );
+  const updateFilter = (index: number, filter: IFilter) => {
+    const { filters } = query;
+    const newFilters = [...filters];
+    newFilters[index] = filter;
+    setQuery({ ...query, filters: newFilters });
+  };
 
-  const removeFilter = useCallback(
-    (index: number) => {
-      const { filters } = query;
-      const newFilters = [
-        ...filters.slice(0, index),
-        ...filters.slice(index + 1, filters.length),
-      ];
-      setQuery({ ...query, filters: newFilters });
-    },
-    [query]
-  );
+  const addFilter = (filter: IFilter) => {
+    const { filters } = query;
+    const newFilters = [...filters];
+    newFilters.push(filter);
+    setQuery({ ...query, filters: newFilters });
+  };
 
-  const clearFilters = useCallback(() => {
+  const removeFilter = (index: number) => {
+    const { filters } = query;
+    const newFilters = [
+      ...filters.slice(0, index),
+      ...filters.slice(index + 1, filters.length),
+    ];
+    setQuery({ ...query, filters: newFilters });
+  };
+
+  const clearFilters = () => {
     setQuery({ ...query, filters: [] });
-  }, [query]);
+  };
 
   return {
     pageChange,
     sizeChange,
     reduceSort,
+    qChange,
     updateFilter,
     addFilter,
     removeFilter,

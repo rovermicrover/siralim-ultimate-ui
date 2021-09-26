@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -71,39 +71,30 @@ export default function FilterInput<IFilter extends TAllFilters>({
   const fields = Object.keys(fieldsToType);
   const fieldType = fieldsToType[filter.field];
   const comparitors = TYPE_TO_COMPARITORS[fieldType];
-  const handleFieldChange = useCallback(
-    (e: SelectChangeEvent<string>) => {
-      const newField = e.target.value;
-      const newValue = fieldsToType[newField] === "number" ? 1 : "";
-      const newComparator = fieldsToType[newField] === "number" ? ">=" : "==";
-      updateFilter(index, {
-        ...filter,
-        field: e.target.value,
-        comparator: newComparator,
-        value: newValue,
-      } as IFilter);
-    },
-    [index, filter, fieldsToType]
-  );
+  const handleFieldChange = (e: SelectChangeEvent<string>) => {
+    const newField = e.target.value;
+    const newValue = fieldsToType[newField] === "number" ? 1 : "";
+    const newComparator = fieldsToType[newField] === "number" ? ">=" : "==";
+    updateFilter(index, {
+      ...filter,
+      field: e.target.value,
+      comparator: newComparator,
+      value: newValue,
+    } as IFilter);
+  };
 
-  const handleComparitorChange = useCallback(
-    (e: SelectChangeEvent<string>) => {
-      updateFilter(index, { ...filter, comparator: e.target.value } as IFilter);
-    },
-    [index, filter]
-  );
+  const handleComparitorChange = (e: SelectChangeEvent<string>) => {
+    updateFilter(index, { ...filter, comparator: e.target.value } as IFilter);
+  };
 
-  const handleValueChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const targetValue = e.target.value;
-      const newValue =
-        fieldsToType[targetValue] === "number"
-          ? parseInt(targetValue)
-          : `${targetValue}`;
-      updateFilter(index, { ...filter, value: newValue } as IFilter);
-    },
-    [index, filter]
-  );
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const targetValue = e.target.value;
+    const newValue =
+      fieldsToType[targetValue] === "number"
+        ? parseInt(targetValue)
+        : `${targetValue}`;
+    updateFilter(index, { ...filter, value: newValue } as IFilter);
+  };
 
   return (
     <Paper elevation={2} sx={{ p: 2 }}>
