@@ -136,13 +136,12 @@ export default function Creatures() {
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
                   clearFilters={clearFilters}
                 />
-              </TableCell>
-              <TableCell>
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
               <TablePagination
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
@@ -160,39 +159,57 @@ export default function Creatures() {
                   reduceSort={reduceSort}
                 />
               ))}
-              <TableCell align="right">Tags</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {creatures.map((creature) => (
-              <TableRow key={creature.id}>
-                <TableCell component="th" scope="row">
-                  <img
-                    src={creature.battle_sprite}
-                    alt={`${creature.name} Battle Sprite`}
-                  />
-                </TableCell>
-                <TableCell align="center">{creature.name}</TableCell>
-                <TableCell align="center">
-                  <img
-                    src={creature.klass.icon}
-                    alt={`${creature.name} Klass Icon ${creature.klass.name}`}
-                  />
-                </TableCell>
-                <TableCell align="center">{creature.race.name}</TableCell>
-                <TableCell align="center">{creature.trait.name}</TableCell>
-                <TableCell align="center">{creature.health}</TableCell>
-                <TableCell align="center">{creature.attack}</TableCell>
-                <TableCell align="center">{creature.intelligence}</TableCell>
-                <TableCell align="center">{creature.defense}</TableCell>
-                <TableCell align="center">{creature.speed}</TableCell>
-                <TableCell align="right">
-                  <TagsPills
-                    tags={creature.trait.tags}
-                    justifyContent="flex-end"
-                  />
-                </TableCell>
-              </TableRow>
+              <React.Fragment key={creature.id}>
+                <TableRow
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
+                >
+                  <TableCell sx={{ width: "32px" }} scope="row">
+                    <img
+                      src={creature.battle_sprite}
+                      alt={`${creature.name} Battle Sprite`}
+                    />
+                  </TableCell>
+                  <TableCell align="center">{creature.name}</TableCell>
+                  <TableCell align="center">
+                    <img
+                      src={creature.klass.icon}
+                      alt={`${creature.name} Klass Icon ${creature.klass.name}`}
+                    />
+                  </TableCell>
+                  <TableCell align="center">{creature.race.name}</TableCell>
+                  <TableCell align="center">{creature.trait.name}</TableCell>
+                  <TableCell align="center">{creature.health}</TableCell>
+                  <TableCell align="center">{creature.attack}</TableCell>
+                  <TableCell align="center">{creature.intelligence}</TableCell>
+                  <TableCell align="center">{creature.defense}</TableCell>
+                  <TableCell align="center">{creature.speed}</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={
+                    creature.trait.tags.length > 0
+                      ? { "& > *": { borderBottom: "unset !important" } }
+                      : {}
+                  }
+                >
+                  <TableCell colSpan={10} style={{ paddingTop: 0 }}>
+                    {creature.trait.description}
+                  </TableCell>
+                </TableRow>
+                {creature.trait.tags.length > 0 && (
+                  <TableRow>
+                    <TableCell colSpan={10} style={{ paddingTop: 0 }}>
+                      <TagsPills
+                        tags={creature.trait.tags}
+                        justifyContent="flex-start"
+                      />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </React.Fragment>
             ))}
           </TableBody>
           <TableFooter>
@@ -201,6 +218,7 @@ export default function Creatures() {
                 style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}

@@ -107,13 +107,12 @@ export default function Races() {
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
                   clearFilters={clearFilters}
                 />
-              </TableCell>
-              <TableCell>
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
               <TablePagination
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
@@ -133,21 +132,28 @@ export default function Races() {
                 sort={query}
                 reduceSort={reduceSort}
               />
-              <TableCell align="right">Description</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {races.map((race) => (
-              <TableRow key={race.id}>
-                <TableCell>{race.name}</TableCell>
-                <TableCell align="center">
-                  <img
-                    src={race.default_klass.icon}
-                    alt={`${race.name} Default Klass Icon ${race.default_klass.name}`}
-                  />
-                </TableCell>
-                <TableCell align="right">{race.description}</TableCell>
-              </TableRow>
+              <React.Fragment key={race.id}>
+                <TableRow
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
+                >
+                  <TableCell>{race.name}</TableCell>
+                  <TableCell align="center">
+                    <img
+                      src={race.default_klass.icon}
+                      alt={`${race.name} Default Klass Icon ${race.default_klass.name}`}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={2} style={{ paddingTop: 0 }}>
+                    {race.description}
+                  </TableCell>
+                </TableRow>
+              </React.Fragment>
             ))}
           </TableBody>
           <TableFooter>
@@ -156,6 +162,7 @@ export default function Races() {
                 style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}

@@ -55,7 +55,7 @@ function App() {
             <Nav
               isDarkTheme={isDarkTheme}
               setIsDarkTheme={setIsDarkTheme}
-              drawerWidth={isNavOpen ? 240 : 64}
+              isNavOpen={isNavOpen}
             />
             <Box
               sx={{ flexGrow: 1, p: 3 }}

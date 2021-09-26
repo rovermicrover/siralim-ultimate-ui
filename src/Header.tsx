@@ -6,6 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import { Theme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface IHeaderProps {
   isNavOpen: boolean;
@@ -13,6 +15,9 @@ interface IHeaderProps {
 }
 
 export default function Header({ isNavOpen, setIsNavOpen }: IHeaderProps) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
+
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
@@ -30,7 +35,11 @@ export default function Header({ isNavOpen, setIsNavOpen }: IHeaderProps) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="h1" style={{ padding: "0.5em" }}>
+        <Typography
+          variant={isMd ? "h6" : "subtitle1"}
+          component="h1"
+          style={{ padding: "0.5em" }}
+        >
           Siralim Ultimate Unofficial Codex
         </Typography>
       </Toolbar>

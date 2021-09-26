@@ -36,7 +36,7 @@ const FIELDS_TO_LABELS: Record<string, string> = {
   category: "Category",
   turns: "Turns",
   leave_chance: "Leave Chance",
-  max_stacks: "Max Stacks",
+  max_stacks: "Stacks",
 };
 
 const FILTER_FIELDS_TO_TYPE: IFieldToType = {
@@ -110,26 +110,25 @@ export default function StatusEffects() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell colSpan={3}>
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
                   clearFilters={clearFilters}
                 />
-              </TableCell>
-              <TableCell>
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
               <TablePagination
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
               />
             </TableRow>
             <TableRow>
-              <TableCell>Icon</TableCell>
+              <TableCell></TableCell>
               <SortedTableHeader
                 field={"name"}
                 name={FIELDS_TO_LABELS["name"]}
@@ -163,27 +162,38 @@ export default function StatusEffects() {
                 sort={query}
                 reduceSort={reduceSort}
               />
-              <TableCell align="right">Description</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {statusEffects.map((statusEffect) => (
-              <TableRow key={statusEffect.id}>
-                <TableCell>
-                  <img
-                    src={statusEffect.icon}
-                    alt={`Status Effect Icon ${statusEffect.name}`}
-                  />
-                </TableCell>
-                <TableCell>{statusEffect.name}</TableCell>
-                <TableCell>{statusEffect.category}</TableCell>
-                <TableCell align="center">{statusEffect.turns}</TableCell>
-                <TableCell align="center">
-                  {statusEffect.leave_chance}
-                </TableCell>
-                <TableCell align="center">{statusEffect.max_stacks}</TableCell>
-                <TableCell align="right">{statusEffect.description}</TableCell>
-              </TableRow>
+              <React.Fragment key={statusEffect.id}>
+                <TableRow
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
+                >
+                  <TableCell>
+                    <img
+                      src={statusEffect.icon}
+                      alt={`Status Effect Icon ${statusEffect.name}`}
+                    />
+                  </TableCell>
+                  <TableCell>{statusEffect.name}</TableCell>
+                  <TableCell>{statusEffect.category}</TableCell>
+                  <TableCell align="center">{statusEffect.turns}</TableCell>
+                  <TableCell align="center">
+                    {statusEffect.leave_chance
+                      ? `${statusEffect.leave_chance}%`
+                      : ""}
+                  </TableCell>
+                  <TableCell align="center">
+                    {statusEffect.max_stacks}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={6} style={{ paddingTop: 0 }}>
+                    {statusEffect.description}
+                  </TableCell>
+                </TableRow>
+              </React.Fragment>
             ))}
           </TableBody>
           <TableFooter>
@@ -192,6 +202,7 @@ export default function StatusEffects() {
                 style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}

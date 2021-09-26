@@ -1,7 +1,6 @@
 import React from "react";
 
 import Drawer from "@mui/material/Drawer";
-import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import Link from "@mui/material/Link";
 import List from "@mui/material/List";
@@ -9,10 +8,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Switch from "@mui/material/Switch";
-
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { MuiRouterLink } from "./components/MuiRouterLink";
 
@@ -35,15 +35,20 @@ import SourceIcon from "@mui/icons-material/Source";
 interface INavProps {
   isDarkTheme: boolean;
   setIsDarkTheme: (isDarkTheme: boolean) => void;
-  drawerWidth: number;
+  isNavOpen: boolean;
 }
 
 export default function Nav({
   isDarkTheme,
   setIsDarkTheme,
-  drawerWidth,
+  isNavOpen,
 }: INavProps) {
   const themeText = isDarkTheme ? "Dark Theme" : "Light Theme";
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
+  const iconWidth = isMd ? 32 : 24;
+  const itemTextStyle = { lineHeight: `${iconWidth}px`, margin: "0px" };
+  const drawerWidth = isNavOpen ? 240 : iconWidth + 26;
 
   return (
     <Drawer
@@ -76,19 +81,11 @@ export default function Nav({
             to={`/${text.toLowerCase()}`}
           >
             <ListItemIcon>
-              <img src={icon} width={32} alt={text} />
+              <img src={icon} width={iconWidth} alt={text} />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={text} sx={itemTextStyle} />
           </ListItem>
         ))}
-      </List>
-      <Divider />
-      <List
-        sx={{
-          whiteSpace: "nowrap",
-          overflowX: "hidden",
-        }}
-      >
         <ListItem
           component={Link}
           href="https://github.com/rovermicrover/siralim-ultimate-ui"
@@ -98,11 +95,11 @@ export default function Nav({
           <ListItemIcon>
             <img
               src={isDarkTheme ? GitDarkSvg : GitLightSvg}
-              width={32}
+              width={iconWidth}
               alt="Source Code"
             />
           </ListItemIcon>
-          <ListItemText primary="Source Code" />
+          <ListItemText primary="Source Code" sx={itemTextStyle} />
         </ListItem>
         <ListItem
           component={Link}
@@ -111,9 +108,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <img src={AuthorJpg} width={32} alt="Author" />
+            <img src={AuthorJpg} width={iconWidth} alt="Author" />
           </ListItemIcon>
-          <ListItemText primary="Author" />
+          <ListItemText primary="Author" sx={itemTextStyle} />
         </ListItem>
         <ListItem
           component={Link}
@@ -122,9 +119,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <img src={SteamJpg} width={32} alt="Steam" />
+            <img src={SteamJpg} width={iconWidth} alt="Steam" />
           </ListItemIcon>
-          <ListItemText primary="SU On Steam" />
+          <ListItemText primary="SU On Steam" sx={itemTextStyle} />
         </ListItem>
         <ListItem
           component={Link}
@@ -133,9 +130,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <SourceIcon sx={{ fontSize: "36px" }} />
+            <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
           </ListItemIcon>
-          <ListItemText primary="Source 1" />
+          <ListItemText primary="Source 1" sx={itemTextStyle} />
         </ListItem>
         <ListItem
           component={Link}
@@ -144,9 +141,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <SourceIcon sx={{ fontSize: "36px" }} />
+            <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
           </ListItemIcon>
-          <ListItemText primary="Source 2" />
+          <ListItemText primary="Source 2" sx={itemTextStyle} />
         </ListItem>
         <ListItem
           component={Link}
@@ -155,9 +152,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon>
-            <SourceIcon sx={{ fontSize: "36px" }} />
+            <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
           </ListItemIcon>
-          <ListItemText primary="Source 3" />
+          <ListItemText primary="Source 3" sx={itemTextStyle} />
         </ListItem>
         <ListItem>
           <FormControl component="fieldset">
@@ -165,6 +162,7 @@ export default function Nav({
               <FormControlLabel
                 control={
                   <Switch
+                    size={isMd ? "medium" : "small"}
                     checked={isDarkTheme}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setIsDarkTheme(event.target.checked)

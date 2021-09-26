@@ -113,13 +113,12 @@ export default function Spells() {
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
                   clearFilters={clearFilters}
                 />
-              </TableCell>
-              <TableCell>
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
               <TablePagination
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
@@ -147,28 +146,47 @@ export default function Spells() {
                 sort={query}
                 reduceSort={reduceSort}
               />
-              <TableCell align="center">Source</TableCell>
-              <TableCell align="center">Description</TableCell>
-              <TableCell align="right">Tags</TableCell>
+              <TableCell align="right">Source</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {spells.map((spell) => (
-              <TableRow key={spell.id}>
-                <TableCell>{spell.name}</TableCell>
-                <TableCell align="center">
-                  <img
-                    src={spell.klass.icon}
-                    alt={`${spell.name} Klass Icon ${spell.klass.name}`}
-                  />
-                </TableCell>
-                <TableCell align="center">{spell.charges}</TableCell>
-                <TableCell align="center">{spell.source.name}</TableCell>
-                <TableCell align="center">{spell.description}</TableCell>
-                <TableCell align="right">
-                  <TagsPills tags={spell.tags} justifyContent="flex-end" />
-                </TableCell>
-              </TableRow>
+              <React.Fragment key={spell.id}>
+                <TableRow
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
+                >
+                  <TableCell>{spell.name}</TableCell>
+                  <TableCell align="center">
+                    <img
+                      src={spell.klass.icon}
+                      alt={`${spell.name} Klass Icon ${spell.klass.name}`}
+                    />
+                  </TableCell>
+                  <TableCell align="center">{spell.charges}</TableCell>
+                  <TableCell align="right">{spell.source.name}</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={
+                    spell.tags.length > 0
+                      ? { "& > *": { borderBottom: "unset !important" } }
+                      : {}
+                  }
+                >
+                  <TableCell colSpan={4} style={{ paddingTop: 0 }}>
+                    {spell.description}
+                  </TableCell>
+                </TableRow>
+                {spell.tags.length > 0 && (
+                  <TableRow>
+                    <TableCell colSpan={4} style={{ paddingTop: 0 }}>
+                      <TagsPills
+                        tags={spell.tags}
+                        justifyContent="flex-start"
+                      />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </React.Fragment>
             ))}
           </TableBody>
           <TableFooter>
@@ -177,6 +195,7 @@ export default function Spells() {
                 style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}

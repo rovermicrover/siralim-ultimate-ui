@@ -111,13 +111,12 @@ export default function Traits() {
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
                   clearFilters={clearFilters}
                 />
-              </TableCell>
-              <TableCell>
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
               <TablePagination
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
@@ -125,33 +124,51 @@ export default function Traits() {
             </TableRow>
             <TableRow>
               <SortedTableHeader
-                align="left"
                 field={"name"}
                 name={"Name"}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
-                align="left"
+                align="center"
                 field={"material_name"}
                 name={"Material Name"}
                 sort={query}
                 reduceSort={reduceSort}
               />
-              <TableCell align="center">Description</TableCell>
-              <TableCell align="right">Tags</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {traits.map((trait) => (
-              <TableRow key={trait.id}>
-                <TableCell>{trait.name}</TableCell>
-                <TableCell>{trait.material_name}</TableCell>
-                <TableCell align="center">{trait.description}</TableCell>
-                <TableCell align="right">
-                  <TagsPills tags={trait.tags} justifyContent="flex-end" />
-                </TableCell>
-              </TableRow>
+              <React.Fragment key={trait.id}>
+                <TableRow
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
+                >
+                  <TableCell>{trait.name}</TableCell>
+                  <TableCell align="center">{trait.material_name}</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={
+                    trait.tags.length
+                      ? { "& > *": { borderBottom: "unset !important" } }
+                      : {}
+                  }
+                >
+                  <TableCell colSpan={2} style={{ paddingTop: 0 }}>
+                    {trait.description}
+                  </TableCell>
+                </TableRow>
+                {trait.tags.length > 0 && (
+                  <TableRow>
+                    <TableCell colSpan={2} style={{ paddingTop: 0 }}>
+                      <TagsPills
+                        tags={trait.tags}
+                        justifyContent="flex-start"
+                      />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </React.Fragment>
             ))}
           </TableBody>
           <TableFooter>
@@ -160,6 +177,7 @@ export default function Traits() {
                 style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
                 count={count}
                 page={query.page}
+                labelRowsPerPage="Num: "
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
