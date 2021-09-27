@@ -53,6 +53,10 @@ Runs [eslint](https://eslint.org/) against the src folder.
 
 Runs [prettier](https://prettier.io/) against the src folder and auto fixes what it can.
 
+### `npm format-check`
+
+Runs [prettier](https://prettier.io/) against the src folder and returns zero if it fails.
+
 ### `npm serve`
 
 Runs [serve](https://github.com/vercel/serve#readme) which will serve up the static build folder. Used for production deploy.

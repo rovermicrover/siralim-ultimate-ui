@@ -12,6 +12,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "format": "prettier 'src/**/*.{ts,tsx}' --write",
+    "format-check": "prettier 'src/**/*.{ts,tsx}'",
     "serve": "serve -s build"
   },
   "eslintConfig": {
