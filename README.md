@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# Siralim Ultimate UI
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## How To Dev / Test
+
+See [rovermicrover/siralim-ultimate-dev](https://github.com/rovermicrover/siralim-ultimate-dev) which allows for easy deving/testing via docker-compose all of parts of this projet.
+
+Also runs everything similar to production, even with NGINX, so no "It worked on my box" type issues.
 
 ## Available Scripts
 
@@ -39,8 +45,14 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### `npm lint`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Runs [eslint](https://eslint.org/) against the src folder.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### `npm format`
+
+Runs [prettier](https://prettier.io/) against the src folder and auto fixes what it can.
+
+### `npm serve`
+
+Runs [serve](https://github.com/vercel/serve#readme) which will serve up the static build folder. Used for production deploy.
