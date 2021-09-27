@@ -108,6 +108,7 @@ export default function Nav({
           ],
         ].map(([text, url, img]) => (
           <ListItem
+            key={text}
             component={Link}
             href={url}
             target="_blank"
@@ -137,6 +138,7 @@ export default function Nav({
           ],
         ].map(([text, url]) => (
           <ListItem
+            key={text}
             component={Link}
             href={url}
             target="_blank"
