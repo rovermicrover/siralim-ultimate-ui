@@ -2,6 +2,7 @@ import React from "react";
 
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
+import { Tooltip } from "@mui/material";
 import Link from "@mui/material/Link";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -80,9 +81,11 @@ export default function Nav({
             component={MuiRouterLink}
             to={`/${text.toLowerCase()}`}
           >
-            <ListItemIcon aria-hidden="true">
-              <img src={icon} width={iconWidth} alt={text} />
-            </ListItemIcon>
+              <ListItemIcon aria-hidden="true">
+                <Tooltip title={isNavOpen ? '' : text} describeChild arrow placement="right">
+                  <img src={icon} width={iconWidth} alt={text} />
+                </Tooltip>
+              </ListItemIcon>
             <ListItemText primary={text} sx={itemTextStyle} />
           </ListItem>
         ))}
@@ -92,13 +95,15 @@ export default function Nav({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ListItemIcon aria-hidden="true">
-            <img
-              src={isDarkTheme ? GitDarkSvg : GitLightSvg}
-              width={iconWidth}
-              alt="Source Code"
-            />
-          </ListItemIcon>
+            <ListItemIcon aria-hidden="true">
+              <Tooltip title={isNavOpen ? '' : "Source Code"} arrow placement="right">
+                <img
+                  src={isDarkTheme ? GitDarkSvg : GitLightSvg}
+                  width={iconWidth}
+                  alt="Source Code"
+              />
+          </Tooltip>
+            </ListItemIcon>
           <ListItemText primary="Source Code" sx={itemTextStyle} />
         </ListItem>
         <ListItem
@@ -108,7 +113,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon aria-hidden="true">
-            <img src={AuthorJpg} width={iconWidth} alt="Author" />
+          <Tooltip title={isNavOpen ? '' : "Author"} arrow placement="right">
+              <img src={AuthorJpg} width={iconWidth} alt="Author" />
+            </Tooltip>
           </ListItemIcon>
           <ListItemText primary="Author" sx={itemTextStyle} />
         </ListItem>
@@ -119,7 +126,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon aria-hidden="true">
-            <img src={SteamJpg} width={iconWidth} alt="Steam" />
+          <Tooltip title={isNavOpen ? '' : "SU On Steam"} arrow placement="right">
+              <img src={SteamJpg} width={iconWidth} alt="Steam" />
+            </Tooltip>
           </ListItemIcon>
           <ListItemText primary="SU On Steam" sx={itemTextStyle} />
         </ListItem>
@@ -130,7 +139,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon aria-hidden="true">
-            <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
+            <Tooltip title={isNavOpen ? '' : "Source 1"} arrow placement="right">
+              <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
+            </Tooltip>
           </ListItemIcon>
           <ListItemText primary="Source 1" sx={itemTextStyle} />
         </ListItem>
@@ -141,7 +152,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon aria-hidden="true">
-            <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
+            <Tooltip title={isNavOpen ? '' : "Source 2"} arrow placement="right">
+              <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
+            </Tooltip>
           </ListItemIcon>
           <ListItemText primary="Source 2" sx={itemTextStyle} />
         </ListItem>
@@ -152,7 +165,9 @@ export default function Nav({
           rel="noopener noreferrer"
         >
           <ListItemIcon aria-hidden="true">
-            <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
+            <Tooltip title={isNavOpen ? '' : "Source 3"} arrow placement="right">
+              <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
+            </Tooltip>
           </ListItemIcon>
           <ListItemText primary="Source 3" sx={itemTextStyle} />
         </ListItem>
