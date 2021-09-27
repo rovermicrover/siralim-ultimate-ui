@@ -110,7 +110,7 @@ export default function StatusEffects() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell colSpan={3}>
+              <TableCell colSpan={6}>
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
@@ -118,6 +118,8 @@ export default function StatusEffects() {
                 />
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
+            </TableRow>
+            <TableRow>
               <TablePagination
                 count={count}
                 page={query.page}

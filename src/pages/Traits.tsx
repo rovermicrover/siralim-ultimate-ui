@@ -105,7 +105,7 @@ export default function Traits() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell colSpan={2}>
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
@@ -113,6 +113,8 @@ export default function Traits() {
                 />
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
+            </TableRow>
+            <TableRow>
               <TablePagination
                 count={count}
                 page={query.page}
@@ -161,10 +163,7 @@ export default function Traits() {
                 {trait.tags.length > 0 && (
                   <TableRow>
                     <TableCell colSpan={2} style={{ paddingTop: 0 }}>
-                      <TagsPills
-                        tags={trait.tags}
-                        justifyContent="flex-start"
-                      />
+                      <TagsPills tags={trait.tags} />
                     </TableCell>
                   </TableRow>
                 )}

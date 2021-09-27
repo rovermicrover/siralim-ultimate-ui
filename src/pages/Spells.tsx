@@ -107,7 +107,7 @@ export default function Spells() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell colSpan={2}>
+              <TableCell colSpan={4}>
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
@@ -115,6 +115,8 @@ export default function Spells() {
                 />
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
+            </TableRow>
+            <TableRow>
               <TablePagination
                 count={count}
                 page={query.page}
@@ -180,10 +182,7 @@ export default function Spells() {
                 {spell.tags.length > 0 && (
                   <TableRow>
                     <TableCell colSpan={4} style={{ paddingTop: 0 }}>
-                      <TagsPills
-                        tags={spell.tags}
-                        justifyContent="flex-start"
-                      />
+                      <TagsPills tags={spell.tags} />
                     </TableCell>
                   </TableRow>
                 )}

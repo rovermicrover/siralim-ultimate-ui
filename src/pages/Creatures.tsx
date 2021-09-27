@@ -130,7 +130,7 @@ export default function Creatures() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell colSpan={3}>
+              <TableCell colSpan={10}>
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
@@ -138,6 +138,8 @@ export default function Creatures() {
                 />
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
+            </TableRow>
+            <TableRow>
               <TablePagination
                 count={count}
                 page={query.page}
@@ -203,10 +205,7 @@ export default function Creatures() {
                 {creature.trait.tags.length > 0 && (
                   <TableRow>
                     <TableCell colSpan={10} style={{ paddingTop: 0 }}>
-                      <TagsPills
-                        tags={creature.trait.tags}
-                        justifyContent="flex-start"
-                      />
+                      <TagsPills tags={creature.trait.tags} />
                     </TableCell>
                   </TableRow>
                 )}

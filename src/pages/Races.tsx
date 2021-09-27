@@ -101,7 +101,7 @@ export default function Races() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell colSpan={2}>
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
@@ -109,6 +109,8 @@ export default function Races() {
                 />
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
+            </TableRow>
+            <TableRow>
               <TablePagination
                 count={count}
                 page={query.page}
@@ -143,6 +145,7 @@ export default function Races() {
                   <TableCell>{race.name}</TableCell>
                   <TableCell align="center">
                     <img
+                      width={32}
                       src={race.default_klass.icon}
                       alt={`${race.name} Default Klass Icon ${race.default_klass.name}`}
                     />

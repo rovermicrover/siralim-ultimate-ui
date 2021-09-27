@@ -43,7 +43,6 @@ export default function Nav({
   setIsDarkTheme,
   isNavOpen,
 }: INavProps) {
-  const themeText = isDarkTheme ? "Dark Theme" : "Light Theme";
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const iconWidth = isMd ? 32 : 24;
@@ -162,7 +161,7 @@ export default function Nav({
               <FormControlLabel
                 control={
                   <Switch
-                    inputProps={{ role: 'switch' }}
+                    inputProps={{ role: "switch" }}
                     size={isMd ? "medium" : "small"}
                     checked={isDarkTheme}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
