@@ -2,6 +2,7 @@ import React from "react";
 
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
+import { Tooltip } from "@mui/material";
 import Link from "@mui/material/Link";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -80,81 +81,77 @@ export default function Nav({
             to={`/${text.toLowerCase()}`}
           >
             <ListItemIcon aria-hidden="true">
-              <img src={icon} width={iconWidth} alt={text} />
+              <Tooltip
+                title={isNavOpen ? "" : text}
+                describeChild
+                arrow
+                placement="right"
+              >
+                <img src={icon} width={iconWidth} alt={text} />
+              </Tooltip>
             </ListItemIcon>
             <ListItemText primary={text} sx={itemTextStyle} />
           </ListItem>
         ))}
-        <ListItem
-          component={Link}
-          href="https://github.com/rovermicrover/siralim-ultimate-ui"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <ListItemIcon aria-hidden="true">
-            <img
-              src={isDarkTheme ? GitDarkSvg : GitLightSvg}
-              width={iconWidth}
-              alt="Source Code"
-            />
-          </ListItemIcon>
-          <ListItemText primary="Source Code" sx={itemTextStyle} />
-        </ListItem>
-        <ListItem
-          component={Link}
-          href="https://github.com/rovermicrover/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <ListItemIcon aria-hidden="true">
-            <img src={AuthorJpg} width={iconWidth} alt="Author" />
-          </ListItemIcon>
-          <ListItemText primary="Author" sx={itemTextStyle} />
-        </ListItem>
-        <ListItem
-          component={Link}
-          href="https://store.steampowered.com/app/1289810/Siralim_Ultimate/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <ListItemIcon aria-hidden="true">
-            <img src={SteamJpg} width={iconWidth} alt="Steam" />
-          </ListItemIcon>
-          <ListItemText primary="SU On Steam" sx={itemTextStyle} />
-        </ListItem>
-        <ListItem
-          component={Link}
-          href="https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <ListItemIcon aria-hidden="true">
-            <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
-          </ListItemIcon>
-          <ListItemText primary="Source 1" sx={itemTextStyle} />
-        </ListItem>
-        <ListItem
-          component={Link}
-          href="https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <ListItemIcon aria-hidden="true">
-            <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
-          </ListItemIcon>
-          <ListItemText primary="Source 2" sx={itemTextStyle} />
-        </ListItem>
-        <ListItem
-          component={Link}
-          href="https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <ListItemIcon aria-hidden="true">
-            <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
-          </ListItemIcon>
-          <ListItemText primary="Source 3" sx={itemTextStyle} />
-        </ListItem>
+        {[
+          [
+            "Source Code",
+            "https://github.com/rovermicrover/siralim-ultimate-ui",
+            isDarkTheme ? GitDarkSvg : GitLightSvg,
+          ],
+          ["Author", "https://github.com/rovermicrover/", AuthorJpg],
+          [
+            "SU on Steam",
+            "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
+            SteamJpg,
+          ],
+        ].map(([text, url, img]) => (
+          <ListItem
+            key={text}
+            component={Link}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ListItemIcon aria-hidden="true">
+              <Tooltip title={isNavOpen ? "" : text} arrow placement="right">
+                <img src={img} width={iconWidth} alt={text} />
+              </Tooltip>
+            </ListItemIcon>
+            <ListItemText primary={text} sx={itemTextStyle} />
+          </ListItem>
+        ))}
+
+        {[
+          [
+            "Source 1",
+            "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
+          ],
+          [
+            "Source 2",
+            "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0",
+          ],
+          [
+            "Source 3",
+            "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0",
+          ],
+        ].map(([text, url]) => (
+          <ListItem
+            key={text}
+            component={Link}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ListItemIcon aria-hidden="true">
+              <Tooltip title={isNavOpen ? "" : text} arrow placement="right">
+                <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
+              </Tooltip>
+            </ListItemIcon>
+            <ListItemText primary={text} sx={itemTextStyle} />
+          </ListItem>
+        ))}
+
         <ListItem>
           <FormControl component="fieldset">
             <FormGroup>
