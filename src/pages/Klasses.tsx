@@ -58,7 +58,7 @@ export default function Klasses() {
   );
 
   return (
-    <TableContainer style={{ maxHeight: "100%" }} component={Paper}>
+    <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
       <Table stickyHeader>
         <TableHead>
           <TableRow>

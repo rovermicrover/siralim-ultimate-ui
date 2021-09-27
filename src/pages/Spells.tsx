@@ -103,11 +103,11 @@ export default function Spells() {
         fieldsToType={FILTER_FIELDS_TO_TYPE}
         fieldsToLabel={FIELDS_TO_LABELS}
       />
-      <TableContainer style={{ maxHeight: "100%" }} component={Paper}>
+      <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell colSpan={4}>
+              <TableCell colSpan={4} sx={{ paddingTop: "10px", paddingBottom: "10px" }}>
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
