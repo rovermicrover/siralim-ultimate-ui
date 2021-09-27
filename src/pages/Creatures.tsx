@@ -8,6 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import {
   useQueryParams,
@@ -42,6 +44,18 @@ const FIELDS_TO_LABELS: Record<string, string> = {
   intelligence: "Intelligence",
   defense: "Defense",
   speed: "Speed",
+};
+
+const FIELDS_TO_ABBR: Record<string, string> = {
+  name: "Name",
+  klass_name: "Class",
+  race_name: "Race",
+  trait_name: "Trait",
+  health: "HP",
+  attack: "ATK",
+  intelligence: "INT",
+  defense: "DEF",
+  speed: "SPD",
 };
 
 const FILTER_FIELDS_TO_TYPE: IFieldToType = {
@@ -84,6 +98,9 @@ export default function Creatures() {
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
+
+  const theme = useTheme();
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
   useEffect(() => {
     fetchCreatures(query).then((response: ICreaturesSearchSchema) => {
@@ -159,7 +176,7 @@ export default function Creatures() {
                   align="center"
                   key={field}
                   field={field}
-                  name={FIELDS_TO_LABELS[field]}
+                  name={isLg ? FIELDS_TO_LABELS[field] : FIELDS_TO_ABBR[field]}
                   sort={query}
                   reduceSort={reduceSort}
                 />
