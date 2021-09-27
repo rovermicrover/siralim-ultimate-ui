@@ -81,60 +81,75 @@ export default function Nav({
             component={MuiRouterLink}
             to={`/${text.toLowerCase()}`}
           >
-              <ListItemIcon aria-hidden="true">
-                <Tooltip title={isNavOpen ? '' : text} describeChild arrow placement="right">
-                  <img src={icon} width={iconWidth} alt={text} />
-                </Tooltip>
-              </ListItemIcon>
+            <ListItemIcon aria-hidden="true">
+              <Tooltip
+                title={isNavOpen ? "" : text}
+                describeChild
+                arrow
+                placement="right"
+              >
+                <img src={icon} width={iconWidth} alt={text} />
+              </Tooltip>
+            </ListItemIcon>
             <ListItemText primary={text} sx={itemTextStyle} />
           </ListItem>
         ))}
-        {
+        {[
           [
-            ["Source Code", "https://github.com/rovermicrover/siralim-ultimate-ui", isDarkTheme ? GitDarkSvg : GitLightSvg],
-            ["Author", "https://github.com/rovermicrover/", AuthorJpg],
-            ["SU on Steam", "https://store.steampowered.com/app/1289810/Siralim_Ultimate/", SteamJpg],
-          ].map(([text, url, img]) => (
-        <ListItem
-          component={Link}
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-            <ListItemIcon aria-hidden="true">
-              <Tooltip title={isNavOpen ? '' : text} arrow placement="right">
-                <img
-                  src={img}
-                  width={iconWidth}
-                  alt={text}
-              />
-          </Tooltip>
-            </ListItemIcon>
-          <ListItemText primary={text} sx={itemTextStyle} />
-        </ListItem>
-        ))
-        }
-
-{
+            "Source Code",
+            "https://github.com/rovermicrover/siralim-ultimate-ui",
+            isDarkTheme ? GitDarkSvg : GitLightSvg,
+          ],
+          ["Author", "https://github.com/rovermicrover/", AuthorJpg],
           [
-            ["Source 1", "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0"],
-            ["Source 2", "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0"],
-            ["Source 3", "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0"],
-          ].map(([text, url]) => (
-            <ListItem
+            "SU on Steam",
+            "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
+            SteamJpg,
+          ],
+        ].map(([text, url, img]) => (
+          <ListItem
             component={Link}
             href={url}
             target="_blank"
             rel="noopener noreferrer"
           >
             <ListItemIcon aria-hidden="true">
-              <Tooltip title={isNavOpen ? '' : text} arrow placement="right">
+              <Tooltip title={isNavOpen ? "" : text} arrow placement="right">
+                <img src={img} width={iconWidth} alt={text} />
+              </Tooltip>
+            </ListItemIcon>
+            <ListItemText primary={text} sx={itemTextStyle} />
+          </ListItem>
+        ))}
+
+        {[
+          [
+            "Source 1",
+            "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
+          ],
+          [
+            "Source 2",
+            "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0",
+          ],
+          [
+            "Source 3",
+            "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0",
+          ],
+        ].map(([text, url]) => (
+          <ListItem
+            component={Link}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ListItemIcon aria-hidden="true">
+              <Tooltip title={isNavOpen ? "" : text} arrow placement="right">
                 <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
               </Tooltip>
             </ListItemIcon>
             <ListItemText primary={text} sx={itemTextStyle} />
           </ListItem>
-          ))}
+        ))}
 
         <ListItem>
           <FormControl component="fieldset">
@@ -142,7 +157,7 @@ export default function Nav({
               <FormControlLabel
                 control={
                   <Switch
-                    inputProps={{ role: 'switch' }}
+                    inputProps={{ role: "switch" }}
                     size={isMd ? "medium" : "small"}
                     checked={isDarkTheme}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
