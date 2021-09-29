@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { SkipNavLink, SkipNavContent } from "@reach/skip-nav";
+import "@reach/skip-nav/styles.css";
+
 import "./App.css";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,6 +20,7 @@ import Spells from "./pages/Spells";
 import Klasses from "./pages/Klasses";
 import Races from "./pages/Races";
 import StatusEffects from "./pages/StatusEffects";
+
 
 const lightTheme = createTheme({
   palette: {
@@ -48,6 +52,7 @@ function App() {
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <CssBaseline />
+      <SkipNavLink id="skip" data-testid="skip-link" />
       <Router>
         <QueryParamProvider ReactRouterRoute={Route}>
           <Box sx={{ display: "flex" }}>
@@ -67,13 +72,14 @@ function App() {
                 overflow: "auto",
               }}
             >
-              <div
+              <main data-testid="main"
                 style={{
                   width: "100%",
                   paddingTop: "84px",
                   paddingBottom: "24px",
                 }}
               >
+              <SkipNavContent data-testid="content" />
                 <Switch>
                   <Route path="/creatures">
                     <Creatures />
@@ -94,7 +100,7 @@ function App() {
                     <StatusEffects />
                   </Route>
                 </Switch>
-              </div>
+              </main>
             </Box>
           </Box>
         </QueryParamProvider>
