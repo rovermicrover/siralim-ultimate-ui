@@ -3,3 +3,8 @@ img {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
+
+/* Make skip navigation link visible above the header when focused */
+#skip {
+  z-index: 9999;
+}
