@@ -6,6 +6,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 
+function searchTypeFromUrl(pathname: string): string {
+  return pathname.replaceAll("-", " ").replaceAll("/", "");
+}
+
 interface ISearchInputProps {
   q: string;
   qChange: (newQ: string) => void;
@@ -14,7 +18,8 @@ interface ISearchInputProps {
 export default function SearchInput({ q, qChange }: ISearchInputProps) {
   const location = useLocation();
   const pathname = location.pathname;
-  const searchType = pathname.replaceAll("/", "").replaceAll("-", " ");
+
+  const searchType = searchTypeFromUrl(pathname);
   const SearchLabelText = `Search ${searchType}`;
 
   return (
