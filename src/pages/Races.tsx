@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import Typography from "@mui/material/Typography";
 
 import {
   useQueryParams,
@@ -102,7 +103,7 @@ export default function Races() {
           <TableHead>
             <TableRow>
               <TableCell
-                colSpan={3}
+                colSpan={2}
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
                 <FilterButtons
@@ -124,7 +125,6 @@ export default function Races() {
               />
             </TableRow>
             <TableRow>
-              <TableCell>Icon</TableCell>
               <SortedTableHeader
                 field={"name"}
                 name={FIELDS_TO_LABELS["name"]}
@@ -152,14 +152,27 @@ export default function Races() {
                       width="32"
                       alt={`Race Icon ${race.name}`}
                     />
+                    <Typography
+                      variant="subtitle1"
+                      gutterBottom
+                      component="div"
+                    >
+                      {race.name}
+                    </Typography>
                   </TableCell>
-                  <TableCell>{race.name}</TableCell>
                   <TableCell align="center">
                     <img
                       width={32}
                       src={race.default_klass.icon}
                       alt={`${race.name} Default Klass Icon ${race.default_klass.name}`}
                     />
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      component="div"
+                    >
+                      {race.default_klass.name}
+                    </Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>

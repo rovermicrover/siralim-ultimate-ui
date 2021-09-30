@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import Typography from "@mui/material/Typography";
 
 import {
   useQueryParams,
@@ -167,6 +168,13 @@ export default function Spells() {
                       width="32"
                       alt={`${spell.name} Klass Icon ${spell.klass.name}`}
                     />
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      component="div"
+                    >
+                      {spell.klass.name}
+                    </Typography>
                   </TableCell>
                   <TableCell align="center">{spell.charges}</TableCell>
                   <TableCell align="right">{spell.source.name}</TableCell>

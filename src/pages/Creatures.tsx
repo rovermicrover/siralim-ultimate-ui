@@ -148,7 +148,7 @@ export default function Creatures() {
           <TableHead>
             <TableRow>
               <TableCell
-                colSpan={9}
+                colSpan={8}
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
                 <FilterButtons
@@ -170,7 +170,6 @@ export default function Creatures() {
               />
             </TableRow>
             <TableRow>
-              <TableCell>Sprite</TableCell>
               {SORTABLE_FIELDS.map((field) => (
                 <SortedTableHeader
                   align="center"
@@ -189,29 +188,44 @@ export default function Creatures() {
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
-                  <TableCell sx={{ width: "32px" }} scope="row">
+                  <TableCell align="center" sx={{ width: "32px" }} scope="row">
                     <img
                       src={creature.battle_sprite}
                       alt={`${creature.name} Battle Sprite`}
+                      aria-hidden="true"
                     />
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      component="div"
+                    >
+                      {creature.name}
+                    </Typography>
                   </TableCell>
-                  <TableCell align="center">{creature.name}</TableCell>
                   <TableCell align="center">
                     <img
                       src={creature.klass.icon}
                       width="32"
                       alt={`${creature.name} Klass Icon ${creature.klass.name}`}
+                      aria-hidden="true"
                     />
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      component="div"
+                    >
+                      {creature.klass.name}
+                    </Typography>
                   </TableCell>
                   <TableCell align="center">
                     <img
                       src={creature.race.icon}
                       width="32"
                       alt={`${creature.name} Race Icon ${creature.race.name}`}
+                      aria-hidden="true"
                     />
-                    <br />
                     <Typography
-                      variant="subtitle1"
+                      variant="subtitle2"
                       gutterBottom
                       component="div"
                     >
@@ -242,7 +256,7 @@ export default function Creatures() {
                 </TableRow>
                 {creature.trait.tags.length > 0 && (
                   <TableRow>
-                    <TableCell colSpan={9} style={{ paddingTop: 0 }}>
+                    <TableCell colSpan={8} style={{ paddingTop: 0 }}>
                       <TagsPills tags={creature.trait.tags} />
                     </TableCell>
                   </TableRow>

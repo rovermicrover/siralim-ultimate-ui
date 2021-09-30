@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import Typography from "@mui/material/Typography";
 
 import {
   useQueryParams,
@@ -72,7 +73,6 @@ export default function Klasses() {
             />
           </TableRow>
           <TableRow>
-            <TableCell>Icon</TableCell>
             <SortedTableHeader
               field={"name"}
               name={"Name"}
@@ -90,9 +90,12 @@ export default function Klasses() {
                   src={klass.icon}
                   width="32"
                   alt={`Klass Icon ${klass.name}`}
+                  aria-hidden="true"
                 />
+                <Typography variant="subtitle2" gutterBottom component="div">
+                  {klass.name}
+                </Typography>
               </TableCell>
-              <TableCell>{klass.name}</TableCell>
               <TableCell align="right">{klass.description}</TableCell>
             </TableRow>
           ))}

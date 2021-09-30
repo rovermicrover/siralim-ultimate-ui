@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import Typography from "@mui/material/Typography";
 
 import {
   useQueryParams,
@@ -111,7 +112,7 @@ export default function StatusEffects() {
           <TableHead>
             <TableRow>
               <TableCell
-                colSpan={6}
+                colSpan={5}
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
                 <FilterButtons
@@ -133,7 +134,6 @@ export default function StatusEffects() {
               />
             </TableRow>
             <TableRow>
-              <TableCell></TableCell>
               <SortedTableHeader
                 field={"name"}
                 name={FIELDS_TO_LABELS["name"]}
@@ -181,8 +181,14 @@ export default function StatusEffects() {
                       src={statusEffect.icon}
                       alt={`Status Effect Icon ${statusEffect.name}`}
                     />
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      component="div"
+                    >
+                      {statusEffect.name}
+                    </Typography>
                   </TableCell>
-                  <TableCell>{statusEffect.name}</TableCell>
                   <TableCell>{statusEffect.category}</TableCell>
                   <TableCell align="center">{statusEffect.turns}</TableCell>
                   <TableCell align="center">
@@ -195,7 +201,7 @@ export default function StatusEffects() {
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell colSpan={6} style={{ paddingTop: 0 }}>
+                  <TableCell colSpan={5} style={{ paddingTop: 0 }}>
                     {statusEffect.description}
                   </TableCell>
                 </TableRow>
