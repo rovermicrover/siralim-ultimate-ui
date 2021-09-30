@@ -180,6 +180,7 @@ export default function StatusEffects() {
                       width="32"
                       src={statusEffect.icon}
                       alt={`Status Effect Icon ${statusEffect.name}`}
+                      aria-hidden="true"
                     />
                     <Typography
                       variant="subtitle2"

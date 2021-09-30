@@ -167,6 +167,7 @@ export default function Spells() {
                       src={spell.klass.icon}
                       width="32"
                       alt={`${spell.name} Klass Icon ${spell.klass.name}`}
+                      aria-hidden="true"
                     />
                     <Typography
                       variant="subtitle2"

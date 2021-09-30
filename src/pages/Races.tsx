@@ -151,6 +151,7 @@ export default function Races() {
                       src={race.icon}
                       width="32"
                       alt={`Race Icon ${race.name}`}
+                      aria-hidden="true"
                     />
                     <Typography
                       variant="subtitle1"
@@ -165,6 +166,7 @@ export default function Races() {
                       width={32}
                       src={race.default_klass.icon}
                       alt={`${race.name} Default Klass Icon ${race.default_klass.name}`}
+                      aria-hidden="true"
                     />
                     <Typography
                       variant="subtitle2"
