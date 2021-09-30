@@ -75,7 +75,6 @@ const SORTABLE_FIELDS = [
   "name",
   "klass_name",
   "race_name",
-  "trait_name",
   "health",
   "attack",
   "intelligence",
@@ -149,7 +148,7 @@ export default function Creatures() {
           <TableHead>
             <TableRow>
               <TableCell
-                colSpan={10}
+                colSpan={9}
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
                 <FilterButtons
@@ -219,7 +218,6 @@ export default function Creatures() {
                       {creature.race.name}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">{creature.trait.name}</TableCell>
                   <TableCell align="center">{creature.health}</TableCell>
                   <TableCell align="center">{creature.attack}</TableCell>
                   <TableCell align="center">{creature.intelligence}</TableCell>
@@ -233,13 +231,18 @@ export default function Creatures() {
                       : {}
                   }
                 >
-                  <TableCell colSpan={10} style={{ paddingTop: 0 }}>
-                    {creature.trait.description}
+                  <TableCell colSpan={9} style={{ paddingTop: 0 }}>
+                    <Typography variant="subtitle2" component="div">
+                      Trait: {creature.trait.name}
+                    </Typography>
+                    <Typography variant="body2" component="div">
+                      {creature.trait.description}
+                    </Typography>
                   </TableCell>
                 </TableRow>
                 {creature.trait.tags.length > 0 && (
                   <TableRow>
-                    <TableCell colSpan={10} style={{ paddingTop: 0 }}>
+                    <TableCell colSpan={9} style={{ paddingTop: 0 }}>
                       <TagsPills tags={creature.trait.tags} />
                     </TableCell>
                   </TableRow>
