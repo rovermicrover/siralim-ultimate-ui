@@ -13,7 +13,8 @@
     "lint": "eslint ./src",
     "format": "prettier 'src/**/*.{ts,tsx}' --write",
     "format-check": "prettier 'src/**/*.{ts,tsx}' --check",
-    "serve": "serve -s build"
+    "serve": "serve -s build",
+    "get-live-api-types": "openapi-to-ts -i https://siralim-ultimate.rovermicrover.com/api/openapi.json -o ./src/lib/openAPI.ts --prefixWithI"
   },
   "eslintConfig": {
     "extends": [
