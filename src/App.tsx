@@ -7,6 +7,8 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import createPersistedState from "use-persisted-state";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
@@ -48,6 +50,11 @@ function App() {
 
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
 
+  const theme = useTheme();
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
+  const cellPadding = isLg ? "16px" : isMd ? "12px" : "8px";
+
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <CssBaseline />
@@ -62,13 +69,17 @@ function App() {
               isNavOpen={isNavOpen}
             />
             <Box
-              sx={{ flexGrow: 1, p: 3 }}
-              style={{
+              sx={{
+                flexGrow: 1,
+                p: 3,
                 height: "100vh",
                 paddingTop: "0px",
                 paddingBottom: "0px",
                 display: "flex",
                 overflow: "auto",
+                ["& .MuiTableCell-root"]: {
+                  padding: cellPadding,
+                },
               }}
             >
               <main
