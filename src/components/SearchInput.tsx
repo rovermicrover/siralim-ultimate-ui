@@ -24,6 +24,7 @@ export default function SearchInput({ q, qChange }: ISearchInputProps) {
           value={q}
           onChange={(e) => qChange(e.target.value)}
           placeholder={SearchLabelText}
+          autoFocus
           startAdornment={
             <>
               {q.length > 0 ? (
