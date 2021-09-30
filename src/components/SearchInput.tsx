@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from 'react-router-dom';
 import FormControl from "@mui/material/FormControl";
 import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -11,13 +12,18 @@ interface ISearchInputProps {
 }
 
 export default function SearchInput({ q, qChange }: ISearchInputProps) {
+  const location = useLocation();
+  const pathname = location.pathname;
+  const searchType = pathname.replaceAll("/", "").replaceAll("-", " ");
+  const SearchLabelText = `Search ${searchType}`;
+
   return (
     <>
       <FormControl variant="standard">
         <Input
           value={q}
           onChange={(e) => qChange(e.target.value)}
-          placeholder="Search"
+          placeholder={SearchLabelText}
           startAdornment={
             <>
               {q.length > 0 ? (
