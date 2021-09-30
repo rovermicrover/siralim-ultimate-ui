@@ -101,7 +101,10 @@ export default function Races() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell colSpan={2} sx={{ paddingTop: "10px", paddingBottom: "10px" }}>
+              <TableCell
+                colSpan={3}
+                sx={{ paddingTop: "10px", paddingBottom: "10px" }}
+              >
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
@@ -121,6 +124,7 @@ export default function Races() {
               />
             </TableRow>
             <TableRow>
+              <TableCell>Icon</TableCell>
               <SortedTableHeader
                 field={"name"}
                 name={FIELDS_TO_LABELS["name"]}
@@ -142,6 +146,13 @@ export default function Races() {
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
+                  <TableCell>
+                    <img
+                      src={race.icon}
+                      width="32"
+                      alt={`Race Icon ${race.name}`}
+                    />
+                  </TableCell>
                   <TableCell>{race.name}</TableCell>
                   <TableCell align="center">
                     <img
@@ -152,7 +163,7 @@ export default function Races() {
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell colSpan={2} style={{ paddingTop: 0 }}>
+                  <TableCell colSpan={3} style={{ paddingTop: 0 }}>
                     {race.description}
                   </TableCell>
                 </TableRow>

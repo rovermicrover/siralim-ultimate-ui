@@ -105,7 +105,10 @@ export default function Traits() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell colSpan={2} sx={{ paddingTop: "10px", paddingBottom: "10px" }}>
+              <TableCell
+                colSpan={2}
+                sx={{ paddingTop: "10px", paddingBottom: "10px" }}
+              >
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}

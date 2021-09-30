@@ -110,7 +110,10 @@ export default function StatusEffects() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell colSpan={6} sx={{ paddingTop: "10px", paddingBottom: "10px" }}>
+              <TableCell
+                colSpan={6}
+                sx={{ paddingTop: "10px", paddingBottom: "10px" }}
+              >
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}

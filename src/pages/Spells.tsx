@@ -107,7 +107,10 @@ export default function Spells() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell colSpan={4} sx={{ paddingTop: "10px", paddingBottom: "10px" }}>
+              <TableCell
+                colSpan={4}
+                sx={{ paddingTop: "10px", paddingBottom: "10px" }}
+              >
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}

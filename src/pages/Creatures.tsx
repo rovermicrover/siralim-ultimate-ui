@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
@@ -203,7 +204,21 @@ export default function Creatures() {
                       alt={`${creature.name} Klass Icon ${creature.klass.name}`}
                     />
                   </TableCell>
-                  <TableCell align="center">{creature.race.name}</TableCell>
+                  <TableCell align="center">
+                    <img
+                      src={creature.race.icon}
+                      width="32"
+                      alt={`${creature.name} Race Icon ${creature.race.name}`}
+                    />
+                    <br />
+                    <Typography
+                      variant="subtitle1"
+                      gutterBottom
+                      component="div"
+                    >
+                      {creature.race.name}
+                    </Typography>
+                  </TableCell>
                   <TableCell align="center">{creature.trait.name}</TableCell>
                   <TableCell align="center">{creature.health}</TableCell>
                   <TableCell align="center">{creature.attack}</TableCell>

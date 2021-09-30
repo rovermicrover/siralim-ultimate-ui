@@ -21,7 +21,6 @@ import Klasses from "./pages/Klasses";
 import Races from "./pages/Races";
 import StatusEffects from "./pages/StatusEffects";
 
-
 const lightTheme = createTheme({
   palette: {
     mode: "light",
@@ -72,14 +71,15 @@ function App() {
                 overflow: "auto",
               }}
             >
-              <main data-testid="main"
+              <main
+                data-testid="main"
                 style={{
                   width: "100%",
                   paddingTop: "84px",
                   paddingBottom: "24px",
                 }}
               >
-              <SkipNavContent data-testid="content" />
+                <SkipNavContent data-testid="content" />
                 <Switch>
                   <Route path="/creatures">
                     <Creatures />
