@@ -11,6 +11,7 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useDebounce } from "use-debounce";
 
 import {
   useQueryParams,
@@ -36,10 +37,10 @@ import {
 import { buildSearch } from "../lib/search";
 
 const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name" },
-  klass_name: { type: "string", label: "Class" },
-  race_name: { type: "string", label: "Race" },
-  trait_name: { type: "string", label: "Trait" },
+  name: { type: "string", label: "Name", resource: "creatures" },
+  klass_name: { type: "string", label: "Class", resource: "classes" },
+  race_name: { type: "string", label: "Race", resource: "races" },
+  trait_name: { type: "string", label: "Trait", resource: "traits" },
   health: { abbr: "HP", type: "number", label: "Health" },
   attack: { abbr: "ATK", type: "number", label: "Attack" },
   intelligence: { abbr: "INT", type: "number", label: "Intelligence" },
@@ -74,12 +75,13 @@ export default function Creatures() {
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
+  const [queryDebounced] = useDebounce(query, 200);
 
   const theme = useTheme();
   const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
   useEffect(() => {
-    fetchCreatures(query).then((response: ICreaturesSearchSchema) => {
+    fetchCreatures(queryDebounced).then((response: ICreaturesSearchSchema) => {
       if (response.pagination) {
         const {
           data,
@@ -91,7 +93,7 @@ export default function Creatures() {
         // TODO: handle validation error
       }
     });
-  }, [query]);
+  }, [queryDebounced]);
 
   const {
     pageChange,

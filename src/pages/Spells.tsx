@@ -9,6 +9,7 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
+import { useDebounce } from "use-debounce";
 
 import {
   useQueryParams,
@@ -34,8 +35,8 @@ import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 
 const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name" },
-  klass_name: { type: "string", label: "Class" },
+  name: { type: "string", label: "Name", resource: "spells" },
+  klass_name: { type: "string", label: "Class", resource: "classes" },
   charges: { type: "number", label: "Charges" },
 };
 
@@ -55,9 +56,10 @@ export default function Spells() {
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
+  const [queryDebounced] = useDebounce(query, 200);
 
   useEffect(() => {
-    fetchSpells(query).then((response: ISpellsSearchSchema) => {
+    fetchSpells(queryDebounced).then((response: ISpellsSearchSchema) => {
       if (response.pagination) {
         const {
           data,
@@ -69,7 +71,7 @@ export default function Spells() {
         // TODO: handle validation error
       }
     });
-  }, [query]);
+  }, [queryDebounced]);
 
   const {
     pageChange,

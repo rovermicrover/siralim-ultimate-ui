@@ -9,6 +9,7 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
+import { useDebounce } from "use-debounce";
 
 import {
   useQueryParams,
@@ -33,7 +34,7 @@ import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 
 const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name" },
+  name: { type: "string", label: "Name", resource: "status_effects" },
   category: { type: "string", label: "Category" },
   turns: { type: "number", label: "Turns" },
   leave_chance: { type: "number", label: "Leave Chance" },
@@ -57,21 +58,24 @@ export default function StatusEffects() {
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
+  const [queryDebounced] = useDebounce(query, 200);
 
   useEffect(() => {
-    fetchStatusEffects(query).then((response: IStatusEffectsSearchSchema) => {
-      if (response.pagination) {
-        const {
-          data,
-          pagination: { count },
-        } = response;
-        setStatusEffects(data);
-        setCount(count);
-      } else {
-        // TODO: handle validation error
+    fetchStatusEffects(queryDebounced).then(
+      (response: IStatusEffectsSearchSchema) => {
+        if (response.pagination) {
+          const {
+            data,
+            pagination: { count },
+          } = response;
+          setStatusEffects(data);
+          setCount(count);
+        } else {
+          // TODO: handle validation error
+        }
       }
-    });
-  }, [query]);
+    );
+  }, [queryDebounced]);
 
   const {
     pageChange,

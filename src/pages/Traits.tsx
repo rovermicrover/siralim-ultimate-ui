@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import { useDebounce } from "use-debounce";
 
 import {
   useQueryParams,
@@ -33,7 +34,7 @@ import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 
 const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name" },
+  name: { type: "string", label: "Name", resource: "traits" },
   material_name: { type: "string", label: "Material Name" },
 };
 
@@ -53,9 +54,10 @@ export default function Traits() {
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
+  const [queryDebounced] = useDebounce(query, 200);
 
   useEffect(() => {
-    fetchTraits(query).then((response: ITraitsSearchSchema) => {
+    fetchTraits(queryDebounced).then((response: ITraitsSearchSchema) => {
       if (response.pagination) {
         const {
           data,
@@ -67,7 +69,7 @@ export default function Traits() {
         // TODO: handle validation error
       }
     });
-  }, [query]);
+  }, [queryDebounced]);
 
   const {
     pageChange,

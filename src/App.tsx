@@ -75,7 +75,7 @@ function App() {
                 paddingBottom: "0px",
                 display: "flex",
                 overflow: "auto",
-                ["& .MuiTableCell-body"]: {
+                "& .MuiTableCell-body": {
                   padding: cellPadding,
                 },
               }}

@@ -42,6 +42,7 @@ export interface IField {
   type: "string" | "number";
   label: string;
   abbr?: string;
+  resource?: string;
 }
 
 export type TAllFilters =

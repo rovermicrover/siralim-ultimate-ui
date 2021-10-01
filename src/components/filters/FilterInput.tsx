@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -9,6 +9,8 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Autocomplete from "@mui/material/Autocomplete";
+import { useDebounce } from "use-debounce";
 
 import { IField, TAllFilters } from "./types";
 
@@ -16,6 +18,7 @@ import {
   NumericFilterComparators,
   StringFilterComparators,
 } from "../../lib/openAPI";
+import { buildSearch } from "../../lib/search";
 
 const STRING_COMPARITORS: StringFilterComparators[] = [
   "ilike",
@@ -66,7 +69,11 @@ export default function FilterInput<IFilter extends TAllFilters>({
   removeFilter: (index: number) => void;
   fields: Record<string, IField>;
 }) {
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [filterValueDebounced] = useDebounce(filter.value, 200);
+
   const fieldType = fields[filter.field].type;
+  const fieldResource = fields[filter.field].resource;
   const comparitors = TYPE_TO_COMPARITORS[fieldType];
   const handleFieldChange = (e: SelectChangeEvent<string>) => {
     const newField = e.target.value;
@@ -84,14 +91,47 @@ export default function FilterInput<IFilter extends TAllFilters>({
     updateFilter(index, { ...filter, comparator: e.target.value } as IFilter);
   };
 
-  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const targetValue = e.target.value;
+  const handleValueChange = (value: string | number | null) => {
+    const targetValue = value ? String(value) : "";
     const newValue =
       fields[filter.field].type === "number"
         ? parseInt(targetValue)
         : `${targetValue}`;
     updateFilter(index, { ...filter, value: newValue } as IFilter);
   };
+
+  const fetchResource = useMemo(
+    () => buildSearch<any>(fieldResource || "creatures"),
+    [fieldResource]
+  );
+
+  useEffect(() => {
+    if (filterValueDebounced && fieldResource) {
+      const getTypeAhead = async () => {
+        const suggestionsFilter = {
+          field: "name",
+          comparator: "ilike",
+          value: String(filterValueDebounced),
+        } as IFilter;
+        const response: any = await fetchResource({
+          q: "",
+          size: 10,
+          page: 0,
+          filters: [suggestionsFilter],
+          sort_by: "name",
+          sort_direction: "asc",
+        });
+        const newSuggestions = (response?.data || [])
+          .map(({ name }: { name: any }) => String(name))
+          .filter((name: string) => name);
+        setSuggestions(newSuggestions);
+      };
+
+      getTypeAhead();
+    } else {
+      setSuggestions([]);
+    }
+  }, [filterValueDebounced, fieldResource, fetchResource]);
 
   return (
     <Paper elevation={2} sx={{ p: 2 }}>
@@ -140,14 +180,33 @@ export default function FilterInput<IFilter extends TAllFilters>({
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <TextField
-              fullWidth
-              variant="standard"
-              label="Value"
-              value={filter.value}
-              type={fieldType}
-              onChange={handleValueChange}
-            />
+            {fieldResource ? (
+              <Autocomplete
+                freeSolo
+                options={suggestions}
+                filterOptions={(x) => x}
+                onChange={(e, value) => handleValueChange(value)}
+                onInputChange={(e, value) => handleValueChange(value)}
+                value={filter.value}
+                renderInput={(params) => (
+                  <TextField
+                    variant="standard"
+                    label="Value"
+                    type={fieldType}
+                    {...params}
+                  />
+                )}
+              />
+            ) : (
+              <TextField
+                fullWidth
+                variant="standard"
+                label="Value"
+                value={filter.value}
+                type={fieldType}
+                onChange={(e) => handleValueChange(e.target.value)}
+              />
+            )}
           </Grid>
         </Grid>
       </FormGroup>
