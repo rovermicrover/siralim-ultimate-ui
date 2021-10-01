@@ -9,7 +9,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Paper from "@mui/material/Paper";
 
-import { IFieldToType, TAllFilters } from "./types";
+import { IField, TAllFilters } from "./types";
 
 import FilterInput from "./FilterInput";
 
@@ -21,8 +21,7 @@ export default function FilterDrawer<IFilter extends TAllFilters>({
   updateFilter,
   removeFilter,
   clearFilters,
-  fieldsToType,
-  fieldsToLabel,
+  fields,
 }: {
   isFilterDrawerOpen: boolean;
   setIsFilterDrawerOpen: (isFilterDrawerOpen: boolean) => void;
@@ -31,8 +30,7 @@ export default function FilterDrawer<IFilter extends TAllFilters>({
   updateFilter: (index: number, filter: IFilter) => void;
   removeFilter: (index: number) => void;
   clearFilters: () => void;
-  fieldsToType: IFieldToType;
-  fieldsToLabel: Record<string, string>;
+  fields: Record<string, IField>;
 }) {
   return (
     <Drawer
@@ -96,8 +94,7 @@ export default function FilterDrawer<IFilter extends TAllFilters>({
                   index={i}
                   updateFilter={updateFilter}
                   removeFilter={removeFilter}
-                  fieldsToType={fieldsToType}
-                  fieldsToLabel={fieldsToLabel}
+                  fields={fields}
                 />
               </Grid>
             ))}

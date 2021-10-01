@@ -19,8 +19,6 @@ import Nav from "./Nav";
 import Creatures from "./pages/Creatures";
 import Traits from "./pages/Traits";
 import Spells from "./pages/Spells";
-import Klasses from "./pages/Klasses";
-import Races from "./pages/Races";
 import StatusEffects from "./pages/StatusEffects";
 
 const lightTheme = createTheme({
@@ -100,12 +98,6 @@ function App() {
                   </Route>
                   <Route path="/spells">
                     <Spells />
-                  </Route>
-                  <Route path="/classes">
-                    <Klasses />
-                  </Route>
-                  <Route path="/races">
-                    <Races />
                   </Route>
                   <Route path="/status-effects">
                     <StatusEffects />

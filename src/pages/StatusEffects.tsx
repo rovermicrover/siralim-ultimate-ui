@@ -28,24 +28,16 @@ import {
   IStatusEffectIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
-import { IFieldToType } from "../components/filters/types";
+import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 
-const FIELDS_TO_LABELS: Record<string, string> = {
-  name: "Name",
-  category: "Category",
-  turns: "Turns",
-  leave_chance: "Leave Chance",
-  max_stacks: "Stacks",
-};
-
-const FILTER_FIELDS_TO_TYPE: IFieldToType = {
-  name: "string",
-  category: "string",
-  turns: "number",
-  leave_chance: "number",
-  max_stacks: "number",
+const FIELDS: Record<string, IField> = {
+  name: { type: "string", label: "Name" },
+  category: { type: "string", label: "Category" },
+  turns: { type: "number", label: "Turns" },
+  leave_chance: { type: "number", label: "Leave Chance" },
+  max_stacks: { type: "number", label: "Stacks" },
 };
 
 const queryParamsStructure = {
@@ -104,8 +96,7 @@ export default function StatusEffects() {
         updateFilter={updateFilter}
         removeFilter={removeFilter}
         clearFilters={clearFilters}
-        fieldsToType={FILTER_FIELDS_TO_TYPE}
-        fieldsToLabel={FIELDS_TO_LABELS}
+        fields={FIELDS}
       />
       <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
         <Table stickyHeader>
@@ -136,34 +127,34 @@ export default function StatusEffects() {
             <TableRow>
               <SortedTableHeader
                 field={"name"}
-                name={FIELDS_TO_LABELS["name"]}
+                name={FIELDS["name"].type}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 field={"category"}
-                name={FIELDS_TO_LABELS["category"]}
+                name={FIELDS["category"].type}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"turns"}
-                name={FIELDS_TO_LABELS["turns"]}
+                name={FIELDS["turns"].type}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"leave_chance"}
-                name={FIELDS_TO_LABELS["leave_chance"]}
+                name={FIELDS["leave_chance"].type}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"max_stacks"}
-                name={FIELDS_TO_LABELS["max_stacks"]}
+                name={FIELDS["max_stacks"].type}
                 sort={query}
                 reduceSort={reduceSort}
               />

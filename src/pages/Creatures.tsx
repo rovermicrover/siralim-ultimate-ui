@@ -25,7 +25,7 @@ import SortedTableHeader from "../components/SortedTableHeader";
 import TagsPills from "../components/TagsPills";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
-import { IFieldToType } from "../components/filters/types";
+import { IField } from "../components/filters/types";
 import SearchInput from "../components/SearchInput";
 import {
   ICreatureModel,
@@ -35,40 +35,16 @@ import {
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 
-const FIELDS_TO_LABELS: Record<string, string> = {
-  name: "Name",
-  klass_name: "Class",
-  race_name: "Race",
-  trait_name: "Trait",
-  health: "Health",
-  attack: "Attack",
-  intelligence: "Intelligence",
-  defense: "Defense",
-  speed: "Speed",
-};
-
-const FIELDS_TO_ABBR: Record<string, string> = {
-  name: "Name",
-  klass_name: "Class",
-  race_name: "Race",
-  trait_name: "Trait",
-  health: "HP",
-  attack: "ATK",
-  intelligence: "INT",
-  defense: "DEF",
-  speed: "SPD",
-};
-
-const FILTER_FIELDS_TO_TYPE: IFieldToType = {
-  name: "string",
-  klass_name: "string",
-  race_name: "string",
-  trait_name: "string",
-  health: "number",
-  attack: "number",
-  intelligence: "number",
-  defense: "number",
-  speed: "number",
+const FIELDS: Record<string, IField> = {
+  name: { type: "string", label: "Name" },
+  klass_name: { type: "string", label: "Class" },
+  race_name: { type: "string", label: "Race" },
+  trait_name: { type: "string", label: "Trait" },
+  health: { abbr: "HP", type: "number", label: "Health" },
+  attack: { abbr: "ATK", type: "number", label: "Attack" },
+  intelligence: { abbr: "INT", type: "number", label: "Intelligence" },
+  defense: { abbr: "DEF", type: "number", label: "Defense" },
+  speed: { abbr: "SPD", type: "number", label: "Speed" },
 };
 
 const SORTABLE_FIELDS = [
@@ -140,8 +116,7 @@ export default function Creatures() {
         updateFilter={updateFilter}
         removeFilter={removeFilter}
         clearFilters={clearFilters}
-        fieldsToType={FILTER_FIELDS_TO_TYPE}
-        fieldsToLabel={FIELDS_TO_LABELS}
+        fields={FIELDS}
       />
       <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
         <Table stickyHeader>
@@ -175,7 +150,7 @@ export default function Creatures() {
                   align="center"
                   key={field}
                   field={field}
-                  name={isLg ? FIELDS_TO_LABELS[field] : FIELDS_TO_ABBR[field]}
+                  name={isLg ? FIELDS[field].label : (FIELDS[field].abbr || FIELDS[field].label)}
                   sort={query}
                   reduceSort={reduceSort}
                 />

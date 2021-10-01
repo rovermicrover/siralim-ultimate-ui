@@ -30,16 +30,11 @@ import {
   ITraitIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
-import { IFieldToType } from "../components/filters/types";
+import { IField } from "../components/filters/types";
 
-const FIELDS_TO_LABELS: Record<string, string> = {
-  name: "Name",
-  material_name: "Material Name",
-};
-
-const FILTER_FIELDS_TO_TYPE: IFieldToType = {
-  name: "string",
-  material_name: "string",
+const FIELDS: Record<string, IField> = {
+  name: { type: "string", label: "Name" },
+  material_name: { type: "string", label: "Material Name" },
 };
 
 const queryParamsStructure = {
@@ -98,8 +93,7 @@ export default function Traits() {
         updateFilter={updateFilter}
         removeFilter={removeFilter}
         clearFilters={clearFilters}
-        fieldsToType={FILTER_FIELDS_TO_TYPE}
-        fieldsToLabel={FIELDS_TO_LABELS}
+        fields={FIELDS}
       />
       <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
         <Table stickyHeader>
@@ -130,14 +124,14 @@ export default function Traits() {
             <TableRow>
               <SortedTableHeader
                 field={"name"}
-                name={"Name"}
+                name={FIELDS["name"].type}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"material_name"}
-                name={"Material Name"}
+                name={FIELDS["material_name"].type}
                 sort={query}
                 reduceSort={reduceSort}
               />

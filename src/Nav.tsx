@@ -20,8 +20,6 @@ import { MuiRouterLink } from "./components/MuiRouterLink";
 import CreaturesPng from "./images/nav/creatures.png";
 import TraitsPng from "./images/nav/traits.png";
 import SpellsPng from "./images/nav/spells.png";
-import KlassesPng from "./images/nav/classes.png";
-import RacesPng from "./images/nav/races.png";
 import StatusEffectsPng from "./images/nav/status_effects.png";
 
 import GitLightSvg from "./images/nav/github/favicon-light.svg";
@@ -71,8 +69,6 @@ export default function Nav({
           ["Creatures", CreaturesPng],
           ["Traits", TraitsPng],
           ["Spells", SpellsPng],
-          ["Classes", KlassesPng],
-          ["Races", RacesPng],
           ["Status-Effects", StatusEffectsPng],
         ].map(([text, icon]) => (
           <ListItem

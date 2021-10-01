@@ -29,20 +29,14 @@ import {
   ISpellIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
-import { IFieldToType } from "../components/filters/types";
+import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 
-const FIELDS_TO_LABELS: Record<string, string> = {
-  name: "Name",
-  klass_name: "Class",
-  charges: "Charges",
-};
-
-const FILTER_FIELDS_TO_TYPE: IFieldToType = {
-  name: "string",
-  klass_name: "string",
-  charges: "number",
+const FIELDS: Record<string, IField> = {
+  name: { type: "string", label: "Name" },
+  klass_name: { type: "string", label: "Class" },
+  charges: { type: "number", label: "Charges" },
 };
 
 const queryParamsStructure = {
@@ -101,8 +95,7 @@ export default function Spells() {
         updateFilter={updateFilter}
         removeFilter={removeFilter}
         clearFilters={clearFilters}
-        fieldsToType={FILTER_FIELDS_TO_TYPE}
-        fieldsToLabel={FIELDS_TO_LABELS}
+        fields={FIELDS}
       />
       <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
         <Table stickyHeader>
@@ -134,21 +127,21 @@ export default function Spells() {
               <SortedTableHeader
                 align="left"
                 field={"name"}
-                name={FIELDS_TO_LABELS["name"]}
+                name={FIELDS["name"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"klass_name"}
-                name={FIELDS_TO_LABELS["klass_name"]}
+                name={FIELDS["klass_name"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"charges"}
-                name={FIELDS_TO_LABELS["charges"]}
+                name={FIELDS["charges"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />

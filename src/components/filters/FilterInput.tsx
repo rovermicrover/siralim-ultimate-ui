@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { IFieldToType, TAllFilters } from "./types";
+import { IField, TAllFilters } from "./types";
 
 import {
   NumericFilterComparators,
@@ -58,23 +58,20 @@ export default function FilterInput<IFilter extends TAllFilters>({
   index,
   updateFilter,
   removeFilter,
-  fieldsToType,
-  fieldsToLabel,
+  fields,
 }: {
   filter: IFilter;
   index: number;
   updateFilter: (index: number, filter: IFilter) => void;
   removeFilter: (index: number) => void;
-  fieldsToType: IFieldToType;
-  fieldsToLabel: Record<string, string>;
+  fields: Record<string, IField>;
 }) {
-  const fields = Object.keys(fieldsToType);
-  const fieldType = fieldsToType[filter.field];
+  const fieldType = fields[filter.field].type;
   const comparitors = TYPE_TO_COMPARITORS[fieldType];
   const handleFieldChange = (e: SelectChangeEvent<string>) => {
     const newField = e.target.value;
-    const newValue = fieldsToType[newField] === "number" ? 1 : "";
-    const newComparator = fieldsToType[newField] === "number" ? ">=" : "==";
+    const newValue = fields[newField].type === "number" ? 1 : "";
+    const newComparator = fields[newField].type === "number" ? ">=" : "==";
     updateFilter(index, {
       ...filter,
       field: e.target.value,
@@ -90,7 +87,7 @@ export default function FilterInput<IFilter extends TAllFilters>({
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const targetValue = e.target.value;
     const newValue =
-      fieldsToType[targetValue] === "number"
+      fields[filter.field].type === "number"
         ? parseInt(targetValue)
         : `${targetValue}`;
     updateFilter(index, { ...filter, value: newValue } as IFilter);
@@ -118,9 +115,9 @@ export default function FilterInput<IFilter extends TAllFilters>({
                 label="Field"
                 onChange={handleFieldChange}
               >
-                {fields.map((field, i) => (
-                  <MenuItem key={i} value={field}>
-                    {fieldsToLabel[field]}
+                {Object.entries(fields).map(([key, field], i) => (
+                  <MenuItem key={i} value={key}>
+                    {field.label}
                   </MenuItem>
                 ))}
               </Select>

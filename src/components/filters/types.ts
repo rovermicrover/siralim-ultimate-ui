@@ -38,9 +38,11 @@ export type StrFilterEnum =
   | KlassIntFilterEnum
   | StatusEffectIntFilterEnum;
 
-export interface IFieldToType {
-  [Key: string]: "string" | "number";
-}
+  export interface IField {
+    type: "string" | "number";
+    label: string;
+    abbr?: string;
+  }
 
 export type TAllFilters =
   | ICreatureStrFilterSchema
