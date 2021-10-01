@@ -57,6 +57,7 @@ export default function Nav({
       }}
     >
       <Toolbar />
+      <nav>
       <List
         sx={{
           whiteSpace: "nowrap",
@@ -176,6 +177,7 @@ export default function Nav({
           )}
         </ListItem>
       </List>
+      </nav>
     </Drawer>
   );
 }
