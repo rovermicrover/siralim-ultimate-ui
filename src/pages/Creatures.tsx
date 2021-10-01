@@ -150,7 +150,11 @@ export default function Creatures() {
                   align="center"
                   key={field}
                   field={field}
-                  name={isLg ? FIELDS[field].label : (FIELDS[field].abbr || FIELDS[field].label)}
+                  name={
+                    isLg
+                      ? FIELDS[field].label
+                      : FIELDS[field].abbr || FIELDS[field].label
+                  }
                   sort={query}
                   reduceSort={reduceSort}
                 />

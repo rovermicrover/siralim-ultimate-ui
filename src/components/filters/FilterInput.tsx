@@ -71,7 +71,7 @@ export default function FilterInput<IFilter extends TAllFilters>({
   const handleFieldChange = (e: SelectChangeEvent<string>) => {
     const newField = e.target.value;
     const newValue = fields[newField].type === "number" ? 1 : "";
-    const newComparator = fields[newField].type === "number" ? ">=" : "==";
+    const newComparator = fields[newField].type === "number" ? ">=" : "ilike";
     updateFilter(index, {
       ...filter,
       field: e.target.value,
