@@ -133,20 +133,20 @@ export default function StatusEffects() {
             <TableRow>
               <SortedTableHeader
                 field={"name"}
-                name={FIELDS["name"].type}
+                name={FIELDS["name"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 field={"category"}
-                name={FIELDS["category"].type}
+                name={FIELDS["category"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"turns"}
-                name={FIELDS["turns"].type}
+                name={FIELDS["turns"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />

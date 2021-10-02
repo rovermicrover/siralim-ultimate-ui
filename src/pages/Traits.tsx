@@ -128,14 +128,14 @@ export default function Traits() {
             <TableRow>
               <SortedTableHeader
                 field={"name"}
-                name={FIELDS["name"].type}
+                name={FIELDS["name"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"material_name"}
-                name={FIELDS["material_name"].type}
+                name={FIELDS["material_name"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
