@@ -1,15 +1,22 @@
 html {
   height: -webkit-fill-available;
+  height: -moz-available;
+  height: fill-available;
 }
 
 body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  min-height: -moz-available;
+  min-height: fill-available;
 }
 
 #main-wrapper {
   height: 100vh;
   height: -webkit-fill-available;
+  height: -moz-available;
+  height: fill-available;
+  overflow-y: visible;
 }
 
 img {
