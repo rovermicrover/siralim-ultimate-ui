@@ -19,6 +19,13 @@ body {
   overflow-y: visible;
 }
 
+.data-table-container{
+  height: 100%;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: fill-available;
+}
+
 img {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;

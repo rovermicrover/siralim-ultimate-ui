@@ -99,7 +99,7 @@ export default function Spells() {
         clearFilters={clearFilters}
         fields={FIELDS}
       />
-      <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
+      <TableContainer className="data-table-container" component={Paper}>
         <Table stickyHeader>
           <TableHead>
             <TableRow role="presentation">
