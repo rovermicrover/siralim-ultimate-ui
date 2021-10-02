@@ -123,8 +123,9 @@ export default function Creatures() {
       <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
         <Table stickyHeader>
           <TableHead>
-            <TableRow>
+            <TableRow role="presentation">
               <TableCell
+                role="presentation"
                 colSpan={8}
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
@@ -136,8 +137,9 @@ export default function Creatures() {
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow role="presentation">
               <TablePagination
+                role="presentation"
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "

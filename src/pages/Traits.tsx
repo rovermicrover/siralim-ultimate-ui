@@ -100,8 +100,9 @@ export default function Traits() {
       <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
         <Table stickyHeader>
           <TableHead>
-            <TableRow>
+            <TableRow role="presentation">
               <TableCell
+                role="presentation"
                 colSpan={2}
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
@@ -113,8 +114,9 @@ export default function Traits() {
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow role="presentation">
               <TablePagination
+                role="presentation"
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
