@@ -1,4 +1,4 @@
-name: siralim-ultimate-api-ci
+name: siralim-ultimate-ui-ci-feature-branch
 on:
   push:
     branches:
