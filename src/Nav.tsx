@@ -9,8 +9,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Switch from "@mui/material/Switch";
-import FormControl from "@mui/material/FormControl";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -86,7 +84,7 @@ export default function Nav({
                 <img src={icon} width={iconWidth} alt={text} />
               </Tooltip>
             </ListItemIcon>
-            <ListItemText primary={text} sx={itemTextStyle} />
+            {isNavOpen && <ListItemText primary={text} sx={itemTextStyle} />}
           </ListItem>
         ))}
         {[
@@ -114,7 +112,7 @@ export default function Nav({
                 <img src={img} width={iconWidth} alt={text} />
               </Tooltip>
             </ListItemIcon>
-            <ListItemText primary={text} sx={itemTextStyle} />
+            {isNavOpen && <ListItemText primary={text} sx={itemTextStyle} />}
           </ListItem>
         ))}
 
@@ -144,28 +142,38 @@ export default function Nav({
                 <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
               </Tooltip>
             </ListItemIcon>
-            <ListItemText primary={text} sx={itemTextStyle} />
+            {isNavOpen && <ListItemText primary={text} sx={itemTextStyle} />}
           </ListItem>
         ))}
 
-        <ListItem>
-          <FormControl component="fieldset">
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    inputProps={{ role: "switch" }}
-                    size={isMd ? "medium" : "small"}
-                    checked={isDarkTheme}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setIsDarkTheme(event.target.checked)
-                    }
-                  />
-                }
-                label="Dark Theme"
-              />
-            </FormGroup>
-          </FormControl>
+        <ListItem sx={{ padding: "0px" }}>
+          {isNavOpen ? (
+            <FormControlLabel
+              sx={{ paddingLeft: "11px" }}
+              control={
+                <Switch
+                  sx={{ marginRight: "14px" }}
+                  inputProps={{ role: "switch" }}
+                  size={isMd ? "medium" : "small"}
+                  checked={isDarkTheme}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setIsDarkTheme(event.target.checked)
+                  }
+                />
+              }
+              label="Dark Theme"
+            />
+          ) : (
+            <Switch
+              inputProps={{ role: "switch" }}
+              size={isMd ? "medium" : "small"}
+              checked={isDarkTheme}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setIsDarkTheme(event.target.checked)
+              }
+              title="Dark Theme"
+            />
+          )}
         </ListItem>
       </List>
     </Drawer>
