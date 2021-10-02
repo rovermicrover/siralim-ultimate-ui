@@ -29,6 +29,25 @@ import SteamJpg from "./images/nav/steam.jpg";
 
 import SourceIcon from "@mui/icons-material/Source";
 
+class RouteData {
+  constructor(
+    public route: string,
+    public title: string,
+    public iconSrc: string
+  ) {}
+}
+
+interface ISourceLinkData {
+  title: string;
+  url: string;
+}
+
+interface IIconLinkData {
+  title: string;
+  url: string;
+  icon: JSX.Element;
+}
+
 interface INavProps {
   isDarkTheme: boolean;
   setIsDarkTheme: (isDarkTheme: boolean) => void;
@@ -46,6 +65,83 @@ export default function Nav({
   const itemTextStyle = { lineHeight: `${iconWidth}px`, margin: "0px" };
   const drawerWidth = isNavOpen ? 240 : iconWidth + 26;
 
+  function sourceLinksToIconLinks(links: ISourceLinkData[]): IIconLinkData[] {
+    return links.map((link) => {
+      const icon = <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />;
+
+      return { title: link.title, url: link.url, icon: icon };
+    });
+  }
+
+  function routeDataToIconLinks(routeDatas: RouteData[]): IIconLinkData[] {
+    return routeDatas.map((data) => {
+      const icon = (
+        <img src={data.iconSrc} width={iconWidth} alt={data.title} />
+      );
+
+      return { title: data.title, url: data.route, icon: icon };
+    });
+  }
+
+  function externalLinkstoIconLinks(
+    externalLinkData: RouteData[]
+  ): IIconLinkData[] {
+    return externalLinkData.map((data) => {
+      const icon = (
+        <img src={data.iconSrc} width={iconWidth} alt={data.title} />
+      );
+
+      return { title: data.title, url: data.route, icon: icon };
+    });
+  }
+
+  const routeData: RouteData[] = [
+    new RouteData("/creatures", "Creatures", CreaturesPng),
+    new RouteData("/traits", "Traits", TraitsPng),
+    new RouteData("/spells", "Spells", SpellsPng),
+    new RouteData("/status-effects", "Status Effects", StatusEffectsPng),
+  ];
+
+  const externalLinkData = [
+    new RouteData(
+      "https://github.com/rovermicrover/siralim-ultimate-ui",
+      "Source Code",
+      isDarkTheme ? GitDarkSvg : GitLightSvg
+    ),
+    new RouteData("https://github.com/rovermicrover/", "Author",  AuthorJpg),
+    new RouteData(
+      "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
+      "SU on Steam",
+      SteamJpg
+    ),
+  ];
+
+  const sourceData = [
+    {
+      title: "Source 1",
+      url: "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
+    },
+    {
+      title: "Source 2",
+      url: "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0",
+    },
+    {
+      title: "Source 3",
+      url: "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0",
+    },
+  ];
+
+  const iconLinks: IIconLinkData[] = [];
+  const sourceDataTransformed: IIconLinkData[] =
+    sourceLinksToIconLinks(sourceData);
+  const routeDataTransformed: IIconLinkData[] = routeDataToIconLinks(routeData);
+  const externalLinkDataTransformed: IIconLinkData[] =
+    externalLinkstoIconLinks(externalLinkData);
+
+  iconLinks.push(...sourceDataTransformed);
+  iconLinks.push(...routeDataTransformed);
+  iconLinks.push(...externalLinkDataTransformed);
+
   return (
     <Drawer
       variant="permanent"
@@ -58,125 +154,111 @@ export default function Nav({
     >
       <Toolbar />
       <nav>
-      <List
-        sx={{
-          whiteSpace: "nowrap",
-          overflowX: "hidden",
-        }}
-      >
-        {[
-          ["Creatures", CreaturesPng],
-          ["Traits", TraitsPng],
-          ["Spells", SpellsPng],
-          ["Status-Effects", StatusEffectsPng],
-        ].map(([text, icon]) => (
-          <ListItem
-            key={text}
-            component={MuiRouterLink}
-            to={`/${text.toLowerCase()}`}
-          >
-            <ListItemIcon aria-hidden="true">
-              <Tooltip
-                title={isNavOpen ? "" : text}
-                describeChild
-                arrow
-                placement="right"
-              >
-                <img src={icon} width={iconWidth} alt={text} />
-              </Tooltip>
-            </ListItemIcon>
-            {isNavOpen && <ListItemText primary={text} sx={itemTextStyle} />}
-          </ListItem>
-        ))}
-        {[
-          [
-            "Source Code",
-            "https://github.com/rovermicrover/siralim-ultimate-ui",
-            isDarkTheme ? GitDarkSvg : GitLightSvg,
-          ],
-          ["Author", "https://github.com/rovermicrover/", AuthorJpg],
-          [
-            "SU on Steam",
-            "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
-            SteamJpg,
-          ],
-        ].map(([text, url, img]) => (
-          <ListItem
-            key={text}
-            component={Link}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <ListItemIcon aria-hidden="true">
-              <Tooltip title={isNavOpen ? "" : text} arrow placement="right">
-                <img src={img} width={iconWidth} alt={text} />
-              </Tooltip>
-            </ListItemIcon>
-            {isNavOpen && <ListItemText primary={text} sx={itemTextStyle} />}
-          </ListItem>
-        ))}
+        <List
+          sx={{
+            whiteSpace: "nowrap",
+            overflowX: "hidden",
+          }}
+        >
+          {routeDataTransformed.map((data) => (
+            <li>
+            <ListItem key={data.title} component={MuiRouterLink} to={data.url}>
+              <ListItemIcon aria-hidden="true">
+                <Tooltip
+                  title={isNavOpen ? "" : data.title}
+                  describeChild
+                  arrow
+                  placement="right"
+                >
+                  {data.icon}
+                </Tooltip>
+              </ListItemIcon>
+              {isNavOpen && (
+                <ListItemText primary={data.title} sx={itemTextStyle} />
+              )}
+            </ListItem>
+            </li>
+          ))}
+          {externalLinkDataTransformed.map((data) => (
+            <li>
+            <ListItem
+              key={data.title}
+              component={Link}
+              href={data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ListItemIcon aria-hidden="true">
+                <Tooltip
+                  title={isNavOpen ? "" : data.title}
+                  arrow
+                  placement="right"
+                >
+                  {data.icon}
+                </Tooltip>
+              </ListItemIcon>
+              {isNavOpen && (
+                <ListItemText primary={data.title} sx={itemTextStyle} />
+              )}
+            </ListItem>
+            </li>
+          ))}
 
-        {[
-          [
-            "Source 1",
-            "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
-          ],
-          [
-            "Source 2",
-            "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0",
-          ],
-          [
-            "Source 3",
-            "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0",
-          ],
-        ].map(([text, url]) => (
-          <ListItem
-            key={text}
-            component={Link}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <ListItemIcon aria-hidden="true">
-              <Tooltip title={isNavOpen ? "" : text} arrow placement="right">
-                <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
-              </Tooltip>
-            </ListItemIcon>
-            {isNavOpen && <ListItemText primary={text} sx={itemTextStyle} />}
-          </ListItem>
-        ))}
+          {sourceDataTransformed.map((linkData) => (
+            <li>
+            <ListItem
+              key={linkData.title}
+              component={Link}
+              href={linkData.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ListItemIcon aria-hidden="true">
+                <Tooltip
+                  title={isNavOpen ? "" : linkData.title}
+                  arrow
+                  placement="right"
+                >
+                  <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
+                </Tooltip>
+              </ListItemIcon>
+              {isNavOpen && (
+                <ListItemText primary={linkData.title} sx={itemTextStyle} />
+              )}
+            </ListItem>
+            </li>
+          ))}
 
-        <ListItem sx={{ padding: "0px" }}>
-          {isNavOpen ? (
-            <FormControlLabel
-              sx={{ paddingLeft: "11px" }}
-              control={
-                <Switch
-                  sx={{ marginRight: "14px" }}
-                  inputProps={{ role: "switch" }}
-                  size={isMd ? "medium" : "small"}
-                  checked={isDarkTheme}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setIsDarkTheme(event.target.checked)
-                  }
-                />
-              }
-              label="Dark Theme"
-            />
-          ) : (
-            <Switch
-              inputProps={{ role: "switch" }}
-              size={isMd ? "medium" : "small"}
-              checked={isDarkTheme}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setIsDarkTheme(event.target.checked)
-              }
-              title="Dark Theme"
-            />
-          )}
-        </ListItem>
-      </List>
+          <ListItem sx={{ padding: "0px" }}>
+            {isNavOpen ? (
+              <FormControlLabel
+                sx={{ paddingLeft: "11px" }}
+                control={
+                  <Switch
+                    sx={{ marginRight: "14px" }}
+                    inputProps={{ role: "switch" }}
+                    size={isMd ? "medium" : "small"}
+                    checked={isDarkTheme}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setIsDarkTheme(event.target.checked)
+                    }
+                  />
+                }
+                label="Dark Theme"
+              />
+            ) : (
+              <Switch
+                inputProps={{ role: "switch" }}
+                size={isMd ? "medium" : "small"}
+                checked={isDarkTheme}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setIsDarkTheme(event.target.checked)
+                }
+                title="Dark Theme"
+              />
+            )}
+          </ListItem>
+        </List>
       </nav>
     </Drawer>
   );
