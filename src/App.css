@@ -1,3 +1,17 @@
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+#main-wrapper {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
 img {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;

@@ -67,10 +67,10 @@ function App() {
               isNavOpen={isNavOpen}
             />
             <Box
+              id="main-wrapper"
               sx={{
                 flexGrow: 1,
                 p: 3,
-                height: "100vh",
                 padding: "0px",
                 display: "flex",
                 overflow: "auto",
