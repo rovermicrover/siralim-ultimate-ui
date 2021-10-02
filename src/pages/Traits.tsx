@@ -112,16 +112,6 @@ export default function Traits() {
                   clearFilters={clearFilters}
                 />
                 <SearchInput q={query.q} qChange={qChange} />
-                <FilterDrawer<ITraitStrFilterSchema | ITraitIntFilterSchema>
-                  isFilterDrawerOpen={isFilterDrawerOpen}
-                  setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  filters={query.filters}
-                  addFilter={addFilter}
-                  updateFilter={updateFilter}
-                  removeFilter={removeFilter}
-                  clearFilters={clearFilters}
-                  fields={FIELDS}
-                />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">

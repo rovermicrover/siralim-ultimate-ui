@@ -110,6 +110,16 @@ export default function Creatures() {
 
   return (
     <>
+      <FilterDrawer<ICreatureStrFilterSchema | ICreatureIntFilterSchema>
+        isFilterDrawerOpen={isFilterDrawerOpen}
+        setIsFilterDrawerOpen={setIsFilterDrawerOpen}
+        filters={query.filters}
+        addFilter={addFilter}
+        updateFilter={updateFilter}
+        removeFilter={removeFilter}
+        clearFilters={clearFilters}
+        fields={FIELDS}
+      />
       <TableContainer sx={{ maxHeight: "100%" }} component={Paper}>
         <Table stickyHeader>
           <TableHead>
@@ -125,18 +135,6 @@ export default function Creatures() {
                   clearFilters={clearFilters}
                 />
                 <SearchInput q={query.q} qChange={qChange} />
-                <FilterDrawer<
-                  ICreatureStrFilterSchema | ICreatureIntFilterSchema
-                >
-                  isFilterDrawerOpen={isFilterDrawerOpen}
-                  setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  filters={query.filters}
-                  addFilter={addFilter}
-                  updateFilter={updateFilter}
-                  removeFilter={removeFilter}
-                  clearFilters={clearFilters}
-                  fields={FIELDS}
-                />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">

@@ -71,8 +71,7 @@ function App() {
                 flexGrow: 1,
                 p: 3,
                 height: "100vh",
-                paddingTop: "0px",
-                paddingBottom: "0px",
+                padding: "0px",
                 display: "flex",
                 overflow: "auto",
                 "& .MuiTableCell-body": {
@@ -84,8 +83,7 @@ function App() {
                 data-testid="main"
                 style={{
                   width: "100%",
-                  paddingTop: "84px",
-                  paddingBottom: "24px",
+                  padding: "64px 0px 0px 0px",
                 }}
               >
                 <SkipNavContent data-testid="content" />
