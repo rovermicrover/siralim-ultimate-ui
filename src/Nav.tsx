@@ -108,7 +108,7 @@ export default function Nav({
       "Source Code",
       isDarkTheme ? GitDarkSvg : GitLightSvg
     ),
-    new RouteData("https://github.com/rovermicrover/", "Author",  AuthorJpg),
+    new RouteData("https://github.com/rovermicrover/", "Author", AuthorJpg),
     new RouteData(
       "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
       "SU on Steam",
@@ -138,9 +138,9 @@ export default function Nav({
   const externalLinkDataTransformed: IIconLinkData[] =
     externalLinkstoIconLinks(externalLinkData);
 
-  iconLinks.push(...sourceDataTransformed);
   iconLinks.push(...routeDataTransformed);
   iconLinks.push(...externalLinkDataTransformed);
+  iconLinks.push(...sourceDataTransformed);
 
   return (
     <Drawer
@@ -160,74 +160,33 @@ export default function Nav({
             overflowX: "hidden",
           }}
         >
-          {routeDataTransformed.map((data) => (
-            <li>
-            <ListItem key={data.title} component={MuiRouterLink} to={data.url}>
-              <ListItemIcon aria-hidden="true">
-                <Tooltip
-                  title={isNavOpen ? "" : data.title}
-                  describeChild
-                  arrow
-                  placement="right"
+          {iconLinks.map((data) => {
+            return (
+              <li key={data.title}>
+                <ListItem
+                  button
+                  key={data.title}
+                  component={MuiRouterLink}
+                  title={data.title}
+                  to={data.url}
                 >
-                  {data.icon}
-                </Tooltip>
-              </ListItemIcon>
-              {isNavOpen && (
-                <ListItemText primary={data.title} sx={itemTextStyle} />
-              )}
-            </ListItem>
-            </li>
-          ))}
-          {externalLinkDataTransformed.map((data) => (
-            <li>
-            <ListItem
-              key={data.title}
-              component={Link}
-              href={data.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ListItemIcon aria-hidden="true">
-                <Tooltip
-                  title={isNavOpen ? "" : data.title}
-                  arrow
-                  placement="right"
-                >
-                  {data.icon}
-                </Tooltip>
-              </ListItemIcon>
-              {isNavOpen && (
-                <ListItemText primary={data.title} sx={itemTextStyle} />
-              )}
-            </ListItem>
-            </li>
-          ))}
-
-          {sourceDataTransformed.map((linkData) => (
-            <li>
-            <ListItem
-              key={linkData.title}
-              component={Link}
-              href={linkData.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ListItemIcon aria-hidden="true">
-                <Tooltip
-                  title={isNavOpen ? "" : linkData.title}
-                  arrow
-                  placement="right"
-                >
-                  <SourceIcon sx={{ fontSize: `${iconWidth}px` }} />
-                </Tooltip>
-              </ListItemIcon>
-              {isNavOpen && (
-                <ListItemText primary={linkData.title} sx={itemTextStyle} />
-              )}
-            </ListItem>
-            </li>
-          ))}
+                  <ListItemIcon aria-hidden="true">
+                    <Tooltip
+                      title={isNavOpen ? "" : data.title}
+                      describeChild
+                      arrow
+                      placement="right"
+                    >
+                      {data.icon}
+                    </Tooltip>
+                  </ListItemIcon>
+                  {isNavOpen && (
+                    <ListItemText primary={data.title} sx={itemTextStyle} />
+                  )}
+                </ListItem>
+              </li>
+            );
+          })}
 
           <ListItem sx={{ padding: "0px" }}>
             {isNavOpen ? (
