@@ -188,7 +188,7 @@ export default function Nav({
             );
           })}
 
-          <ListItem sx={{ padding: "0px" }}>
+          <ListItem button sx={{ padding: "0px" }}>
             {
               <FormControlLabel
                 sx={{ paddingLeft: "11px" }}
