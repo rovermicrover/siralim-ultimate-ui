@@ -30,11 +30,16 @@ import SourceIcon from "@mui/icons-material/Source";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 class RouteData {
-  constructor(
-    public url: string,
-    public title: string,
-    public iconComponent: string | OverridableComponent<SvgIconTypeMap<{}, "svg">>
-  ) {}
+  public url: string;
+  public title: string;
+  public iconComponent:
+    | string
+    | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+  constructor(data: RouteData) {
+    this.url = data.url;
+    this.title = data.title;
+    this.iconComponent = data.iconComponent;
+  }
 }
 
 function isstring(arg: any): arg is string {
@@ -68,7 +73,9 @@ export default function Nav({
     return routeDatas.map((data) => {
       let icon = undefined;
       if (isstring(data.iconComponent)) {
-        icon = <img src={data.iconComponent} width={iconWidth} alt={data.title} />;
+        icon = (
+          <img src={data.iconComponent} width={iconWidth} alt={data.title} />
+        );
       }
       // Assume an SVG Icon
       else {
@@ -79,36 +86,56 @@ export default function Nav({
   }
 
   const routeData: RouteData[] = [
-    new RouteData("/creatures", "Creatures", CreaturesPng),
-    new RouteData("/traits", "Traits", TraitsPng),
-    new RouteData("/spells", "Spells", SpellsPng),
-    new RouteData("/status-effects", "Status Effects", StatusEffectsPng),
-    new RouteData(
-      "https://github.com/rovermicrover/siralim-ultimate-ui",
-      "Source Code",
-      isDarkTheme ? GitDarkSvg : GitLightSvg
-    ),
-    new RouteData("https://github.com/rovermicrover/", "Author", AuthorJpg),
-    new RouteData(
-      "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
-      "SU on Steam",
-      SteamJpg
-    ),
-    new RouteData(
-      "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
-      "Source 1",
-      SourceIcon
-    ),
-    new RouteData(
-      "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0",
-      "Source 2",
-      SourceIcon
-    ),
-    new RouteData(
-      "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0",
-      "Source 3",
-      SourceIcon
-    ),
+    new RouteData({
+      url: "/creatures",
+      title: "Creatures",
+      iconComponent: CreaturesPng,
+    }),
+    new RouteData({
+      url: "/traits",
+      title: "Traits",
+      iconComponent: TraitsPng,
+    }),
+    new RouteData({
+      url: "/spells",
+      title: "Spells",
+      iconComponent: SpellsPng,
+    }),
+    new RouteData({
+      url: "/status-effects",
+      title: "Status Effects",
+      iconComponent: StatusEffectsPng,
+    }),
+    new RouteData({
+      url: "https://github.com/rovermicrover/siralim-ultimate-ui",
+      title: "Source Code",
+      iconComponent: isDarkTheme ? GitDarkSvg : GitLightSvg,
+    }),
+    new RouteData({
+      url: "https://github.com/rovermicrover/",
+      title: "Author",
+      iconComponent: AuthorJpg,
+    }),
+    new RouteData({
+      url: "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
+      title: "SU on Steam",
+      iconComponent: SteamJpg,
+    }),
+    new RouteData({
+      url: "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
+      title: "Source 1",
+      iconComponent: SourceIcon,
+    }),
+    new RouteData({
+      url: "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0",
+      title: "Source 2",
+      iconComponent: SourceIcon,
+    }),
+    new RouteData({
+      url: "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0",
+      title: "Source 3",
+      iconComponent: SourceIcon,
+    }),
   ];
 
   const iconLinks: IIconLinkData[] = routeDataToIconLinks(routeData);
