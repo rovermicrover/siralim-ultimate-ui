@@ -3,7 +3,6 @@ import React from "react";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import { SvgIconTypeMap, Tooltip } from "@mui/material";
-import Link from "@mui/material/Link";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -160,7 +159,7 @@ export default function Nav({
             );
           })}
 
-          <ListItem button sx={{ padding: "0px" }}>
+          <ListItem sx={{ padding: "0px" }}>
             {
               <FormControlLabel
                 sx={{ paddingLeft: "11px" }}
