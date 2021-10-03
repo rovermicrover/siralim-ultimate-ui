@@ -189,7 +189,7 @@ export default function Nav({
           })}
 
           <ListItem sx={{ padding: "0px" }}>
-            {isNavOpen ? (
+            {
               <FormControlLabel
                 sx={{ paddingLeft: "11px" }}
                 control={
@@ -205,17 +205,7 @@ export default function Nav({
                 }
                 label="Dark Theme"
               />
-            ) : (
-              <Switch
-                inputProps={{ role: "switch" }}
-                size={isMd ? "medium" : "small"}
-                checked={isDarkTheme}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  setIsDarkTheme(event.target.checked)
-                }
-                title="Dark Theme"
-              />
-            )}
+            }
           </ListItem>
         </List>
       </nav>
