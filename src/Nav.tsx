@@ -31,9 +31,9 @@ import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 class RouteData {
   constructor(
-    public route: string,
+    public url: string,
     public title: string,
-    public iconSrc: string | OverridableComponent<SvgIconTypeMap<{}, "svg">>
+    public iconComponent: string | OverridableComponent<SvgIconTypeMap<{}, "svg">>
   ) {}
 }
 
@@ -67,14 +67,14 @@ export default function Nav({
   function routeDataToIconLinks(routeDatas: RouteData[]): IIconLinkData[] {
     return routeDatas.map((data) => {
       let icon = undefined;
-      if (isstring(data.iconSrc)) {
-        icon = <img src={data.iconSrc} width={iconWidth} alt={data.title} />;
+      if (isstring(data.iconComponent)) {
+        icon = <img src={data.iconComponent} width={iconWidth} alt={data.title} />;
       }
       // Assume an SVG Icon
       else {
-        icon = <data.iconSrc sx={{ fontSize: `${iconWidth}px` }} />;
+        icon = <data.iconComponent sx={{ fontSize: `${iconWidth}px` }} />;
       }
-      return { title: data.title, url: data.route, icon: icon };
+      return { title: data.title, url: data.url, icon: icon };
     });
   }
 
