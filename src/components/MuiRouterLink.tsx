@@ -18,10 +18,8 @@ export const RefRouterLink = React.forwardRef<
 export const MuiRouterLink = React.forwardRef<
   HTMLAnchorElement,
   RouterLinkProps | LinkProps | RouteComponentProps
->((props: RouterLinkProps & LinkProps & RouteComponentProps, ref) => {
-  if (!isExternal(props.to)) {
-    return <Link component={RefRouterLink} ref={ref} {...props} />;
-  } else {
+>((props: RouterLinkProps | LinkProps | RouteComponentProps, ref) => {
+  if (isExternal(props.to)) {
     return (
       <Link
         href={props.to}
@@ -32,5 +30,7 @@ export const MuiRouterLink = React.forwardRef<
         {props.children}
       </Link>
     );
+  } else {
+    return <Link component={RefRouterLink} ref={ref} {...props} />;
   }
 });
