@@ -29,17 +29,10 @@ import SteamJpg from "./images/nav/steam.jpg";
 import SourceIcon from "@mui/icons-material/Source";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 
-class RouteData {
-  public url: string;
-  public title: string;
-  public iconComponent:
-    | string
-    | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
-  constructor(data: RouteData) {
-    this.url = data.url;
-    this.title = data.title;
-    this.iconComponent = data.iconComponent;
-  }
+interface RouteData {
+  url: string;
+  title: string;
+  iconComponent: | string | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
 }
 
 interface IIconLinkData {
@@ -82,56 +75,56 @@ export default function Nav({
   }
 
   const routeData: RouteData[] = [
-    new RouteData({
+    {
       url: "/creatures",
       title: "Creatures",
       iconComponent: CreaturesPng,
-    }),
-    new RouteData({
+    },
+    {
       url: "/traits",
       title: "Traits",
       iconComponent: TraitsPng,
-    }),
-    new RouteData({
+    },
+    {
       url: "/spells",
       title: "Spells",
       iconComponent: SpellsPng,
-    }),
-    new RouteData({
+    },
+    {
       url: "/status-effects",
       title: "Status Effects",
       iconComponent: StatusEffectsPng,
-    }),
-    new RouteData({
+    },
+    {
       url: "https://github.com/rovermicrover/siralim-ultimate-ui",
       title: "Source Code",
       iconComponent: isDarkTheme ? GitDarkSvg : GitLightSvg,
-    }),
-    new RouteData({
+    },
+    {
       url: "https://github.com/rovermicrover/",
       title: "Author",
       iconComponent: AuthorJpg,
-    }),
-    new RouteData({
+    },
+    {
       url: "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
       title: "SU on Steam",
       iconComponent: SteamJpg,
-    }),
-    new RouteData({
+    },
+    {
       url: "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
       title: "Source 1",
       iconComponent: SourceIcon,
-    }),
-    new RouteData({
+    },
+    {
       url: "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0",
       title: "Source 2",
       iconComponent: SourceIcon,
-    }),
-    new RouteData({
+    },
+    {
       url: "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0",
       title: "Source 3",
       iconComponent: SourceIcon,
-    }),
+    },
   ];
 
   const iconLinks: IIconLinkData[] = routeDataToIconLinks(routeData);
