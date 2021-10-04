@@ -30,15 +30,11 @@ import SourceIcon from "@mui/icons-material/Source";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 interface RouteData {
-  url: string;
-  title: string;
-  iconComponent: string | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
-}
-
-interface IIconLinkData {
-  title: string;
-  url: string;
-  icon: JSX.Element;
+  readonly url: string;
+  readonly title: string;
+  readonly iconComponent:
+    | string
+    | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
 }
 
 interface INavProps {
@@ -58,17 +54,13 @@ export default function Nav({
   const itemTextStyle = { lineHeight: `${iconWidth}px`, margin: "0px" };
   const drawerWidth = isNavOpen ? 240 : iconWidth + 26;
 
-  function routeDataToIconLinks(routeDatas: RouteData[]): IIconLinkData[] {
-    return routeDatas.map((data) => {
-      // Check if the iconComponent is base64 img data or assume it's an SVG Icon Component
-      const icon =
-        typeof data.iconComponent === "string" ? (
-          <img src={data.iconComponent} width={iconWidth} alt={data.title} />
-        ) : (
-          <data.iconComponent sx={{ fontSize: `${iconWidth}px` }} />
-        );
-      return { title: data.title, url: data.url, icon: icon };
-    });
+  function createIconLinkElement(routeData: RouteData): JSX.Element {
+    // Check if the iconComponent is base64 img data or assume it's an SVG Icon Component
+    return typeof routeData.iconComponent === "string" ? (
+      <img src={routeData.iconComponent} width={iconWidth} alt={routeData.title} />
+    ) : (
+      <routeData.iconComponent sx={{ fontSize: `${iconWidth}px` }} />
+    );
   }
 
   const routeData: RouteData[] = [
@@ -124,8 +116,6 @@ export default function Nav({
     },
   ];
 
-  const iconLinks: IIconLinkData[] = routeDataToIconLinks(routeData);
-
   return (
     <Drawer
       variant="permanent"
@@ -144,7 +134,7 @@ export default function Nav({
             overflowX: "hidden",
           }}
         >
-          {iconLinks.map((data) => {
+          {routeData.map((data) => {
             return (
               <li key={data.title}>
                 <ListItem
@@ -161,7 +151,7 @@ export default function Nav({
                       arrow
                       placement="right"
                     >
-                      {data.icon}
+                      {createIconLinkElement(data)}
                     </Tooltip>
                   </ListItemIcon>
                   {isNavOpen && (
