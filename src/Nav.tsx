@@ -42,10 +42,6 @@ class RouteData {
   }
 }
 
-function isstring(arg: any): arg is string {
-  return typeof arg === "string";
-}
-
 interface IIconLinkData {
   title: string;
   url: string;
@@ -72,7 +68,7 @@ export default function Nav({
   function routeDataToIconLinks(routeDatas: RouteData[]): IIconLinkData[] {
     return routeDatas.map((data) => {
       let icon = undefined;
-      if (isstring(data.iconComponent)) {
+      if (typeof data.iconComponent === "string") {
         icon = (
           <img src={data.iconComponent} width={iconWidth} alt={data.title} />
         );
