@@ -7,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
-import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { useDebounce } from "use-debounce";
 
@@ -33,6 +32,7 @@ import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
+import TablePaginationDefault from "../components/TablePaginationDefault";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "spells" },
@@ -87,6 +87,13 @@ export default function Spells() {
     setQuery
   );
 
+  const InstanceTablePagination = TablePaginationDefault({
+    count,
+    query,
+    pageChange,
+    sizeChange,
+  });
+
   return (
     <>
       <FilterDrawer<ISpellStrFilterSchema | ISpellIntFilterSchema>
@@ -116,17 +123,7 @@ export default function Spells() {
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
-            <TableRow role="presentation">
-              <TablePagination
-                role="presentation"
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
-            </TableRow>
+            <TableRow role="presentation">{InstanceTablePagination}</TableRow>
             <TableRow>
               <SortedTableHeader
                 align="left"
@@ -199,17 +196,7 @@ export default function Spells() {
             ))}
           </TableBody>
           <TableFooter>
-            <TableRow>
-              <TablePagination
-                style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
-            </TableRow>
+            <TableRow>{InstanceTablePagination}</TableRow>
           </TableFooter>
         </Table>
       </TableContainer>

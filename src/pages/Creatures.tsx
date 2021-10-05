@@ -7,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
-import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -35,6 +34,7 @@ import {
   ICreatureIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
+import TablePaginationDefault from "../components/TablePaginationDefault";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "creatures" },
@@ -108,6 +108,13 @@ export default function Creatures() {
     ICreatureStrFilterSchema | ICreatureIntFilterSchema
   >(query, setQuery);
 
+  const InstanceTablePagination = TablePaginationDefault({
+    count,
+    query,
+    pageChange,
+    sizeChange,
+  });
+
   return (
     <>
       <FilterDrawer<ICreatureStrFilterSchema | ICreatureIntFilterSchema>
@@ -137,17 +144,7 @@ export default function Creatures() {
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
-            <TableRow role="presentation">
-              <TablePagination
-                role="presentation"
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
-            </TableRow>
+            <TableRow role="presentation">{InstanceTablePagination}</TableRow>
             <TableRow>
               {SORTABLE_FIELDS.map((field) => (
                 <SortedTableHeader
@@ -248,17 +245,7 @@ export default function Creatures() {
             ))}
           </TableBody>
           <TableFooter>
-            <TableRow>
-              <TablePagination
-                style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
-            </TableRow>
+            <TableRow>{InstanceTablePagination}</TableRow>
           </TableFooter>
         </Table>
       </TableContainer>

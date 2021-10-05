@@ -32,6 +32,7 @@ import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
+import TablePaginationDefault from "../components/TablePaginationDefault";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "status_effects" },
@@ -90,6 +91,13 @@ export default function StatusEffects() {
     IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
   >(query, setQuery);
 
+  const InstanceTablePagination = TablePaginationDefault({
+    count,
+    query,
+    pageChange,
+    sizeChange,
+  });
+
   return (
     <>
       <FilterDrawer<IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema>
@@ -119,17 +127,7 @@ export default function StatusEffects() {
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
-            <TableRow role="presentation">
-              <TablePagination
-                role="presentation"
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
-            </TableRow>
+            <TableRow role="presentation">{InstanceTablePagination}</TableRow>
             <TableRow>
               <SortedTableHeader
                 field={"name"}
@@ -207,17 +205,7 @@ export default function StatusEffects() {
             ))}
           </TableBody>
           <TableFooter>
-            <TableRow>
-              <TablePagination
-                style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
-            </TableRow>
+            <TableRow>{InstanceTablePagination}</TableRow>
           </TableFooter>
         </Table>
       </TableContainer>

@@ -7,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
-import TablePagination from "@mui/material/TablePagination";
 import { useDebounce } from "use-debounce";
 
 import {
@@ -32,6 +31,7 @@ import {
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
+import TablePaginationDefault from "../components/TablePaginationDefault";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "traits" },
@@ -85,6 +85,13 @@ export default function Traits() {
     setQuery
   );
 
+  const InstanceTablePagination = TablePaginationDefault({
+    count,
+    query,
+    pageChange,
+    sizeChange,
+  });
+
   return (
     <>
       <FilterDrawer<ITraitStrFilterSchema | ITraitIntFilterSchema>
@@ -114,17 +121,7 @@ export default function Traits() {
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
-            <TableRow role="presentation">
-              <TablePagination
-                role="presentation"
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
-            </TableRow>
+            <TableRow role="presentation">{InstanceTablePagination}</TableRow>
             <TableRow>
               <SortedTableHeader
                 field={"name"}
@@ -172,17 +169,7 @@ export default function Traits() {
             ))}
           </TableBody>
           <TableFooter>
-            <TableRow>
-              <TablePagination
-                style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
-            </TableRow>
+            <TableRow>{InstanceTablePagination}</TableRow>
           </TableFooter>
         </Table>
       </TableContainer>
