@@ -34,7 +34,7 @@ import {
   ICreatureIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
-import TablePaginationDefault from "../components/TablePaginationDefault";
+import useQueryParamMutator from "../components/useQueryMutator";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "creatures" },
@@ -71,62 +71,19 @@ const queryParamsStructure = {
 const fetchCreatures = buildSearch<ICreaturesSearchSchema>("creatures");
 
 export default function Creatures() {
-  const [creatures, setCreatures] = useState<ICreatureModel[]>([]);
-  const [count, setCount] = useState<number>(0);
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure);
-  const [queryDebounced] = useDebounce(query, 200);
+
+  const {results, query, filterButtonProps, FilterButtons, filterProps, filterDrawerProps,FilterDrawer,
+    searchProps: searchInputProps, SearchInput, tablePaginationProps, TablePagination
+} = useQueryParamMutator(queryParamsStructure, FIELDS, fetchCreatures);
 
   const theme = useTheme();
   const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
-  useEffect(() => {
-    fetchCreatures(queryDebounced).then((response: ICreaturesSearchSchema) => {
-      if (response.pagination) {
-        const {
-          data,
-          pagination: { count },
-        } = response;
-        setCreatures(data);
-        setCount(count);
-      } else {
-        // TODO: handle validation error
-      }
-    });
-  }, [queryDebounced]);
-
-  const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = buildQueryParamsMutators<
-    ICreatureStrFilterSchema | ICreatureIntFilterSchema
-  >(query, setQuery);
-
-  const InstanceTablePagination = TablePaginationDefault({
-    count,
-    query,
-    pageChange,
-    sizeChange,
-  });
+  const InstanceTablePagination = <TablePagination {...tablePaginationProps} />
 
   return (
     <>
-      <FilterDrawer<ICreatureStrFilterSchema | ICreatureIntFilterSchema>
-        isFilterDrawerOpen={isFilterDrawerOpen}
-        setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-        filters={query.filters}
-        addFilter={addFilter}
-        updateFilter={updateFilter}
-        removeFilter={removeFilter}
-        clearFilters={clearFilters}
-        fields={FIELDS}
-      />
+      <FilterDrawer<ICreatureStrFilterSchema | ICreatureIntFilterSchema>{...filterDrawerProps}/>
       <TableContainer className="data-table-container" component={Paper}>
         <Table stickyHeader>
           <TableHead>
@@ -137,11 +94,11 @@ export default function Creatures() {
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
                 <FilterButtons
-                  hasFilters={query.filters.length ? true : false}
-                  setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={clearFilters}
+                {...filterButtonProps}
                 />
-                <SearchInput q={query.q} qChange={qChange} />
+                <SearchInput 
+                {...searchInputProps}
+                />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">{InstanceTablePagination}</TableRow>
@@ -157,13 +114,13 @@ export default function Creatures() {
                       : FIELDS[field].abbr || FIELDS[field].label
                   }
                   sort={query}
-                  reduceSort={reduceSort}
+                  reduceSort={filterProps.reduceSort}
                 />
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {creatures.map((creature) => (
+            {results.map((creature) => (
               <React.Fragment key={creature.id}>
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}

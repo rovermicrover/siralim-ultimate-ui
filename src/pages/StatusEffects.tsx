@@ -32,7 +32,9 @@ import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
-import TablePaginationDefault from "../components/TablePaginationDefault";
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
+import useQueryParamMutator from "../components/useQueryMutator";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "status_effects" },
@@ -55,60 +57,19 @@ const fetchStatusEffects =
   buildSearch<IStatusEffectsSearchSchema>("status-effects");
 
 export default function StatusEffects() {
-  const [statusEffects, setStatusEffects] = useState<IStatusEffectModel[]>([]);
-  const [count, setCount] = useState<number>(0);
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure);
-  const [queryDebounced] = useDebounce(query, 200);
+  const {results, query, filterButtonProps, FilterButtons, filterProps, filterDrawerProps,FilterDrawer,
+    searchProps: searchInputProps, SearchInput, tablePaginationProps, TablePagination
+} = useQueryParamMutator(queryParamsStructure, FIELDS, fetchStatusEffects);
 
-  useEffect(() => {
-    fetchStatusEffects(queryDebounced).then(
-      (response: IStatusEffectsSearchSchema) => {
-        if (response.pagination) {
-          const {
-            data,
-            pagination: { count },
-          } = response;
-          setStatusEffects(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        }
-      }
-    );
-  }, [queryDebounced]);
+  const theme = useTheme();
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
-  const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = buildQueryParamsMutators<
-    IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
-  >(query, setQuery);
-
-  const InstanceTablePagination = TablePaginationDefault({
-    count,
-    query,
-    pageChange,
-    sizeChange,
-  });
+  const InstanceTablePagination = <TablePagination {...tablePaginationProps} />
 
   return (
     <>
       <FilterDrawer<IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema>
-        isFilterDrawerOpen={isFilterDrawerOpen}
-        setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-        filters={query.filters}
-        addFilter={addFilter}
-        updateFilter={updateFilter}
-        removeFilter={removeFilter}
-        clearFilters={clearFilters}
-        fields={FIELDS}
+        {...filterDrawerProps}
       />
       <TableContainer className="data-table-container" component={Paper}>
         <Table stickyHeader>
@@ -120,11 +81,9 @@ export default function StatusEffects() {
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
                 <FilterButtons
-                  hasFilters={query.filters.length ? true : false}
-                  setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={clearFilters}
+                {...filterButtonProps}
                 />
-                <SearchInput q={query.q} qChange={qChange} />
+                <SearchInput {...searchInputProps} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">{InstanceTablePagination}</TableRow>
@@ -133,39 +92,39 @@ export default function StatusEffects() {
                 field={"name"}
                 name={FIELDS["name"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 field={"category"}
                 name={FIELDS["category"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"turns"}
                 name={FIELDS["turns"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"leave_chance"}
                 name={FIELDS["leave_chance"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"max_stacks"}
                 name={FIELDS["max_stacks"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
             </TableRow>
           </TableHead>
           <TableBody>
-            {statusEffects.map((statusEffect) => (
+            {results.map((statusEffect) => (
               <React.Fragment key={statusEffect.id}>
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}

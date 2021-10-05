@@ -32,7 +32,9 @@ import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
-import TablePaginationDefault from "../components/TablePaginationDefault";
+import useQueryParamMutator from "../components/useQueryMutator";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "spells" },
@@ -52,59 +54,19 @@ const queryParamsStructure = {
 const fetchSpells = buildSearch<ISpellsSearchSchema>("spells");
 
 export default function Spells() {
-  const [spells, setSpells] = useState<ISpellModel[]>([]);
-  const [count, setCount] = useState<number>(0);
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure);
-  const [queryDebounced] = useDebounce(query, 200);
+  const {results, query, filterButtonProps, FilterButtons, filterProps, filterDrawerProps,FilterDrawer,
+    searchProps: searchInputProps, SearchInput, tablePaginationProps, TablePagination
+} = useQueryParamMutator(queryParamsStructure, FIELDS, fetchSpells);
 
-  useEffect(() => {
-    fetchSpells(queryDebounced).then((response: ISpellsSearchSchema) => {
-      if (response.pagination) {
-        const {
-          data,
-          pagination: { count },
-        } = response;
-        setSpells(data);
-        setCount(count);
-      } else {
-        // TODO: handle validation error
-      }
-    });
-  }, [queryDebounced]);
+  const theme = useTheme();
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
-  const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = buildQueryParamsMutators<ISpellStrFilterSchema | ISpellIntFilterSchema>(
-    query,
-    setQuery
-  );
-
-  const InstanceTablePagination = TablePaginationDefault({
-    count,
-    query,
-    pageChange,
-    sizeChange,
-  });
+  const InstanceTablePagination = <TablePagination {...tablePaginationProps} />
 
   return (
     <>
       <FilterDrawer<ISpellStrFilterSchema | ISpellIntFilterSchema>
-        isFilterDrawerOpen={isFilterDrawerOpen}
-        setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-        filters={query.filters}
-        addFilter={addFilter}
-        updateFilter={updateFilter}
-        removeFilter={removeFilter}
-        clearFilters={clearFilters}
-        fields={FIELDS}
+        {...filterDrawerProps}
       />
       <TableContainer className="data-table-container" component={Paper}>
         <Table stickyHeader>
@@ -116,11 +78,9 @@ export default function Spells() {
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
                 <FilterButtons
-                  hasFilters={query.filters.length ? true : false}
-                  setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={clearFilters}
+                {...filterButtonProps}
                 />
-                <SearchInput q={query.q} qChange={qChange} />
+                <SearchInput {...searchInputProps} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">{InstanceTablePagination}</TableRow>
@@ -130,27 +90,27 @@ export default function Spells() {
                 field={"name"}
                 name={FIELDS["name"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"klass_name"}
                 name={FIELDS["klass_name"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"charges"}
                 name={FIELDS["charges"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <TableCell align="right">Source</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {spells.map((spell) => (
+            {results.map((spell) => (
               <React.Fragment key={spell.id}>
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
