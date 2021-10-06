@@ -12,7 +12,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import { MuiRouterLink } from "./components/MuiRouterLink";
+import { MuiSafeLink } from "./components/MuiRouterLink";
 
 import CreaturesPng from "./images/nav/creatures.png";
 import TraitsPng from "./images/nav/traits.png";
@@ -29,12 +29,33 @@ import SteamJpg from "./images/nav/steam.jpg";
 import SourceIcon from "@mui/icons-material/Source";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 
-interface RouteData {
-  readonly url: string;
-  readonly title: string;
-  readonly iconComponent:
-    | string
-    | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+interface IInteralRoute {
+  to: string;
+  title: string;
+  icon: string | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+}
+
+interface IExternalRoute {
+  href: string;
+  title: string;
+  icon: string | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+}
+
+type TRouteData = IInteralRoute | IExternalRoute;
+
+interface NavIconLinkProps {
+  title: string;
+  icon: string | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+  iconWidth: number;
+}
+
+function NavIconLink({ title, icon, iconWidth }: NavIconLinkProps) {
+  // Check if the icon is base64 img data or assume it's an SVG Icon Component
+  return typeof icon === "string" ? (
+    <img src={icon} width={iconWidth} alt={title} />
+  ) : (
+    React.createElement(icon, { sx: { fontSize: `${iconWidth}px` } })
+  );
 }
 
 interface INavProps {
@@ -54,65 +75,56 @@ export default function Nav({
   const itemTextStyle = { lineHeight: `${iconWidth}px`, margin: "0px" };
   const drawerWidth = isNavOpen ? 240 : iconWidth + 26;
 
-  function createIconLinkElement(routeData: RouteData): JSX.Element {
-    // Check if the iconComponent is base64 img data or assume it's an SVG Icon Component
-    return typeof routeData.iconComponent === "string" ? (
-      <img src={routeData.iconComponent} width={iconWidth} alt={routeData.title} />
-    ) : (
-      <routeData.iconComponent sx={{ fontSize: `${iconWidth}px` }} />
-    );
-  }
-
-  const routeData: RouteData[] = [
+  const routeData: TRouteData[] = [
     {
-      url: "/creatures",
+      to: "/creatures",
       title: "Creatures",
-      iconComponent: CreaturesPng,
+      icon: CreaturesPng,
     },
     {
-      url: "/traits",
+      to: "/traits",
       title: "Traits",
-      iconComponent: TraitsPng,
+      icon: TraitsPng,
     },
     {
-      url: "/spells",
+      to: "/spells",
       title: "Spells",
-      iconComponent: SpellsPng,
+      icon: SpellsPng,
     },
     {
-      url: "/status-effects",
+      to: "/status-effects",
       title: "Status Effects",
-      iconComponent: StatusEffectsPng,
+      icon: StatusEffectsPng,
     },
     {
-      url: "https://github.com/rovermicrover/siralim-ultimate-ui",
+      href: "https://github.com/rovermicrover/siralim-ultimate-ui",
       title: "Source Code",
-      iconComponent: isDarkTheme ? GitDarkSvg : GitLightSvg,
+      icon: isDarkTheme ? GitDarkSvg : GitLightSvg,
     },
     {
-      url: "https://github.com/rovermicrover/",
+      href: "https://github.com/rovermicrover/",
       title: "Author",
-      iconComponent: AuthorJpg,
+      icon: AuthorJpg,
     },
     {
-      url: "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
+      href: "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
       title: "SU on Steam",
-      iconComponent: SteamJpg,
+      icon: SteamJpg,
     },
     {
-      url: "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
+      href: "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
       title: "Source 1",
-      iconComponent: SourceIcon,
+      icon: SourceIcon,
     },
     {
-      url: "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0",
+      href: "https://docs.google.com/spreadsheets/d/1qvWwf1fNB5jN8bJ8dFGAVzC7scgDCoBO-hglwjTT4iY/edit#gid=0",
       title: "Source 2",
-      iconComponent: SourceIcon,
+      icon: SourceIcon,
     },
     {
-      url: "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0",
+      href: "https://docs.google.com/spreadsheets/d/1hlS4iNB6Uj-KVKzmFEygZkeTfX-U73B9R2lXdV3d5I8/edit#gid=0",
       title: "Source 3",
-      iconComponent: SourceIcon,
+      icon: SourceIcon,
     },
   ];
 
@@ -134,33 +146,35 @@ export default function Nav({
             overflowX: "hidden",
           }}
         >
-          {routeData.map((data) => {
-            return (
-              <li key={data.title}>
-                <ListItem
-                  button
-                  key={data.title}
-                  component={MuiRouterLink}
-                  title={data.title}
-                  to={data.url}
-                >
-                  <ListItemIcon aria-hidden="true">
+          {routeData.map((route, i) => (
+            <li key={i}>
+              <ListItem
+                button
+                component={MuiSafeLink}
+                title={route.title}
+                to={(route as IInteralRoute).to}
+                href={(route as IExternalRoute).href}
+              >
+                <ListItemIcon aria-hidden="true">
+                  {isNavOpen ? (
                     <Tooltip
-                      title={isNavOpen ? "" : data.title}
+                      title={isNavOpen ? "" : route.title}
                       describeChild
                       arrow
                       placement="right"
                     >
-                      {createIconLinkElement(data)}
+                      <NavIconLink iconWidth={iconWidth} {...route} />
                     </Tooltip>
-                  </ListItemIcon>
-                  {isNavOpen && (
-                    <ListItemText primary={data.title} sx={itemTextStyle} />
+                  ) : (
+                    <NavIconLink iconWidth={iconWidth} {...route} />
                   )}
-                </ListItem>
-              </li>
-            );
-          })}
+                </ListItemIcon>
+                {isNavOpen && (
+                  <ListItemText primary={route.title} sx={itemTextStyle} />
+                )}
+              </ListItem>
+            </li>
+          ))}
 
           <ListItem sx={{ padding: "0px" }}>
             {
