@@ -32,8 +32,6 @@ import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
-import { useTheme } from "@mui/material/styles";
-import { useMediaQuery } from "@mui/material";
 import useQueryParamMutator from "../components/useQueryMutator";
 
 const FIELDS: Record<string, IField> = {
@@ -60,9 +58,6 @@ export default function StatusEffects() {
   const {results, query, filterButtonProps, FilterButtons, filterProps, filterDrawerProps,FilterDrawer,
     searchProps: searchInputProps, SearchInput, tablePaginationProps, TablePagination
 } = useQueryParamMutator(queryParamsStructure, FIELDS, fetchStatusEffects);
-
-  const theme = useTheme();
-  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
   const InstanceTablePagination = <TablePagination {...tablePaginationProps} />
 

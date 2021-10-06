@@ -33,8 +33,6 @@ import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import useQueryParamMutator from "../components/useQueryMutator";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "spells" },
@@ -57,9 +55,6 @@ export default function Spells() {
   const {results, query, filterButtonProps, FilterButtons, filterProps, filterDrawerProps,FilterDrawer,
     searchProps: searchInputProps, SearchInput, tablePaginationProps, TablePagination
 } = useQueryParamMutator(queryParamsStructure, FIELDS, fetchSpells);
-
-  const theme = useTheme();
-  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
   const InstanceTablePagination = <TablePagination {...tablePaginationProps} />
 
