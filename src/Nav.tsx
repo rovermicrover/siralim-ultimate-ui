@@ -154,6 +154,7 @@ export default function Nav({
                 title={route.title}
                 to={(route as IInteralRoute).to}
                 href={(route as IExternalRoute).href}
+                sx={{ paddingLeft: "12px" }}
               >
                 <ListItemIcon aria-hidden="true">
                   {isNavOpen ? (
