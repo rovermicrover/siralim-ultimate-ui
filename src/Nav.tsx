@@ -15,6 +15,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { MuiSafeLink } from "./components/MuiRouterLink";
 
 import CreaturesPng from "./images/nav/creatures.png";
+import PerksPng from "./images/nav/perks.png";
 import TraitsPng from "./images/nav/traits.png";
 import SpellsPng from "./images/nav/spells.png";
 import StatusEffectsPng from "./images/nav/status_effects.png";
@@ -85,6 +86,11 @@ export default function Nav({
       to: "/traits",
       title: "Traits",
       icon: TraitsPng,
+    },
+    {
+      to: "/perks",
+      title: "Perks",
+      icon: PerksPng,
     },
     {
       to: "/spells",

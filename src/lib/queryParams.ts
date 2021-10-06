@@ -12,6 +12,9 @@ import {
   IRaceIntFilterSchema,
   ISpellIntFilterSchema,
   IStatusEffectIntFilterSchema,
+  IPerkStrFilterSchema,
+  IPerkIntFilterSchema,
+  IPerkBoolFilterSchema,
 } from "./openAPI";
 
 export type TSortDirection = "asc" | "desc";
@@ -27,7 +30,10 @@ type IFilters =
   | ITraitIntFilterSchema
   | IRaceIntFilterSchema
   | ISpellIntFilterSchema
-  | IStatusEffectIntFilterSchema;
+  | IStatusEffectIntFilterSchema
+  | IPerkStrFilterSchema
+  | IPerkIntFilterSchema
+  | IPerkBoolFilterSchema;
 
 export interface IQueryParams {
   page: number;

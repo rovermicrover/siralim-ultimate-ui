@@ -23,22 +23,29 @@ import { buildQueryParamsMutators } from "../lib/queryParams";
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
 import {
-  IStatusEffectModel,
-  IStatusEffectsSearchSchema,
-  IStatusEffectStrFilterSchema,
-  IStatusEffectIntFilterSchema,
+  IPerkModel,
+  IPerksSearchSchema,
+  IPerkStrFilterSchema,
+  IPerkIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
+import BoolIcon from "../components/BoolIcon";
+import TagsPills from "../components/TagsPills";
 
 const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name", resource: "status_effects" },
-  category: { type: "string", label: "Category" },
-  turns: { type: "number", label: "Turns" },
-  leave_chance: { type: "number", label: "Leave Chance" },
-  max_stacks: { type: "number", label: "Stacks" },
+  specialization_name: {
+    type: "string",
+    label: "Specialization",
+    resource: "specializations",
+  },
+  name: { type: "string", label: "Name", resource: "perks" },
+  ranks: { type: "number", label: "Ranks" },
+  cost: { type: "number", label: "Cost" },
+  annointment: { type: "boolean", label: "Annointment" },
+  ascension: { type: "boolean", label: "Ascension" },
 };
 
 const queryParamsStructure = {
@@ -50,31 +57,28 @@ const queryParamsStructure = {
   filters: withDefault(JsonParam, []),
 };
 
-const fetchStatusEffects =
-  buildSearch<IStatusEffectsSearchSchema>("status-effects");
+const fetchPerks = buildSearch<IPerksSearchSchema>("perks");
 
-export default function StatusEffects() {
-  const [statusEffects, setStatusEffects] = useState<IStatusEffectModel[]>([]);
+export default function Perks() {
+  const [perks, setPerks] = useState<IPerkModel[]>([]);
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
   const [query, setQuery] = useQueryParams(queryParamsStructure);
   const [queryDebounced] = useDebounce(query, 200);
 
   useEffect(() => {
-    fetchStatusEffects(queryDebounced).then(
-      (response: IStatusEffectsSearchSchema) => {
-        if (response.pagination) {
-          const {
-            data,
-            pagination: { count },
-          } = response;
-          setStatusEffects(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        }
+    fetchPerks(queryDebounced).then((response: IPerksSearchSchema) => {
+      if (response.pagination) {
+        const {
+          data,
+          pagination: { count },
+        } = response;
+        setPerks(data);
+        setCount(count);
+      } else {
+        // TODO: handle validation error
       }
-    );
+    });
   }, [queryDebounced]);
 
   const {
@@ -86,13 +90,14 @@ export default function StatusEffects() {
     addFilter,
     removeFilter,
     clearFilters,
-  } = buildQueryParamsMutators<
-    IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
-  >(query, setQuery);
+  } = buildQueryParamsMutators<IPerkStrFilterSchema | IPerkIntFilterSchema>(
+    query,
+    setQuery
+  );
 
   return (
     <>
-      <FilterDrawer<IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema>
+      <FilterDrawer<IPerkStrFilterSchema | IPerkIntFilterSchema>
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}
@@ -108,7 +113,7 @@ export default function StatusEffects() {
             <TableRow role="presentation">
               <TableCell
                 role="presentation"
-                colSpan={5}
+                colSpan={6}
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
                 <FilterButtons
@@ -132,51 +137,58 @@ export default function StatusEffects() {
             </TableRow>
             <TableRow>
               <SortedTableHeader
+                field={"specialization_name"}
+                name={FIELDS["specialization_name"].label}
+                sort={query}
+                reduceSort={reduceSort}
+              />
+              <SortedTableHeader
                 field={"name"}
                 name={FIELDS["name"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
-                field={"category"}
-                name={FIELDS["category"].label}
+                align="center"
+                field={"ranks"}
+                name={FIELDS["ranks"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
-                field={"turns"}
-                name={FIELDS["turns"].label}
+                field={"cost"}
+                name={FIELDS["cost"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
-                field={"leave_chance"}
-                name={FIELDS["leave_chance"].label}
+                field={"annointment"}
+                name={FIELDS["annointment"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
-                field={"max_stacks"}
-                name={FIELDS["max_stacks"].label}
+                field={"ascension"}
+                name={FIELDS["ascension"].label}
                 sort={query}
                 reduceSort={reduceSort}
               />
             </TableRow>
           </TableHead>
           <TableBody>
-            {statusEffects.map((statusEffect) => (
-              <React.Fragment key={statusEffect.id}>
+            {perks.map((perk) => (
+              <React.Fragment key={perk.id}>
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
                   <TableCell>
                     <img
                       width="32"
-                      src={statusEffect.icon}
-                      alt={`Status Effect Icon ${statusEffect.name}`}
+                      src={perk.specialization.icon}
+                      alt={`Perk Specialization Icon ${perk.specialization.name}`}
                       aria-hidden="true"
                     />
                     <Typography
@@ -184,25 +196,57 @@ export default function StatusEffects() {
                       gutterBottom
                       component="div"
                     >
-                      {statusEffect.name}
+                      {perk.specialization.name}
                     </Typography>
                   </TableCell>
-                  <TableCell>{statusEffect.category}</TableCell>
-                  <TableCell align="center">{statusEffect.turns}</TableCell>
+                  <TableCell>
+                    <img
+                      width="32"
+                      src={perk.icon}
+                      alt={`Perk Icon ${perk.name}`}
+                      aria-hidden="true"
+                    />
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      component="div"
+                    >
+                      {perk.name}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">{perk.ranks}</TableCell>
+                  <TableCell align="center">{perk.cost}</TableCell>
                   <TableCell align="center">
-                    {statusEffect.leave_chance
-                      ? `${statusEffect.leave_chance}%`
-                      : ""}
+                    <BoolIcon
+                      bool={perk.annointment}
+                      title={FIELDS["annointment"].label}
+                    />
                   </TableCell>
                   <TableCell align="center">
-                    {statusEffect.max_stacks}
+                    <BoolIcon
+                      bool={perk.ascension}
+                      title={FIELDS["ascension"].label}
+                    />
                   </TableCell>
                 </TableRow>
-                <TableRow>
-                  <TableCell colSpan={5} style={{ paddingTop: 0 }}>
-                    {statusEffect.description}
+                <TableRow
+                  sx={
+                    perk.tags.length > 0
+                      ? { "& > *": { borderBottom: "unset !important" } }
+                      : {}
+                  }
+                >
+                  <TableCell colSpan={6} style={{ paddingTop: 0 }}>
+                    {perk.description}
                   </TableCell>
                 </TableRow>
+                {perk.tags.length > 0 && (
+                  <TableRow>
+                    <TableCell colSpan={6} style={{ paddingTop: 0 }}>
+                      <TagsPills tags={perk.tags} />
+                    </TableCell>
+                  </TableRow>
+                )}
               </React.Fragment>
             ))}
           </TableBody>

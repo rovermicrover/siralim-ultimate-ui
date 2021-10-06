@@ -159,6 +159,88 @@ export interface IPaginationResponseSchema {
   count: number;
 }
 
+export interface IPerkArrayStrFilterSchema {
+  field: PerkArrayStrFilterEnum;
+  comparator: ArrayFilterComparators;
+  value?: Partial<string> & Partial<number>;
+}
+
+export interface IPerkBoolFilterSchema {
+  field: PerkBoolFilterEnum;
+  comparator: BoolFilterComparators;
+  value?: boolean;
+}
+
+export interface IPerkFiltersSchema {
+  filters: Array<
+    | IPerkIntFilterSchema
+    | IPerkBoolFilterSchema
+    | IPerkStrFilterSchema
+    | IPerkArrayStrFilterSchema
+  >;
+}
+
+export interface IPerkIntFilterSchema {
+  field: PerkIntFilterEnum;
+  comparator: NumericFilterComparators;
+  value?: Partial<number> & Partial<number>;
+}
+
+export interface IPerkModel {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  icon?: string;
+  ranks: number;
+  cost: number;
+  annointment: boolean;
+  ascension: boolean;
+  specialization: ISpecializationModel;
+  tags: Array<string>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IPerkSortingRequestSchema {
+  by?: PerkSortingEnum;
+  direction?: SortDirections;
+}
+
+export interface IPerkSortingResponseSchema {
+  by: PerkSortingEnum;
+  direction: SortDirections;
+}
+
+export interface IPerkStrFilterSchema {
+  field: PerkStrFilterEnum;
+  comparator: StringFilterComparators;
+  value?: string;
+}
+
+export interface IPerksGetSchema {
+  data: IPerkModel;
+}
+
+export interface IPerksIndexSchema {
+  data: Array<IPerkModel>;
+  pagination: IPaginationResponseSchema;
+  sorting: IPerkSortingResponseSchema;
+}
+
+export interface IPerksSearchRequest {
+  filter: IPerkFiltersSchema;
+  pagination?: IPaginationRequestSchema;
+  sorting?: IPerkSortingRequestSchema;
+}
+
+export interface IPerksSearchSchema {
+  data: Array<IPerkModel>;
+  filter: IPerkFiltersSchema;
+  pagination: IPaginationResponseSchema;
+  sorting: IPerkSortingResponseSchema;
+}
+
 export interface IRaceFiltersSchema {
   filters: Array<IRaceIntFilterSchema | IRaceStrFilterSchema>;
 }
@@ -279,6 +361,67 @@ export interface ISourcesSearchSchema {
   filter: ISourceFiltersSchema;
   pagination: IPaginationResponseSchema;
   sorting: ISourceSortingResponseSchema;
+}
+
+export interface ISpecializationFiltersSchema {
+  filters: Array<
+    ISpecializationIntFilterSchema | ISpecializationStrFilterSchema
+  >;
+}
+
+export interface ISpecializationIntFilterSchema {
+  field: SpecializationIntFilterEnum;
+  comparator: NumericFilterComparators;
+  value?: Partial<number> & Partial<number>;
+}
+
+export interface ISpecializationModel {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  icon?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ISpecializationSortingRequestSchema {
+  by?: SpecializationSortingEnum;
+  direction?: SortDirections;
+}
+
+export interface ISpecializationSortingResponseSchema {
+  by: SpecializationSortingEnum;
+  direction: SortDirections;
+}
+
+export interface ISpecializationStrFilterSchema {
+  field: SpecializationStrFilterEnum;
+  comparator: StringFilterComparators;
+  value?: string;
+}
+
+export interface ISpecializationsGetSchema {
+  data: ISpecializationModel;
+}
+
+export interface ISpecializationsIndexSchema {
+  data: Array<ISpecializationModel>;
+  pagination: IPaginationResponseSchema;
+  sorting: ISpecializationSortingResponseSchema;
+}
+
+export interface ISpecializationsSearchRequest {
+  filter: ISpecializationFiltersSchema;
+  pagination?: IPaginationRequestSchema;
+  sorting?: ISpecializationSortingRequestSchema;
+}
+
+export interface ISpecializationsSearchSchema {
+  data: Array<ISpecializationModel>;
+  filter: ISpecializationFiltersSchema;
+  pagination: IPaginationResponseSchema;
+  sorting: ISpecializationSortingResponseSchema;
 }
 
 export interface ISpellArrayStrFilterSchema {
@@ -503,6 +646,11 @@ export type ArrayFilterComparators =
 /**
  * An enumeration.
  */
+export type BoolFilterComparators = "==" | "!=" | "is_null" | "is_not_null";
+
+/**
+ * An enumeration.
+ */
 export type CreatureArrayStrFilterEnum = "trait_tags";
 
 /**
@@ -580,6 +728,41 @@ export type NumericFilterComparators =
 /**
  * An enumeration.
  */
+export type PerkArrayStrFilterEnum = "tags";
+
+/**
+ * An enumeration.
+ */
+export type PerkBoolFilterEnum = "annointment" | "ascension";
+
+/**
+ * An enumeration.
+ */
+export type PerkIntFilterEnum = "id" | "ranks" | "cost" | "specialization_id";
+
+/**
+ * An enumeration.
+ */
+export type PerkSortingEnum =
+  | "id"
+  | "name"
+  | "ranks"
+  | "cost"
+  | "annointment"
+  | "ascension"
+  | "specialization_id"
+  | "specialization_name"
+  | "tags"
+  | "full_text";
+
+/**
+ * An enumeration.
+ */
+export type PerkStrFilterEnum = "name" | "specialization_name" | "full_text";
+
+/**
+ * An enumeration.
+ */
 export type RaceIntFilterEnum = "id" | "default_klass_id";
 
 /**
@@ -616,6 +799,21 @@ export type SourceSortingEnum = "id" | "name" | "full_text";
  * An enumeration.
  */
 export type SourceStrFilterEnum = "name" | "full_text";
+
+/**
+ * An enumeration.
+ */
+export type SpecializationIntFilterEnum = "id";
+
+/**
+ * An enumeration.
+ */
+export type SpecializationSortingEnum = "id" | "name";
+
+/**
+ * An enumeration.
+ */
+export type SpecializationStrFilterEnum = "name";
 
 /**
  * An enumeration.

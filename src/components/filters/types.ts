@@ -5,41 +5,18 @@ import {
   ISpellStrFilterSchema,
   IKlassStrFilterSchema,
   IStatusEffectStrFilterSchema,
+  IPerkStrFilterSchema,
   ICreatureIntFilterSchema,
   ITraitIntFilterSchema,
   IRaceIntFilterSchema,
   ISpellIntFilterSchema,
   IStatusEffectIntFilterSchema,
-  CreatureStrFilterEnum,
-  TraitStrFilterEnum,
-  RaceStrFilterEnum,
-  SpellStrFilterEnum,
-  KlassStrFilterEnum,
-  StatusEffectStrFilterEnum,
-  CreatureIntFilterEnum,
-  TraitIntFilterEnum,
-  RaceIntFilterEnum,
-  SpellIntFilterEnum,
-  KlassIntFilterEnum,
-  StatusEffectIntFilterEnum,
+  IPerkIntFilterSchema,
+  IPerkBoolFilterSchema,
 } from "../../lib/openAPI";
 
-export type StrFilterEnum =
-  | CreatureStrFilterEnum
-  | TraitStrFilterEnum
-  | RaceStrFilterEnum
-  | SpellStrFilterEnum
-  | KlassStrFilterEnum
-  | StatusEffectStrFilterEnum
-  | CreatureIntFilterEnum
-  | TraitIntFilterEnum
-  | RaceIntFilterEnum
-  | SpellIntFilterEnum
-  | KlassIntFilterEnum
-  | StatusEffectIntFilterEnum;
-
 export interface IField {
-  type: "string" | "number";
+  type: "string" | "boolean" | "number";
   label: string;
   abbr?: string;
   resource?: string;
@@ -52,8 +29,11 @@ export type TAllFilters =
   | ISpellStrFilterSchema
   | IKlassStrFilterSchema
   | IStatusEffectStrFilterSchema
+  | IPerkStrFilterSchema
   | ICreatureIntFilterSchema
   | ITraitIntFilterSchema
   | IRaceIntFilterSchema
   | ISpellIntFilterSchema
-  | IStatusEffectIntFilterSchema;
+  | IStatusEffectIntFilterSchema
+  | IPerkIntFilterSchema
+  | IPerkBoolFilterSchema;

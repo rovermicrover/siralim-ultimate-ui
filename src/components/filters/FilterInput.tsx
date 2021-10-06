@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Autocomplete from "@mui/material/Autocomplete";
+import Checkbox from "@mui/material/Checkbox";
 import { useDebounce } from "use-debounce";
 
 import { IField, TAllFilters } from "./types";
@@ -22,6 +23,12 @@ import { buildSearch } from "../../lib/search";
 
 const STRING_COMPARITORS: StringFilterComparators[] = [
   "ilike",
+  "==",
+  "!=",
+  "is_not_null",
+  "is_null",
+];
+const BOOL_COMPARITORS: StringFilterComparators[] = [
   "==",
   "!=",
   "is_not_null",
@@ -53,6 +60,7 @@ const COMPARITOR_TO_LABELS = {
 
 const TYPE_TO_COMPARITORS = {
   string: STRING_COMPARITORS,
+  boolean: BOOL_COMPARITORS,
   number: NUMBER_COMPARITORS,
 };
 
@@ -77,8 +85,18 @@ export default function FilterInput<IFilter extends TAllFilters>({
   const comparitors = TYPE_TO_COMPARITORS[fieldType];
   const handleFieldChange = (e: SelectChangeEvent<string>) => {
     const newField = e.target.value;
-    const newValue = fields[newField].type === "number" ? 1 : "";
-    const newComparator = fields[newField].type === "number" ? ">=" : "ilike";
+    const newValue =
+      fields[newField].type === "number"
+        ? 1
+        : fields[newField].type === "boolean"
+        ? true
+        : "";
+    const newComparator =
+      fields[newField].type === "number"
+        ? ">="
+        : fields[newField].type === "boolean"
+        ? "=="
+        : "ilike";
     updateFilter(index, {
       ...filter,
       field: e.target.value,
@@ -91,11 +109,13 @@ export default function FilterInput<IFilter extends TAllFilters>({
     updateFilter(index, { ...filter, comparator: e.target.value } as IFilter);
   };
 
-  const handleValueChange = (value: string | number | null) => {
+  const handleValueChange = (value: string | boolean | number | null) => {
     const targetValue = value ? String(value) : "";
     const newValue =
       fields[filter.field].type === "number"
         ? parseInt(targetValue)
+        : fields[filter.field].type === "boolean"
+        ? Boolean(targetValue)
         : `${targetValue}`;
     updateFilter(index, { ...filter, value: newValue } as IFilter);
   };
@@ -196,6 +216,11 @@ export default function FilterInput<IFilter extends TAllFilters>({
                     {...params}
                   />
                 )}
+              />
+            ) : fieldType === "boolean" ? (
+              <Checkbox
+                checked={Boolean(filter.value)}
+                onChange={(e) => handleValueChange(e.target.checked)}
               />
             ) : (
               <TextField

@@ -18,6 +18,7 @@ import Nav from "./Nav";
 
 import Creatures from "./pages/Creatures";
 import Traits from "./pages/Traits";
+import Perks from "./pages/Perks";
 import Spells from "./pages/Spells";
 import StatusEffects from "./pages/StatusEffects";
 
@@ -93,6 +94,9 @@ function App() {
                   </Route>
                   <Route path="/traits">
                     <Traits />
+                  </Route>
+                  <Route path="/perks">
+                    <Perks />
                   </Route>
                   <Route path="/spells">
                     <Spells />
