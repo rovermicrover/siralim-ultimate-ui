@@ -34,6 +34,7 @@ import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import BoolIcon from "../components/BoolIcon";
 import TagsPills from "../components/TagsPills";
+import useQueryParamMutator from "../components/useQueryMutator";
 
 const FIELDS: Record<string, IField> = {
   specialization_name: {
@@ -60,52 +61,16 @@ const queryParamsStructure = {
 const fetchPerks = buildSearch<IPerksSearchSchema>("perks");
 
 export default function Perks() {
-  const [perks, setPerks] = useState<IPerkModel[]>([]);
-  const [count, setCount] = useState<number>(0);
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure);
-  const [queryDebounced] = useDebounce(query, 200);
+  const {results, query, filterButtonProps, FilterButtons, filterProps, filterDrawerProps,FilterDrawer,
+    searchProps: searchInputProps, SearchInput, tablePaginationProps, TablePagination
+} = useQueryParamMutator(queryParamsStructure, FIELDS, fetchPerks);
 
-  useEffect(() => {
-    fetchPerks(queryDebounced).then((response: IPerksSearchSchema) => {
-      if (response.pagination) {
-        const {
-          data,
-          pagination: { count },
-        } = response;
-        setPerks(data);
-        setCount(count);
-      } else {
-        // TODO: handle validation error
-      }
-    });
-  }, [queryDebounced]);
-
-  const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = buildQueryParamsMutators<IPerkStrFilterSchema | IPerkIntFilterSchema>(
-    query,
-    setQuery
-  );
+  const InstanceTablePagination = <TablePagination {...tablePaginationProps} />
 
   return (
     <>
       <FilterDrawer<IPerkStrFilterSchema | IPerkIntFilterSchema>
-        isFilterDrawerOpen={isFilterDrawerOpen}
-        setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-        filters={query.filters}
-        addFilter={addFilter}
-        updateFilter={updateFilter}
-        removeFilter={removeFilter}
-        clearFilters={clearFilters}
-        fields={FIELDS}
+        {...filterDrawerProps}
       />
       <TableContainer className="data-table-container" component={Paper}>
         <Table stickyHeader>
@@ -117,69 +82,59 @@ export default function Perks() {
                 sx={{ paddingTop: "10px", paddingBottom: "10px" }}
               >
                 <FilterButtons
-                  hasFilters={query.filters.length ? true : false}
-                  setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={clearFilters}
+                {...filterButtonProps}
                 />
-                <SearchInput q={query.q} qChange={qChange} />
+                <SearchInput {...searchInputProps} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">
-              <TablePagination
-                role="presentation"
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
+              {InstanceTablePagination}
             </TableRow>
             <TableRow>
               <SortedTableHeader
                 field={"specialization_name"}
                 name={FIELDS["specialization_name"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 field={"name"}
                 name={FIELDS["name"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"ranks"}
                 name={FIELDS["ranks"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"cost"}
                 name={FIELDS["cost"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"annointment"}
                 name={FIELDS["annointment"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"ascension"}
                 name={FIELDS["ascension"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={filterProps.reduceSort}
               />
             </TableRow>
           </TableHead>
           <TableBody>
-            {perks.map((perk) => (
+            {results.map((perk) => (
               <React.Fragment key={perk.id}>
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
@@ -252,15 +207,7 @@ export default function Perks() {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TablePagination
-                style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
-                count={count}
-                page={query.page}
-                labelRowsPerPage="Num: "
-                onPageChange={pageChange}
-                rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
-              />
+              {InstanceTablePagination}
             </TableRow>
           </TableFooter>
         </Table>
