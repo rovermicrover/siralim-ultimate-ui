@@ -62,7 +62,10 @@ const queryParamsStructure = new QueryParamStructure<
   sort_by: withDefault(StringParam, "race_name"),
 });
 
-const fetchCreatures = buildSearch<ICreaturesSearchSchema>("creatures");
+const fetchCreatures = buildSearch<
+  ICreaturesSearchSchema,
+  ICreatureStrFilterSchema | ICreatureIntFilterSchema
+>("creatures");
 
 export default function Creatures() {
   const [creatures, setCreatures] = useState<ICreatureModel[]>([]);

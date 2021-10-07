@@ -49,7 +49,10 @@ const queryParamsStructure = new QueryParamStructure<
   IPerkStrFilterSchema | IPerkIntFilterSchema
 >();
 
-const fetchPerks = buildSearch<IPerksSearchSchema>("perks");
+const fetchPerks = buildSearch<
+  IPerksSearchSchema,
+  IPerkStrFilterSchema | IPerkIntFilterSchema
+>("perks");
 
 export default function Perks() {
   const [perks, setPerks] = useState<IPerkModel[]>([]);

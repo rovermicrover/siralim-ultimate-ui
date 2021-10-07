@@ -41,7 +41,10 @@ const queryParamsStructure = new QueryParamStructure<
   ISpellStrFilterSchema | ISpellIntFilterSchema
 >();
 
-const fetchSpells = buildSearch<ISpellsSearchSchema>("spells");
+const fetchSpells = buildSearch<
+  ISpellsSearchSchema,
+  ISpellStrFilterSchema | ISpellIntFilterSchema
+>("spells");
 
 export default function Spells() {
   const [spells, setSpells] = useState<ISpellModel[]>([]);

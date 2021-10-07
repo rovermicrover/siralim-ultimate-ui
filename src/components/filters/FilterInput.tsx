@@ -121,7 +121,7 @@ export default function FilterInput<IFilter extends TAllFilters>({
   };
 
   const fetchResource = useMemo(
-    () => buildSearch<any>(fieldResource || "creatures"),
+    () => buildSearch<any, IFilter>(fieldResource || "creatures"),
     [fieldResource]
   );
 
