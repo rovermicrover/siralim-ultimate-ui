@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce/lib";
 import { useQueryParams } from "use-query-params";
 import {DecodedValueMap, QueryParamConfigMap } from 'serialize-query-params';
-import { buildQueryParamsMutators } from "../lib/queryParams";
+import { buildQueryParamsMutators, IQueryParams } from "../lib/queryParams";
 import { ICreatureIntFilterSchema, ICreatureModel, ICreaturesSearchSchema, ICreatureStrFilterSchema } from "../lib/openAPI";
 import FilterDrawer from "./filters/FilterDrawer";
 import FilterButtons from "./filters/FilterButtons";
 import SearchInput from "./SearchInput";
 import { TablePagination } from "@mui/material";
+import { IField } from "./filters/types";
 
-export default function useQueryParamMutator(QPCMap: QueryParamConfigMap, filterFields, fetcher: (arg0: DecodedValueMap<QueryParamConfigMap>) => Promise<any>) {
+export default function useQueryParamMutator(QPCMap, filterFields: Record<string, IField>, fetcher: (arg0: IQueryParams) => Promise<any>) {
     const [results, setResults] = useState<ICreatureModel[]>([]);
     const [count, setCount] = useState<number>(0);
   
