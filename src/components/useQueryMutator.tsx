@@ -10,6 +10,10 @@ import SearchInput from "./SearchInput";
 import { TablePagination } from "@mui/material";
 import { IField } from "./filters/types";
 
+
+// Returning a component from a hook to reduce repetitive code
+// https://dev.to/droopytersen/new-react-hooks-pattern-return-a-component-31bh
+
 export default function useQueryParamMutator(QPCMap, filterFields: Record<string, IField>, fetcher: (arg0: IQueryParams) => Promise<any>) {
     const [results, setResults] = useState<ICreatureModel[]>([]);
     const [count, setCount] = useState<number>(0);
