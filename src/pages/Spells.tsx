@@ -12,7 +12,10 @@ import Typography from "@mui/material/Typography";
 import { useDebounce } from "use-debounce";
 
 import { useQueryParams } from "use-query-params";
-import { buildQueryParamsMutators, QueryParamStructure } from "../lib/queryParams";
+import {
+  buildQueryParamsMutators,
+  QueryParamStructure,
+} from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
@@ -34,7 +37,9 @@ const FIELDS: Record<string, IField> = {
   charges: { type: "number", label: "Charges" },
 };
 
-const queryParamsStructure = new QueryParamStructure();
+const queryParamsStructure = new QueryParamStructure<
+  ISpellStrFilterSchema | ISpellIntFilterSchema
+>();
 
 const fetchSpells = buildSearch<ISpellsSearchSchema>("spells");
 
@@ -42,7 +47,7 @@ export default function Spells() {
   const [spells, setSpells] = useState<ISpellModel[]>([]);
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure);
+  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
   const [queryDebounced] = useDebounce(query, 200);
 
   useEffect(() => {

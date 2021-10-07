@@ -12,7 +12,10 @@ import Typography from "@mui/material/Typography";
 import { useDebounce } from "use-debounce";
 
 import { useQueryParams } from "use-query-params";
-import { buildQueryParamsMutators, QueryParamStructure } from "../lib/queryParams";
+import {
+  buildQueryParamsMutators,
+  QueryParamStructure,
+} from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
@@ -35,7 +38,9 @@ const FIELDS: Record<string, IField> = {
   max_stacks: { type: "number", label: "Stacks" },
 };
 
-const queryParamsStructure = new QueryParamStructure();
+const queryParamsStructure = new QueryParamStructure<
+  IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
+>();
 
 const fetchStatusEffects =
   buildSearch<IStatusEffectsSearchSchema>("status-effects");
@@ -44,7 +49,7 @@ export default function StatusEffects() {
   const [statusEffects, setStatusEffects] = useState<IStatusEffectModel[]>([]);
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure);
+  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
   const [queryDebounced] = useDebounce(query, 200);
 
   useEffect(() => {

@@ -11,7 +11,10 @@ import TablePagination from "@mui/material/TablePagination";
 import { useDebounce } from "use-debounce";
 
 import { useQueryParams } from "use-query-params";
-import { buildQueryParamsMutators, QueryParamStructure } from "../lib/queryParams";
+import {
+  buildQueryParamsMutators,
+  QueryParamStructure,
+} from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import FilterButtons from "../components/filters/FilterButtons";
@@ -32,7 +35,9 @@ const FIELDS: Record<string, IField> = {
   material_name: { type: "string", label: "Material Name" },
 };
 
-const queryParamsStructure = new QueryParamStructure();
+const queryParamsStructure = new QueryParamStructure<
+  ITraitStrFilterSchema | ITraitIntFilterSchema
+>();
 
 const fetchTraits = buildSearch<ITraitsSearchSchema>("traits");
 
@@ -40,7 +45,7 @@ export default function Traits() {
   const [traits, setTraits] = useState<ITraitModel[]>([]);
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure);
+  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
   const [queryDebounced] = useDebounce(query, 200);
 
   useEffect(() => {

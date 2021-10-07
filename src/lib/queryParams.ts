@@ -1,48 +1,21 @@
-import { JsonParam, NumberParam, QueryParamConfig, StringParam, withDefault } from "use-query-params";
-import { TAllFilters } from "../components/filters/types";
-
 import {
-  ICreatureStrFilterSchema,
-  ITraitStrFilterSchema,
-  IRaceStrFilterSchema,
-  ISpellStrFilterSchema,
-  IKlassStrFilterSchema,
-  IStatusEffectStrFilterSchema,
-  ICreatureIntFilterSchema,
-  ITraitIntFilterSchema,
-  IRaceIntFilterSchema,
-  ISpellIntFilterSchema,
-  IStatusEffectIntFilterSchema,
-  IPerkStrFilterSchema,
-  IPerkIntFilterSchema,
-  IPerkBoolFilterSchema,
-} from "./openAPI";
+  JsonParam,
+  NumberParam,
+  QueryParamConfig,
+  StringParam,
+  withDefault,
+} from "use-query-params";
+import { TAllFilters } from "../components/filters/types";
 
 export type TSortDirection = "asc" | "desc";
 
-type IFilters =
-  | ICreatureStrFilterSchema
-  | ITraitStrFilterSchema
-  | IRaceStrFilterSchema
-  | ISpellStrFilterSchema
-  | IKlassStrFilterSchema
-  | IStatusEffectStrFilterSchema
-  | ICreatureIntFilterSchema
-  | ITraitIntFilterSchema
-  | IRaceIntFilterSchema
-  | ISpellIntFilterSchema
-  | IStatusEffectIntFilterSchema
-  | IPerkStrFilterSchema
-  | IPerkIntFilterSchema
-  | IPerkBoolFilterSchema;
-
-export interface IQueryParams {
+export interface IQueryParams<IFilter extends TAllFilters> {
   page: number;
   size: number;
   sort_by: string;
   sort_direction: string;
   q: string;
-  filters: IFilters[];
+  filters: IFilter[];
 }
 
 export interface ISort {
@@ -56,8 +29,8 @@ export interface ISortAction {
 }
 
 export function buildQueryParamsMutators<IFilter extends TAllFilters>(
-  query: IQueryParams,
-  setQuery: (query: IQueryParams) => void
+  query: IQueryParams<IFilter>,
+  setQuery: (query: IQueryParams<IFilter>) => void
 ) {
   const pageChange = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -119,18 +92,22 @@ export function buildQueryParamsMutators<IFilter extends TAllFilters>(
   };
 }
 
-
 // https://stackoverflow.com/a/37682352
 // default class params with simple use new C() or new C({}) or new C({size: 10})
-export class QueryParamStructure {
+export class QueryParamStructure<IFilter extends TAllFilters> {
   page: QueryParamConfig<number> = withDefault(NumberParam, 0);
   size: QueryParamConfig<number> = withDefault(NumberParam, 25);
   sort_by: QueryParamConfig<string> = withDefault(StringParam, "name");
-  sort_direction: QueryParamConfig<string> =  withDefault(StringParam, "asc");
+  sort_direction: QueryParamConfig<string> = withDefault(StringParam, "asc");
   q: QueryParamConfig<string> = withDefault(StringParam, "");
-  filters: QueryParamConfig<any, any> = withDefault(JsonParam, []);
+  filters: QueryParamConfig<IFilter[]> = withDefault(JsonParam, []);
 
-  constructor(params?: Partial<QueryParamStructure>) {
-      Object.assign(this, params)
-    }
-};
+  constructor(params?: Partial<QueryParamStructure<IFilter>>) {
+    Object.assign(this, params);
+  }
+
+  toConfigMap() {
+    const { page, size, sort_by, sort_direction, q, filters } = this;
+    return { page, size, sort_by, sort_direction, q, filters };
+  }
+}

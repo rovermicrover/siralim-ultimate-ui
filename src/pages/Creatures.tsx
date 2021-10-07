@@ -13,12 +13,11 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDebounce } from "use-debounce";
 
+import { useQueryParams, StringParam, withDefault } from "use-query-params";
 import {
-  useQueryParams,
-  StringParam,
-  withDefault,
-} from "use-query-params";
-import { buildQueryParamsMutators, QueryParamStructure } from "../lib/queryParams";
+  buildQueryParamsMutators,
+  QueryParamStructure,
+} from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import TagsPills from "../components/TagsPills";
@@ -57,8 +56,10 @@ const SORTABLE_FIELDS = [
   "speed",
 ];
 
-const queryParamsStructure = new QueryParamStructure({
-  sort_by: withDefault(StringParam, "race_name")
+const queryParamsStructure = new QueryParamStructure<
+  ICreatureStrFilterSchema | ICreatureIntFilterSchema
+>({
+  sort_by: withDefault(StringParam, "race_name"),
 });
 
 const fetchCreatures = buildSearch<ICreaturesSearchSchema>("creatures");
@@ -67,7 +68,7 @@ export default function Creatures() {
   const [creatures, setCreatures] = useState<ICreatureModel[]>([]);
   const [count, setCount] = useState<number>(0);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure);
+  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
   const [queryDebounced] = useDebounce(query, 200);
 
   const theme = useTheme();
