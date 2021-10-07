@@ -10,14 +10,8 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import { useDebounce } from "use-debounce";
 
-import {
-  useQueryParams,
-  StringParam,
-  NumberParam,
-  JsonParam,
-  withDefault,
-} from "use-query-params";
-import { buildQueryParamsMutators } from "../lib/queryParams";
+import { useQueryParams } from "use-query-params";
+import { buildQueryParamsMutators, QueryParamStructure } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import FilterButtons from "../components/filters/FilterButtons";
@@ -38,14 +32,7 @@ const FIELDS: Record<string, IField> = {
   material_name: { type: "string", label: "Material Name" },
 };
 
-const queryParamsStructure = {
-  page: withDefault(NumberParam, 0),
-  size: withDefault(NumberParam, 25),
-  sort_by: withDefault(StringParam, "name"),
-  sort_direction: withDefault(StringParam, "asc"),
-  q: withDefault(StringParam, ""),
-  filters: withDefault(JsonParam, []),
-};
+const queryParamsStructure = new QueryParamStructure();
 
 const fetchTraits = buildSearch<ITraitsSearchSchema>("traits");
 

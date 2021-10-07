@@ -11,14 +11,8 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { useDebounce } from "use-debounce";
 
-import {
-  useQueryParams,
-  StringParam,
-  NumberParam,
-  JsonParam,
-  withDefault,
-} from "use-query-params";
-import { buildQueryParamsMutators } from "../lib/queryParams";
+import { useQueryParams } from "use-query-params";
+import { buildQueryParamsMutators, QueryParamStructure } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
@@ -48,14 +42,10 @@ const FIELDS: Record<string, IField> = {
   ascension: { type: "boolean", label: "Ascension" },
 };
 
-const queryParamsStructure = {
-  page: withDefault(NumberParam, 0),
-  size: withDefault(NumberParam, 25),
-  sort_by: withDefault(StringParam, "name"),
-  sort_direction: withDefault(StringParam, "asc"),
-  q: withDefault(StringParam, ""),
-  filters: withDefault(JsonParam, []),
-};
+
+
+
+const queryParamsStructure = new QueryParamStructure();
 
 const fetchPerks = buildSearch<IPerksSearchSchema>("perks");
 

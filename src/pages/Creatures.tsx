@@ -16,11 +16,9 @@ import { useDebounce } from "use-debounce";
 import {
   useQueryParams,
   StringParam,
-  NumberParam,
-  JsonParam,
   withDefault,
 } from "use-query-params";
-import { buildQueryParamsMutators } from "../lib/queryParams";
+import { buildQueryParamsMutators, QueryParamStructure } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import TagsPills from "../components/TagsPills";
@@ -59,14 +57,9 @@ const SORTABLE_FIELDS = [
   "speed",
 ];
 
-const queryParamsStructure = {
-  page: withDefault(NumberParam, 0),
-  size: withDefault(NumberParam, 25),
-  sort_by: withDefault(StringParam, "race_name"),
-  sort_direction: withDefault(StringParam, "asc"),
-  q: withDefault(StringParam, ""),
-  filters: withDefault(JsonParam, []),
-};
+const queryParamsStructure = new QueryParamStructure({
+  sort_by: withDefault(StringParam, "race_name")
+});
 
 const fetchCreatures = buildSearch<ICreaturesSearchSchema>("creatures");
 

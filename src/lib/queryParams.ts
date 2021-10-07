@@ -1,3 +1,4 @@
+import { JsonParam, NumberParam, QueryParamConfig, StringParam, withDefault } from "use-query-params";
 import { TAllFilters } from "../components/filters/types";
 
 import {
@@ -117,3 +118,19 @@ export function buildQueryParamsMutators<IFilter extends TAllFilters>(
     clearFilters,
   };
 }
+
+
+// https://stackoverflow.com/a/37682352
+// default class params with simple use new C() or new C({}) or new C({size: 10})
+export class QueryParamStructure {
+  page: QueryParamConfig<number> = withDefault(NumberParam, 0);
+  size: QueryParamConfig<number> = withDefault(NumberParam, 25);
+  sort_by: QueryParamConfig<string> = withDefault(StringParam, "name");
+  sort_direction: QueryParamConfig<string> =  withDefault(StringParam, "asc");
+  q: QueryParamConfig<string> = withDefault(StringParam, "");
+  filters: QueryParamConfig<any, any> = withDefault(JsonParam, []);
+
+  constructor(params?: Partial<QueryParamStructure>) {
+      Object.assign(this, params)
+    }
+};
