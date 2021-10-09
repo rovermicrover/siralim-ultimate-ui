@@ -38,6 +38,7 @@ const queryParamsStructure = new QueryParamStructure<
 >();
 
 const fetchSpells = buildSearch<ISpellsSearchSchema>(ESearchEndPoints.spells);
+const test: number = "SFD";
 
 export default function Spells() {
   const {
