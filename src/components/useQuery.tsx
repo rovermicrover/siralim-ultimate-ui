@@ -15,7 +15,7 @@ type Unwrapped<Type> = Type extends Promise<infer WrappedType>
   : Type
 
 
-export function useQuery<IFilter extends TAllFilters, IResponse extends ISearchSchema>(fetcher: QueryResponseFn<IResponse, IFilter>, params: QueryParamStructure<IFilter>){
+export function useQuery<IFilter extends TAllFilters, IResponse extends ISearchSchema>(fetcher: QueryResponseFn<IResponse>, params: QueryParamStructure<IFilter>){
     
     // extract the IModel and ISearchSchema from the fetcher function
     type PromiseType = ReturnType<typeof fetcher>;

@@ -3,7 +3,7 @@ import { ISearchSchema, TAllFilters } from "../components/filters/types";
 
 const COMPARATOR_LIKES = ["like", "ilike"];
 
-export interface QueryResponseFn<IResponse extends ISearchSchema, IFilter extends TAllFilters> {
+export interface QueryResponseFn<IResponse extends ISearchSchema> {
   ({
     page,
     size,
@@ -11,12 +11,12 @@ export interface QueryResponseFn<IResponse extends ISearchSchema, IFilter extend
     sort_direction,
     q,
     filters,
-  }: IQueryParams<IFilter>): Promise<IResponse>
+  }: IQueryParams<IResponse['filter']['filters'][number]>): Promise<IResponse>
 }
 
-export function buildSearch<IResponse extends ISearchSchema, IFilter extends TAllFilters>(
+export function buildSearch<IResponse extends ISearchSchema>(
   path: string
-): QueryResponseFn<IResponse, IFilter> {
+): QueryResponseFn<IResponse> {
   return async function ({
     page,
     size,

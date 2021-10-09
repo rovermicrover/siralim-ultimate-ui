@@ -37,10 +37,7 @@ const queryParamsStructure = new QueryParamStructure<
   ITraitStrFilterSchema | ITraitIntFilterSchema
 >();
 
-const fetchTraits = buildSearch<
-  ITraitsSearchSchema,
-  ITraitStrFilterSchema | ITraitIntFilterSchema
->("traits");
+const fetchTraits = buildSearch<ITraitsSearchSchema>("traits");
 
 export default function Traits() {
   const {results: traits, count, query, queryMutators} = useQuery(fetchTraits, queryParamsStructure);

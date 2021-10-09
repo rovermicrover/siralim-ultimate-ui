@@ -43,10 +43,7 @@ const queryParamsStructure = new QueryParamStructure<
   IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
 >();
 
-const fetchStatusEffects = buildSearch<
-  IStatusEffectsSearchSchema,
-  IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
->("status-effects");
+const fetchStatusEffects = buildSearch<IStatusEffectsSearchSchema>("status-effects");
 
 export default function StatusEffects() {
   const {results: statusEffects, count, query, queryMutators} = useQuery(fetchStatusEffects, queryParamsStructure);

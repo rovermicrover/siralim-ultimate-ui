@@ -38,10 +38,7 @@ const queryParamsStructure = new QueryParamStructure<
   ISpellStrFilterSchema | ISpellIntFilterSchema
 >();
 
-const fetchSpells = buildSearch<
-  ISpellsSearchSchema,
-  ISpellStrFilterSchema | ISpellIntFilterSchema
->("spells");
+const fetchSpells = buildSearch<ISpellsSearchSchema>("spells");
 
 export default function Spells() {
   const {results: spells, count, query, queryMutators} = useQuery(fetchSpells, queryParamsStructure);
