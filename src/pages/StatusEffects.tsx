@@ -9,18 +9,15 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
-import { useDebounce } from "use-debounce";
 
 import { useQueryParams } from "use-query-params";
 import {
-  buildQueryParamsMutators,
   QueryParamStructure,
 } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
 import {
-  IStatusEffectModel,
   IStatusEffectsSearchSchema,
   IStatusEffectStrFilterSchema,
   IStatusEffectIntFilterSchema,
