@@ -22,6 +22,8 @@ import Perks from "./pages/Perks";
 import Spells from "./pages/Spells";
 import StatusEffects from "./pages/StatusEffects";
 
+const number: number = 'FOobar';
+
 const lightTheme = createTheme({
   palette: {
     mode: "light",
