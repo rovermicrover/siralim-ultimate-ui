@@ -41,6 +41,17 @@ const fetchTraits = buildSearch<ITraitsSearchSchema>("traits");
 
 export default function Traits() {
   const {results: traits, count, query, queryMutators} = useQuery(fetchTraits, queryParamsStructure);
+  const {
+    pageChange,
+    sizeChange,
+    reduceSort,
+    qChange,
+    updateFilter,
+    addFilter,
+    removeFilter,
+    clearFilters,
+  } = queryMutators;
+
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   return (
@@ -49,10 +60,10 @@ export default function Traits() {
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}
-        addFilter={queryMutators.addFilter}
-        updateFilter={queryMutators.updateFilter}
-        removeFilter={queryMutators.removeFilter}
-        clearFilters={queryMutators.clearFilters}
+        addFilter={addFilter}
+        updateFilter={updateFilter}
+        removeFilter={removeFilter}
+        clearFilters={clearFilters}
         fields={FIELDS}
       />
       <TableContainer className="data-table-container" component={Paper}>
@@ -67,9 +78,9 @@ export default function Traits() {
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={queryMutators.clearFilters}
+                  clearFilters={clearFilters}
                 />
-                <SearchInput q={query.q} qChange={queryMutators.qChange} />
+                <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">
@@ -78,9 +89,9 @@ export default function Traits() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={queryMutators.pageChange}
+                onPageChange={pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={queryMutators.sizeChange}
+                onRowsPerPageChange={sizeChange}
               />
             </TableRow>
             <TableRow>
@@ -88,14 +99,14 @@ export default function Traits() {
                 field={"name"}
                 name={FIELDS["name"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"material_name"}
                 name={FIELDS["material_name"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
             </TableRow>
           </TableHead>
@@ -136,9 +147,9 @@ export default function Traits() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={queryMutators.pageChange}
+                onPageChange={pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={queryMutators.sizeChange}
+                onRowsPerPageChange={sizeChange}
               />
             </TableRow>
           </TableFooter>

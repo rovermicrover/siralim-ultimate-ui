@@ -64,6 +64,16 @@ const fetchCreatures = buildSearch<ICreaturesSearchSchema>("creatures");
 
 export default function Creatures() {
   const {results: creatures, count, query, queryMutators} = useQuery(fetchCreatures, queryParamsStructure);
+  const {
+    pageChange,
+    sizeChange,
+    reduceSort,
+    qChange,
+    updateFilter,
+    addFilter,
+    removeFilter,
+    clearFilters,
+  } = queryMutators;
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   const theme = useTheme();
@@ -76,10 +86,10 @@ export default function Creatures() {
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}
-        addFilter={queryMutators.addFilter}
-        updateFilter={queryMutators.updateFilter}
-        removeFilter={queryMutators.removeFilter}
-        clearFilters={queryMutators.clearFilters}
+        addFilter={addFilter}
+        updateFilter={updateFilter}
+        removeFilter={removeFilter}
+        clearFilters={clearFilters}
         fields={FIELDS}
       />
       <TableContainer className="data-table-container" component={Paper}>
@@ -94,9 +104,9 @@ export default function Creatures() {
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={queryMutators.clearFilters}
+                  clearFilters={clearFilters}
                 />
-                <SearchInput q={query.q} qChange={queryMutators.qChange} />
+                <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">
@@ -105,9 +115,9 @@ export default function Creatures() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={queryMutators.pageChange}
+                onPageChange={pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={queryMutators.sizeChange}
+                onRowsPerPageChange={sizeChange}
               />
             </TableRow>
             <TableRow>
@@ -122,7 +132,7 @@ export default function Creatures() {
                       : FIELDS[field].abbr || FIELDS[field].label
                   }
                   sort={query}
-                  reduceSort={queryMutators.reduceSort}
+                  reduceSort={reduceSort}
                 />
               ))}
             </TableRow>
@@ -216,9 +226,9 @@ export default function Creatures() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={queryMutators.pageChange}
+                onPageChange={pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={queryMutators.sizeChange}
+                onRowsPerPageChange={sizeChange}
               />
             </TableRow>
           </TableFooter>

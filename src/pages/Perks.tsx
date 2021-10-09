@@ -51,6 +51,16 @@ const fetchPerks = buildSearch<IPerksSearchSchema>("perks");
 
 export default function Perks() {
   const {results: perks, count, query, queryMutators} = useQuery(fetchPerks, queryParamsStructure);
+  const {
+    pageChange,
+    sizeChange,
+    reduceSort,
+    qChange,
+    updateFilter,
+    addFilter,
+    removeFilter,
+    clearFilters,
+  } = queryMutators;
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   return (
@@ -59,10 +69,10 @@ export default function Perks() {
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}
-        addFilter={queryMutators.addFilter}
-        updateFilter={queryMutators.updateFilter}
-        removeFilter={queryMutators.removeFilter}
-        clearFilters={queryMutators.clearFilters}
+        addFilter={addFilter}
+        updateFilter={updateFilter}
+        removeFilter={removeFilter}
+        clearFilters={clearFilters}
         fields={FIELDS}
       />
       <TableContainer className="data-table-container" component={Paper}>
@@ -77,9 +87,9 @@ export default function Perks() {
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={queryMutators.clearFilters}
+                  clearFilters={clearFilters}
                 />
-                <SearchInput q={query.q} qChange={queryMutators.qChange} />
+                <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">
@@ -88,9 +98,9 @@ export default function Perks() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={queryMutators.pageChange}
+                onPageChange={pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={queryMutators.sizeChange}
+                onRowsPerPageChange={sizeChange}
               />
             </TableRow>
             <TableRow>
@@ -98,41 +108,41 @@ export default function Perks() {
                 field={"specialization_name"}
                 name={FIELDS["specialization_name"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 field={"name"}
                 name={FIELDS["name"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"ranks"}
                 name={FIELDS["ranks"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"cost"}
                 name={FIELDS["cost"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"annointment"}
                 name={FIELDS["annointment"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"ascension"}
                 name={FIELDS["ascension"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
             </TableRow>
           </TableHead>
@@ -215,9 +225,9 @@ export default function Perks() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={queryMutators.pageChange}
+                onPageChange={pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={queryMutators.sizeChange}
+                onRowsPerPageChange={sizeChange}
               />
             </TableRow>
           </TableFooter>

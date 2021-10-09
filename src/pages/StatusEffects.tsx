@@ -44,6 +44,17 @@ const fetchStatusEffects = buildSearch<IStatusEffectsSearchSchema>("status-effec
 
 export default function StatusEffects() {
   const {results: statusEffects, count, query, queryMutators} = useQuery(fetchStatusEffects, queryParamsStructure);
+  const {
+    pageChange,
+    sizeChange,
+    reduceSort,
+    qChange,
+    updateFilter,
+    addFilter,
+    removeFilter,
+    clearFilters,
+  } = queryMutators;
+
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
  
   return (
@@ -52,10 +63,10 @@ export default function StatusEffects() {
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}
-        addFilter={queryMutators.addFilter}
-        updateFilter={queryMutators.updateFilter}
-        removeFilter={queryMutators.removeFilter}
-        clearFilters={queryMutators.clearFilters}
+        addFilter={addFilter}
+        updateFilter={updateFilter}
+        removeFilter={removeFilter}
+        clearFilters={clearFilters}
         fields={FIELDS}
       />
       <TableContainer className="data-table-container" component={Paper}>
@@ -70,9 +81,9 @@ export default function StatusEffects() {
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={queryMutators.clearFilters}
+                  clearFilters={clearFilters}
                 />
-                <SearchInput q={query.q} qChange={queryMutators.qChange} />
+                <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">
@@ -81,9 +92,9 @@ export default function StatusEffects() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={queryMutators.pageChange}
+                onPageChange={pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={queryMutators.sizeChange}
+                onRowsPerPageChange={sizeChange}
               />
             </TableRow>
             <TableRow>
@@ -91,34 +102,34 @@ export default function StatusEffects() {
                 field={"name"}
                 name={FIELDS["name"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 field={"category"}
                 name={FIELDS["category"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"turns"}
                 name={FIELDS["turns"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"leave_chance"}
                 name={FIELDS["leave_chance"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"max_stacks"}
                 name={FIELDS["max_stacks"].label}
                 sort={query}
-                reduceSort={queryMutators.reduceSort}
+                reduceSort={reduceSort}
               />
             </TableRow>
           </TableHead>
@@ -169,9 +180,9 @@ export default function StatusEffects() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={queryMutators.pageChange}
+                onPageChange={pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={queryMutators.sizeChange}
+                onRowsPerPageChange={sizeChange}
               />
             </TableRow>
           </TableFooter>
