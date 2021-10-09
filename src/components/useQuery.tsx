@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce/lib";
-import { DecodedValueMap, QueryParamConfig, useQueryParams } from "use-query-params";
-import { ICreatureIntFilterSchema, ICreaturesSearchSchema, ICreatureStrFilterSchema, ISpellIntFilterSchema, ISpellsSearchSchema, ISpellStrFilterSchema } from "../lib/openAPI";
-import { buildQueryParamsMutators, IQueryParams, QueryParamStructure } from "../lib/queryParams";
+import { useQueryParams } from "use-query-params";
+import { buildQueryParamsMutators, QueryParamStructure } from "../lib/queryParams";
 import { QueryResponseFn } from "../lib/search";
 import { TAllFilters, ISearchSchema } from "./filters/types";
 
