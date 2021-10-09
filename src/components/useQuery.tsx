@@ -16,16 +16,13 @@ type Unwrapped<Type> = Type extends Promise<infer WrappedType>
 
 
 export function useQuery<IFilter extends TAllFilters, IResponse extends ISearchSchema>(fetcher: QueryResponseFn<IResponse, IFilter>, params: QueryParamStructure<IFilter>){
-    // const [results, setResults] = useState<ICreatureModel[]>([]);
     
     // extract the IModel and ISearchSchema from the fetcher function
     type PromiseType = ReturnType<typeof fetcher>;
     type ISchemaType = Unwrapped<PromiseType>
     type IModelType = ISchemaType['data'][number];
-    type IFilter_ = ISchemaType['filter'];
+
     const [results, setResults] = useState<IModelType[]>([]);
-
-
     const [count, setCount] = useState<number>(0);
     const [query, setQuery] = useQueryParams(params.toConfigMap());
     const [queryDebounced] = useDebounce(query, 200);

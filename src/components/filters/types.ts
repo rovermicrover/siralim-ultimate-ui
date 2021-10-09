@@ -1,18 +1,4 @@
 import {
-  ICreatureStrFilterSchema,
-  ITraitStrFilterSchema,
-  IRaceStrFilterSchema,
-  ISpellStrFilterSchema,
-  IKlassStrFilterSchema,
-  IStatusEffectStrFilterSchema,
-  IPerkStrFilterSchema,
-  ICreatureIntFilterSchema,
-  ITraitIntFilterSchema,
-  IRaceIntFilterSchema,
-  ISpellIntFilterSchema,
-  IStatusEffectIntFilterSchema,
-  IPerkIntFilterSchema,
-  IPerkBoolFilterSchema,
   ICreaturesSearchSchema,
   IRacesSearchSchema,
   ISpellsSearchSchema,
@@ -28,21 +14,6 @@ export interface IField {
   resource?: string;
 }
 
-export type TAllFilters =
-  | ICreatureStrFilterSchema
-  | ITraitStrFilterSchema
-  | IRaceStrFilterSchema
-  | ISpellStrFilterSchema
-  | IKlassStrFilterSchema
-  | IStatusEffectStrFilterSchema
-  | IPerkStrFilterSchema
-  | ICreatureIntFilterSchema
-  | ITraitIntFilterSchema
-  | IRaceIntFilterSchema
-  | ISpellIntFilterSchema
-  | IStatusEffectIntFilterSchema
-  | IPerkIntFilterSchema
-  | IPerkBoolFilterSchema;
-
-  export type ISearchSchema =
-ICreaturesSearchSchema | IStatusEffectsSearchSchema | IRacesSearchSchema | ISpellsSearchSchema | IPerksSearchSchema | ITraitsSearchSchema
+export type ISearchSchema =
+  ICreaturesSearchSchema | IStatusEffectsSearchSchema | IRacesSearchSchema | ISpellsSearchSchema | IPerksSearchSchema | ITraitsSearchSchema
+export type TAllFilters = ISearchSchema['filter']['filters'][number];
