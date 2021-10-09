@@ -1,6 +1,6 @@
-
-export type Search = 'creatures' |
-  'perks' |
-  'spells' |
-  'status-effects' |
-  'traits';
+export type Search =
+  | "creatures"
+  | "perks"
+  | "spells"
+  | "status-effects"
+  | "traits";

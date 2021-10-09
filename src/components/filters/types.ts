@@ -15,5 +15,10 @@ export interface IField {
 }
 
 export type ISearchSchema =
-  ICreaturesSearchSchema | IStatusEffectsSearchSchema | IRacesSearchSchema | ISpellsSearchSchema | IPerksSearchSchema | ITraitsSearchSchema
-export type TAllFilters = ISearchSchema['filter']['filters'][number];
+  | ICreaturesSearchSchema
+  | IStatusEffectsSearchSchema
+  | IRacesSearchSchema
+  | ISpellsSearchSchema
+  | IPerksSearchSchema
+  | ITraitsSearchSchema;
+export type TAllFilters = ISearchSchema["filter"]["filters"][number];

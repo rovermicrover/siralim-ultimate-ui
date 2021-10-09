@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,10 +10,7 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 
-import { useQueryParams } from "use-query-params";
-import {
-  QueryParamStructure,
-} from "../lib/queryParams";
+import { QueryParamStructure } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
@@ -40,23 +37,27 @@ const queryParamsStructure = new QueryParamStructure<
   IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
 >();
 
-const fetchStatusEffects = buildSearch<IStatusEffectsSearchSchema>("status-effects");
+const fetchStatusEffects =
+  buildSearch<IStatusEffectsSearchSchema>("status-effects");
 
 export default function StatusEffects() {
-  const {results: statusEffects, count, query, queryMutators} = useQuery(fetchStatusEffects, queryParamsStructure);
   const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = queryMutators;
-
+    results: statusEffects,
+    count,
+    query,
+    queryMutators: {
+      pageChange,
+      sizeChange,
+      reduceSort,
+      qChange,
+      updateFilter,
+      addFilter,
+      removeFilter,
+      clearFilters,
+    },
+  } = useQuery(fetchStatusEffects, queryParamsStructure);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
- 
+
   return (
     <>
       <FilterDrawer<IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,9 +13,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { StringParam, withDefault } from "use-query-params";
-import {
-  QueryParamStructure,
-} from "../lib/queryParams";
+import { QueryParamStructure } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import TagsPills from "../components/TagsPills";
@@ -63,22 +61,25 @@ const queryParamsStructure = new QueryParamStructure<
 const fetchCreatures = buildSearch<ICreaturesSearchSchema>("creatures");
 
 export default function Creatures() {
-  const {results: creatures, count, query, queryMutators} = useQuery(fetchCreatures, queryParamsStructure);
   const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = queryMutators;
+    results: creatures,
+    count,
+    query,
+    queryMutators: {
+      pageChange,
+      sizeChange,
+      reduceSort,
+      qChange,
+      updateFilter,
+      addFilter,
+      removeFilter,
+      clearFilters,
+    },
+  } = useQuery(fetchCreatures, queryParamsStructure);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   const theme = useTheme();
   const isLg = useMediaQuery(theme.breakpoints.up("lg"));
-
 
   return (
     <>

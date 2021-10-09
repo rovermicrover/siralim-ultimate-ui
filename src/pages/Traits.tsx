@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,10 +9,7 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 
-import { useQueryParams } from "use-query-params";
-import {
-  QueryParamStructure,
-} from "../lib/queryParams";
+import { QueryParamStructure } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import FilterButtons from "../components/filters/FilterButtons";
@@ -40,18 +37,21 @@ const queryParamsStructure = new QueryParamStructure<
 const fetchTraits = buildSearch<ITraitsSearchSchema>("traits");
 
 export default function Traits() {
-  const {results: traits, count, query, queryMutators} = useQuery(fetchTraits, queryParamsStructure);
   const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = queryMutators;
-
+    results: traits,
+    count,
+    query,
+    queryMutators: {
+      pageChange,
+      sizeChange,
+      reduceSort,
+      qChange,
+      updateFilter,
+      addFilter,
+      removeFilter,
+      clearFilters,
+    },
+  } = useQuery(fetchTraits, queryParamsStructure);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   return (

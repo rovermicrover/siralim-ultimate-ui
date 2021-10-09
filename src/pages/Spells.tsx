@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,9 +10,7 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 
-import {
-  QueryParamStructure,
-} from "../lib/queryParams";
+import { QueryParamStructure } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
@@ -41,17 +39,21 @@ const queryParamsStructure = new QueryParamStructure<
 const fetchSpells = buildSearch<ISpellsSearchSchema>("spells");
 
 export default function Spells() {
-  const {results: spells, count, query, queryMutators} = useQuery(fetchSpells, queryParamsStructure);
   const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = queryMutators;
+    results: spells,
+    count,
+    query,
+    queryMutators: {
+      pageChange,
+      sizeChange,
+      reduceSort,
+      qChange,
+      updateFilter,
+      addFilter,
+      removeFilter,
+      clearFilters,
+    },
+  } = useQuery(fetchSpells, queryParamsStructure);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   return (
