@@ -11,22 +11,18 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 
 import { QueryParamStructure } from "../lib/queryParams";
+import { IPerksSearchSchema } from "../lib/openAPI";
+import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
+import { useQuery } from "../lib/useQuery";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
-import {
-  IPerksSearchSchema,
-  IPerkStrFilterSchema,
-  IPerkIntFilterSchema,
-} from "../lib/openAPI";
-import { buildSearch } from "../lib/search";
-import { ESearchEndPoints } from "../lib/endpoints";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import BoolIcon from "../components/BoolIcon";
 import TagsPills from "../components/TagsPills";
-import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   specialization_name: {
@@ -42,7 +38,7 @@ const FIELDS: Record<string, IField> = {
 };
 
 const queryParamsStructure = new QueryParamStructure<
-  IPerkStrFilterSchema | IPerkIntFilterSchema
+  IPerksSearchSchema["filter"]["filters"][number]
 >();
 
 const fetchPerks = buildSearch<IPerksSearchSchema>(ESearchEndPoints.perks);
@@ -67,7 +63,7 @@ export default function Perks() {
 
   return (
     <>
-      <FilterDrawer<IPerkStrFilterSchema | IPerkIntFilterSchema>
+      <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}

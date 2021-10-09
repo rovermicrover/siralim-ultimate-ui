@@ -6,7 +6,7 @@ import {
   QueryParamStructure,
 } from "../lib/queryParams";
 import { QueryResponseFn } from "../lib/search";
-import { TAllFilters, ISearchSchema } from "./filters/types";
+import { TAllFilters, ISearchSchema } from "../components/filters/types";
 
 // checks to see if the `Type` is a promise wrapping an underlying type.
 // if so it returns the underlying type. if not, it returns back the type.

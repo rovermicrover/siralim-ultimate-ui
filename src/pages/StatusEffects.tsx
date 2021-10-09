@@ -11,20 +11,16 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 
 import { QueryParamStructure } from "../lib/queryParams";
+import { IStatusEffectsSearchSchema } from "../lib/openAPI";
+import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
+import { useQuery } from "../lib/useQuery";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
-import {
-  IStatusEffectsSearchSchema,
-  IStatusEffectStrFilterSchema,
-  IStatusEffectIntFilterSchema,
-} from "../lib/openAPI";
-import { buildSearch } from "../lib/search";
-import { ESearchEndPoints } from "../lib/endpoints";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
-import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: {
@@ -39,7 +35,7 @@ const FIELDS: Record<string, IField> = {
 };
 
 const queryParamsStructure = new QueryParamStructure<
-  IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
+  IStatusEffectsSearchSchema["filter"]["filters"][number]
 >();
 
 const fetchStatusEffects = buildSearch<IStatusEffectsSearchSchema>(
@@ -66,7 +62,7 @@ export default function StatusEffects() {
 
   return (
     <>
-      <FilterDrawer<IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema>
+      <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}

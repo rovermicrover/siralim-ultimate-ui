@@ -14,6 +14,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { StringParam, withDefault } from "use-query-params";
 import { QueryParamStructure } from "../lib/queryParams";
+import { ICreaturesSearchSchema } from "../lib/openAPI";
+import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
+import { useQuery } from "../lib/useQuery";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import TagsPills from "../components/TagsPills";
@@ -21,14 +25,6 @@ import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import { IField } from "../components/filters/types";
 import SearchInput from "../components/SearchInput";
-import {
-  ICreaturesSearchSchema,
-  ICreatureStrFilterSchema,
-  ICreatureIntFilterSchema,
-} from "../lib/openAPI";
-import { buildSearch } from "../lib/search";
-import { ESearchEndPoints } from "../lib/endpoints";
-import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.creatures },
@@ -66,7 +62,7 @@ const SORTABLE_FIELDS = [
 ];
 
 const queryParamsStructure = new QueryParamStructure<
-  ICreatureStrFilterSchema | ICreatureIntFilterSchema
+  ICreaturesSearchSchema["filter"]["filters"][number]
 >({
   sort_by: withDefault(StringParam, "race_name"),
 });
@@ -98,7 +94,7 @@ export default function Creatures() {
 
   return (
     <>
-      <FilterDrawer<ICreatureStrFilterSchema | ICreatureIntFilterSchema>
+      <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}

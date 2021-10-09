@@ -10,21 +10,17 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 
 import { QueryParamStructure } from "../lib/queryParams";
+import { ITraitsSearchSchema } from "../lib/openAPI";
+import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
+import { useQuery } from "../lib/useQuery";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import SearchInput from "../components/SearchInput";
 import TagsPills from "../components/TagsPills";
-import {
-  ITraitsSearchSchema,
-  ITraitStrFilterSchema,
-  ITraitIntFilterSchema,
-} from "../lib/openAPI";
-import { buildSearch } from "../lib/search";
-import { ESearchEndPoints } from "../lib/endpoints";
 import { IField } from "../components/filters/types";
-import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.traits },
@@ -32,7 +28,7 @@ const FIELDS: Record<string, IField> = {
 };
 
 const queryParamsStructure = new QueryParamStructure<
-  ITraitStrFilterSchema | ITraitIntFilterSchema
+  ITraitsSearchSchema["filter"]["filters"][number]
 >();
 
 const fetchTraits = buildSearch<ITraitsSearchSchema>(ESearchEndPoints.traits);
@@ -57,7 +53,7 @@ export default function Traits() {
 
   return (
     <>
-      <FilterDrawer<ITraitStrFilterSchema | ITraitIntFilterSchema>
+      <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}

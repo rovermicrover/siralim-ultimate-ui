@@ -11,21 +11,17 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 
 import { QueryParamStructure } from "../lib/queryParams";
+import { ISpellsSearchSchema } from "../lib/openAPI";
+import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
+import { useQuery } from "../lib/useQuery";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
 import TagsPills from "../components/TagsPills";
-import {
-  ISpellsSearchSchema,
-  ISpellStrFilterSchema,
-  ISpellIntFilterSchema,
-} from "../lib/openAPI";
-import { buildSearch } from "../lib/search";
-import { ESearchEndPoints } from "../lib/endpoints";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
-import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.spells },
@@ -38,7 +34,7 @@ const FIELDS: Record<string, IField> = {
 };
 
 const queryParamsStructure = new QueryParamStructure<
-  ISpellStrFilterSchema | ISpellIntFilterSchema
+  ISpellsSearchSchema["filter"]["filters"][number]
 >();
 
 const fetchSpells = buildSearch<ISpellsSearchSchema>(ESearchEndPoints.spells);
@@ -63,7 +59,7 @@ export default function Spells() {
 
   return (
     <>
-      <FilterDrawer<ISpellStrFilterSchema | ISpellIntFilterSchema>
+      <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}
