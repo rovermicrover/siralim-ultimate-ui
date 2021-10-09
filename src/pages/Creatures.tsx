@@ -11,11 +11,9 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useDebounce } from "use-debounce";
 
-import { useQueryParams, StringParam, withDefault } from "use-query-params";
+import { StringParam, withDefault } from "use-query-params";
 import {
-  buildQueryParamsMutators,
   QueryParamStructure,
 } from "../lib/queryParams";
 
@@ -26,12 +24,12 @@ import FilterDrawer from "../components/filters/FilterDrawer";
 import { IField } from "../components/filters/types";
 import SearchInput from "../components/SearchInput";
 import {
-  ICreatureModel,
   ICreaturesSearchSchema,
   ICreatureStrFilterSchema,
   ICreatureIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
+import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "creatures" },
@@ -68,42 +66,12 @@ const fetchCreatures = buildSearch<
 >("creatures");
 
 export default function Creatures() {
-  const [creatures, setCreatures] = useState<ICreatureModel[]>([]);
-  const [count, setCount] = useState<number>(0);
+  const {results: creatures, count, query, queryMutators} = useQuery(fetchCreatures, queryParamsStructure);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
-  const [queryDebounced] = useDebounce(query, 200);
 
   const theme = useTheme();
   const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
-  useEffect(() => {
-    fetchCreatures(queryDebounced).then((response: ICreaturesSearchSchema) => {
-      if (response.pagination) {
-        const {
-          data,
-          pagination: { count },
-        } = response;
-        setCreatures(data);
-        setCount(count);
-      } else {
-        // TODO: handle validation error
-      }
-    });
-  }, [queryDebounced]);
-
-  const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = buildQueryParamsMutators<
-    ICreatureStrFilterSchema | ICreatureIntFilterSchema
-  >(query, setQuery);
 
   return (
     <>
@@ -111,10 +79,10 @@ export default function Creatures() {
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}
-        addFilter={addFilter}
-        updateFilter={updateFilter}
-        removeFilter={removeFilter}
-        clearFilters={clearFilters}
+        addFilter={queryMutators.addFilter}
+        updateFilter={queryMutators.updateFilter}
+        removeFilter={queryMutators.removeFilter}
+        clearFilters={queryMutators.clearFilters}
         fields={FIELDS}
       />
       <TableContainer className="data-table-container" component={Paper}>
@@ -129,9 +97,9 @@ export default function Creatures() {
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={clearFilters}
+                  clearFilters={queryMutators.clearFilters}
                 />
-                <SearchInput q={query.q} qChange={qChange} />
+                <SearchInput q={query.q} qChange={queryMutators.qChange} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">
@@ -140,9 +108,9 @@ export default function Creatures() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={pageChange}
+                onPageChange={queryMutators.pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
+                onRowsPerPageChange={queryMutators.sizeChange}
               />
             </TableRow>
             <TableRow>
@@ -157,7 +125,7 @@ export default function Creatures() {
                       : FIELDS[field].abbr || FIELDS[field].label
                   }
                   sort={query}
-                  reduceSort={reduceSort}
+                  reduceSort={queryMutators.reduceSort}
                 />
               ))}
             </TableRow>
@@ -251,9 +219,9 @@ export default function Creatures() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={pageChange}
+                onPageChange={queryMutators.pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
+                onRowsPerPageChange={queryMutators.sizeChange}
               />
             </TableRow>
           </TableFooter>

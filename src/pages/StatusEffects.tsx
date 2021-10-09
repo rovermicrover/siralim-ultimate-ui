@@ -29,6 +29,7 @@ import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
+import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "status_effects" },
@@ -48,52 +49,19 @@ const fetchStatusEffects = buildSearch<
 >("status-effects");
 
 export default function StatusEffects() {
-  const [statusEffects, setStatusEffects] = useState<IStatusEffectModel[]>([]);
-  const [count, setCount] = useState<number>(0);
+  const {results: statusEffects, count, query, queryMutators} = useQuery(fetchStatusEffects, queryParamsStructure);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
-  const [queryDebounced] = useDebounce(query, 200);
-
-  useEffect(() => {
-    fetchStatusEffects(queryDebounced).then(
-      (response: IStatusEffectsSearchSchema) => {
-        if (response.pagination) {
-          const {
-            data,
-            pagination: { count },
-          } = response;
-          setStatusEffects(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        }
-      }
-    );
-  }, [queryDebounced]);
-
-  const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = buildQueryParamsMutators<
-    IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
-  >(query, setQuery);
-
+ 
   return (
     <>
       <FilterDrawer<IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema>
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}
-        addFilter={addFilter}
-        updateFilter={updateFilter}
-        removeFilter={removeFilter}
-        clearFilters={clearFilters}
+        addFilter={queryMutators.addFilter}
+        updateFilter={queryMutators.updateFilter}
+        removeFilter={queryMutators.removeFilter}
+        clearFilters={queryMutators.clearFilters}
         fields={FIELDS}
       />
       <TableContainer className="data-table-container" component={Paper}>
@@ -108,9 +76,9 @@ export default function StatusEffects() {
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={clearFilters}
+                  clearFilters={queryMutators.clearFilters}
                 />
-                <SearchInput q={query.q} qChange={qChange} />
+                <SearchInput q={query.q} qChange={queryMutators.qChange} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">
@@ -119,9 +87,9 @@ export default function StatusEffects() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={pageChange}
+                onPageChange={queryMutators.pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
+                onRowsPerPageChange={queryMutators.sizeChange}
               />
             </TableRow>
             <TableRow>
@@ -129,34 +97,34 @@ export default function StatusEffects() {
                 field={"name"}
                 name={FIELDS["name"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={queryMutators.reduceSort}
               />
               <SortedTableHeader
                 field={"category"}
                 name={FIELDS["category"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={queryMutators.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"turns"}
                 name={FIELDS["turns"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={queryMutators.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"leave_chance"}
                 name={FIELDS["leave_chance"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={queryMutators.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"max_stacks"}
                 name={FIELDS["max_stacks"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={queryMutators.reduceSort}
               />
             </TableRow>
           </TableHead>
@@ -207,9 +175,9 @@ export default function StatusEffects() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={pageChange}
+                onPageChange={queryMutators.pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
+                onRowsPerPageChange={queryMutators.sizeChange}
               />
             </TableRow>
           </TableFooter>

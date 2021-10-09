@@ -9,11 +9,8 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
-import { useDebounce } from "use-debounce";
 
-import { useQueryParams } from "use-query-params";
 import {
-  buildQueryParamsMutators,
   QueryParamStructure,
 } from "../lib/queryParams";
 
@@ -21,7 +18,6 @@ import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
 import TagsPills from "../components/TagsPills";
 import {
-  ISpellModel,
   ISpellsSearchSchema,
   ISpellStrFilterSchema,
   ISpellIntFilterSchema,
@@ -30,6 +26,7 @@ import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
+import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "spells" },
@@ -47,40 +44,8 @@ const fetchSpells = buildSearch<
 >("spells");
 
 export default function Spells() {
-  const [spells, setSpells] = useState<ISpellModel[]>([]);
-  const [count, setCount] = useState<number>(0);
+  const {results: spells, count, query, queryMutators} = useQuery(fetchSpells, queryParamsStructure);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
-  const [queryDebounced] = useDebounce(query, 200);
-
-  useEffect(() => {
-    fetchSpells(queryDebounced).then((response: ISpellsSearchSchema) => {
-      if (response.pagination) {
-        const {
-          data,
-          pagination: { count },
-        } = response;
-        setSpells(data);
-        setCount(count);
-      } else {
-        // TODO: handle validation error
-      }
-    });
-  }, [queryDebounced]);
-
-  const {
-    pageChange,
-    sizeChange,
-    reduceSort,
-    qChange,
-    updateFilter,
-    addFilter,
-    removeFilter,
-    clearFilters,
-  } = buildQueryParamsMutators<ISpellStrFilterSchema | ISpellIntFilterSchema>(
-    query,
-    setQuery
-  );
 
   return (
     <>
@@ -88,10 +53,10 @@ export default function Spells() {
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
         filters={query.filters}
-        addFilter={addFilter}
-        updateFilter={updateFilter}
-        removeFilter={removeFilter}
-        clearFilters={clearFilters}
+        addFilter={queryMutators.addFilter}
+        updateFilter={queryMutators.updateFilter}
+        removeFilter={queryMutators.removeFilter}
+        clearFilters={queryMutators.clearFilters}
         fields={FIELDS}
       />
       <TableContainer className="data-table-container" component={Paper}>
@@ -106,9 +71,9 @@ export default function Spells() {
                 <FilterButtons
                   hasFilters={query.filters.length ? true : false}
                   setIsFilterDrawerOpen={setIsFilterDrawerOpen}
-                  clearFilters={clearFilters}
+                  clearFilters={queryMutators.clearFilters}
                 />
-                <SearchInput q={query.q} qChange={qChange} />
+                <SearchInput q={query.q} qChange={queryMutators.qChange} />
               </TableCell>
             </TableRow>
             <TableRow role="presentation">
@@ -117,9 +82,9 @@ export default function Spells() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={pageChange}
+                onPageChange={queryMutators.pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
+                onRowsPerPageChange={queryMutators.sizeChange}
               />
             </TableRow>
             <TableRow>
@@ -128,21 +93,21 @@ export default function Spells() {
                 field={"name"}
                 name={FIELDS["name"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={queryMutators.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"klass_name"}
                 name={FIELDS["klass_name"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={queryMutators.reduceSort}
               />
               <SortedTableHeader
                 align="center"
                 field={"charges"}
                 name={FIELDS["charges"].label}
                 sort={query}
-                reduceSort={reduceSort}
+                reduceSort={queryMutators.reduceSort}
               />
               <TableCell align="right">Source</TableCell>
             </TableRow>
@@ -200,9 +165,9 @@ export default function Spells() {
                 count={count}
                 page={query.page}
                 labelRowsPerPage="Num: "
-                onPageChange={pageChange}
+                onPageChange={queryMutators.pageChange}
                 rowsPerPage={query.size}
-                onRowsPerPageChange={sizeChange}
+                onRowsPerPageChange={queryMutators.sizeChange}
               />
             </TableRow>
           </TableFooter>
