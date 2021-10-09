@@ -11,11 +11,9 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useDebounce } from "use-debounce";
 
-import { useQueryParams, StringParam, withDefault } from "use-query-params";
+import { StringParam, withDefault } from "use-query-params";
 import {
-  buildQueryParamsMutators,
   QueryParamStructure,
 } from "../lib/queryParams";
 
@@ -26,12 +24,12 @@ import FilterDrawer from "../components/filters/FilterDrawer";
 import { IField } from "../components/filters/types";
 import SearchInput from "../components/SearchInput";
 import {
-  ICreatureModel,
   ICreaturesSearchSchema,
   ICreatureStrFilterSchema,
   ICreatureIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
+import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "creatures" },
@@ -62,36 +60,10 @@ const queryParamsStructure = new QueryParamStructure<
   sort_by: withDefault(StringParam, "race_name"),
 });
 
-const fetchCreatures = buildSearch<
-  ICreaturesSearchSchema,
-  ICreatureStrFilterSchema | ICreatureIntFilterSchema
->("creatures");
+const fetchCreatures = buildSearch<ICreaturesSearchSchema>("creatures");
 
 export default function Creatures() {
-  const [creatures, setCreatures] = useState<ICreatureModel[]>([]);
-  const [count, setCount] = useState<number>(0);
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
-  const [queryDebounced] = useDebounce(query, 200);
-
-  const theme = useTheme();
-  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
-
-  useEffect(() => {
-    fetchCreatures(queryDebounced).then((response: ICreaturesSearchSchema) => {
-      if (response.pagination) {
-        const {
-          data,
-          pagination: { count },
-        } = response;
-        setCreatures(data);
-        setCount(count);
-      } else {
-        // TODO: handle validation error
-      }
-    });
-  }, [queryDebounced]);
-
+  const {results: creatures, count, query, queryMutators} = useQuery(fetchCreatures, queryParamsStructure);
   const {
     pageChange,
     sizeChange,
@@ -101,9 +73,12 @@ export default function Creatures() {
     addFilter,
     removeFilter,
     clearFilters,
-  } = buildQueryParamsMutators<
-    ICreatureStrFilterSchema | ICreatureIntFilterSchema
-  >(query, setQuery);
+  } = queryMutators;
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
+
+  const theme = useTheme();
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
+
 
   return (
     <>

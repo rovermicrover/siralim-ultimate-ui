@@ -9,18 +9,15 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
-import { useDebounce } from "use-debounce";
 
 import { useQueryParams } from "use-query-params";
 import {
-  buildQueryParamsMutators,
   QueryParamStructure,
 } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
 import {
-  IStatusEffectModel,
   IStatusEffectsSearchSchema,
   IStatusEffectStrFilterSchema,
   IStatusEffectIntFilterSchema,
@@ -29,6 +26,7 @@ import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
+import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "status_effects" },
@@ -42,35 +40,10 @@ const queryParamsStructure = new QueryParamStructure<
   IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
 >();
 
-const fetchStatusEffects = buildSearch<
-  IStatusEffectsSearchSchema,
-  IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
->("status-effects");
+const fetchStatusEffects = buildSearch<IStatusEffectsSearchSchema>("status-effects");
 
 export default function StatusEffects() {
-  const [statusEffects, setStatusEffects] = useState<IStatusEffectModel[]>([]);
-  const [count, setCount] = useState<number>(0);
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
-  const [queryDebounced] = useDebounce(query, 200);
-
-  useEffect(() => {
-    fetchStatusEffects(queryDebounced).then(
-      (response: IStatusEffectsSearchSchema) => {
-        if (response.pagination) {
-          const {
-            data,
-            pagination: { count },
-          } = response;
-          setStatusEffects(data);
-          setCount(count);
-        } else {
-          // TODO: handle validation error
-        }
-      }
-    );
-  }, [queryDebounced]);
-
+  const {results: statusEffects, count, query, queryMutators} = useQuery(fetchStatusEffects, queryParamsStructure);
   const {
     pageChange,
     sizeChange,
@@ -80,10 +53,10 @@ export default function StatusEffects() {
     addFilter,
     removeFilter,
     clearFilters,
-  } = buildQueryParamsMutators<
-    IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
-  >(query, setQuery);
+  } = queryMutators;
 
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
+ 
   return (
     <>
       <FilterDrawer<IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema>

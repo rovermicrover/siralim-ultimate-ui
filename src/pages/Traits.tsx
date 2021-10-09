@@ -8,11 +8,9 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import { useDebounce } from "use-debounce";
 
 import { useQueryParams } from "use-query-params";
 import {
-  buildQueryParamsMutators,
   QueryParamStructure,
 } from "../lib/queryParams";
 
@@ -22,13 +20,13 @@ import FilterDrawer from "../components/filters/FilterDrawer";
 import SearchInput from "../components/SearchInput";
 import TagsPills from "../components/TagsPills";
 import {
-  ITraitModel,
   ITraitsSearchSchema,
   ITraitStrFilterSchema,
   ITraitIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 import { IField } from "../components/filters/types";
+import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: "traits" },
@@ -39,33 +37,10 @@ const queryParamsStructure = new QueryParamStructure<
   ITraitStrFilterSchema | ITraitIntFilterSchema
 >();
 
-const fetchTraits = buildSearch<
-  ITraitsSearchSchema,
-  ITraitStrFilterSchema | ITraitIntFilterSchema
->("traits");
+const fetchTraits = buildSearch<ITraitsSearchSchema>("traits");
 
 export default function Traits() {
-  const [traits, setTraits] = useState<ITraitModel[]>([]);
-  const [count, setCount] = useState<number>(0);
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
-  const [queryDebounced] = useDebounce(query, 200);
-
-  useEffect(() => {
-    fetchTraits(queryDebounced).then((response: ITraitsSearchSchema) => {
-      if (response.pagination) {
-        const {
-          data,
-          pagination: { count },
-        } = response;
-        setTraits(data);
-        setCount(count);
-      } else {
-        // TODO: handle validation error
-      }
-    });
-  }, [queryDebounced]);
-
+  const {results: traits, count, query, queryMutators} = useQuery(fetchTraits, queryParamsStructure);
   const {
     pageChange,
     sizeChange,
@@ -75,10 +50,9 @@ export default function Traits() {
     addFilter,
     removeFilter,
     clearFilters,
-  } = buildQueryParamsMutators<ITraitStrFilterSchema | ITraitIntFilterSchema>(
-    query,
-    setQuery
-  );
+  } = queryMutators;
+
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   return (
     <>

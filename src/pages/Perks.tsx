@@ -9,18 +9,15 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
-import { useDebounce } from "use-debounce";
 
 import { useQueryParams } from "use-query-params";
 import {
-  buildQueryParamsMutators,
   QueryParamStructure,
 } from "../lib/queryParams";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
 import {
-  IPerkModel,
   IPerksSearchSchema,
   IPerkStrFilterSchema,
   IPerkIntFilterSchema,
@@ -31,6 +28,7 @@ import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import BoolIcon from "../components/BoolIcon";
 import TagsPills from "../components/TagsPills";
+import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
   specialization_name: {
@@ -49,33 +47,10 @@ const queryParamsStructure = new QueryParamStructure<
   IPerkStrFilterSchema | IPerkIntFilterSchema
 >();
 
-const fetchPerks = buildSearch<
-  IPerksSearchSchema,
-  IPerkStrFilterSchema | IPerkIntFilterSchema
->("perks");
+const fetchPerks = buildSearch<IPerksSearchSchema>("perks");
 
 export default function Perks() {
-  const [perks, setPerks] = useState<IPerkModel[]>([]);
-  const [count, setCount] = useState<number>(0);
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-  const [query, setQuery] = useQueryParams(queryParamsStructure.toConfigMap());
-  const [queryDebounced] = useDebounce(query, 200);
-
-  useEffect(() => {
-    fetchPerks(queryDebounced).then((response: IPerksSearchSchema) => {
-      if (response.pagination) {
-        const {
-          data,
-          pagination: { count },
-        } = response;
-        setPerks(data);
-        setCount(count);
-      } else {
-        // TODO: handle validation error
-      }
-    });
-  }, [queryDebounced]);
-
+  const {results: perks, count, query, queryMutators} = useQuery(fetchPerks, queryParamsStructure);
   const {
     pageChange,
     sizeChange,
@@ -85,10 +60,8 @@ export default function Perks() {
     addFilter,
     removeFilter,
     clearFilters,
-  } = buildQueryParamsMutators<IPerkStrFilterSchema | IPerkIntFilterSchema>(
-    query,
-    setQuery
-  );
+  } = queryMutators;
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   return (
     <>

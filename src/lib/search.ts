@@ -1,11 +1,23 @@
 import { IQueryParams } from "../lib/queryParams";
-import { TAllFilters } from "../components/filters/types";
+import { ISearchSchema, TAllFilters } from "../components/filters/types";
+import { Search } from "./endpoints";
 
 const COMPARATOR_LIKES = ["like", "ilike"];
 
-export function buildSearch<IResponse, IFilter extends TAllFilters>(
-  path: string
-) {
+export interface QueryResponseFn<IResponse extends ISearchSchema> {
+  ({
+    page,
+    size,
+    sort_by,
+    sort_direction,
+    q,
+    filters,
+  }: IQueryParams<IResponse['filter']['filters'][number]>): Promise<IResponse>
+}
+
+export function buildSearch<IResponse extends ISearchSchema>(
+  path: Search
+): QueryResponseFn<IResponse> {
   return async function ({
     page,
     size,
@@ -13,7 +25,7 @@ export function buildSearch<IResponse, IFilter extends TAllFilters>(
     sort_direction,
     q,
     filters,
-  }: IQueryParams<IFilter>): Promise<IResponse> {
+  }) {
     const newFilters = filters.map((f) => {
       const { value, comparator } = f;
       const newValue = COMPARATOR_LIKES.some((c) => c === comparator)
