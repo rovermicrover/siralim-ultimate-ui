@@ -40,6 +40,8 @@ function getBrowserIsDarkTheme() {
     : false;
 }
 
+const test: number = "55";
+
 const useIsDarkThemeState = createPersistedState("isDarkTheme");
 
 function App() {
