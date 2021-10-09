@@ -1,6 +1,6 @@
 import { IQueryParams } from "../lib/queryParams";
 import { ISearchSchema } from "../components/filters/types";
-import { Search } from "./endpoints";
+import { ESearchEndPoints } from "./endpoints";
 
 const COMPARATOR_LIKES = ["like", "ilike"];
 
@@ -16,7 +16,7 @@ export interface QueryResponseFn<IResponse extends ISearchSchema> {
 }
 
 export function buildSearch<IResponse extends ISearchSchema>(
-  path: Search
+  path: ESearchEndPoints
 ): QueryResponseFn<IResponse> {
   return async function ({ page, size, sort_by, sort_direction, q, filters }) {
     const newFilters = filters.map((f) => {

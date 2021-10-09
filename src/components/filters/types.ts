@@ -7,11 +7,13 @@ import {
   ITraitsSearchSchema,
 } from "../../lib/openAPI";
 
+import { ESearchEndPoints } from "../../lib/endpoints";
+
 export interface IField {
   type: "string" | "boolean" | "number";
   label: string;
   abbr?: string;
-  resource?: string;
+  resource?: ESearchEndPoints;
 }
 
 export type ISearchSchema =

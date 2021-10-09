@@ -27,13 +27,26 @@ import {
   ICreatureIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
 import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name", resource: "creatures" },
-  klass_name: { type: "string", label: "Class", resource: "classes" },
-  race_name: { type: "string", label: "Race", resource: "races" },
-  trait_name: { type: "string", label: "Trait", resource: "traits" },
+  name: { type: "string", label: "Name", resource: ESearchEndPoints.creatures },
+  klass_name: {
+    type: "string",
+    label: "Class",
+    resource: ESearchEndPoints.classes,
+  },
+  race_name: {
+    type: "string",
+    label: "Race",
+    resource: ESearchEndPoints.races,
+  },
+  trait_name: {
+    type: "string",
+    label: "Trait",
+    resource: ESearchEndPoints.traits,
+  },
   health: { abbr: "HP", type: "number", label: "Health" },
   attack: { abbr: "ATK", type: "number", label: "Attack" },
   intelligence: { abbr: "INT", type: "number", label: "Intelligence" },
@@ -58,7 +71,9 @@ const queryParamsStructure = new QueryParamStructure<
   sort_by: withDefault(StringParam, "race_name"),
 });
 
-const fetchCreatures = buildSearch<ICreaturesSearchSchema>("creatures");
+const fetchCreatures = buildSearch<ICreaturesSearchSchema>(
+  ESearchEndPoints.creatures
+);
 
 export default function Creatures() {
   const {

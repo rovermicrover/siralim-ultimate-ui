@@ -21,14 +21,19 @@ import {
   ISpellIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name", resource: "spells" },
-  klass_name: { type: "string", label: "Class", resource: "classes" },
+  name: { type: "string", label: "Name", resource: ESearchEndPoints.spells },
+  klass_name: {
+    type: "string",
+    label: "Class",
+    resource: ESearchEndPoints.classes,
+  },
   charges: { type: "number", label: "Charges" },
 };
 
@@ -36,7 +41,7 @@ const queryParamsStructure = new QueryParamStructure<
   ISpellStrFilterSchema | ISpellIntFilterSchema
 >();
 
-const fetchSpells = buildSearch<ISpellsSearchSchema>("spells");
+const fetchSpells = buildSearch<ISpellsSearchSchema>(ESearchEndPoints.spells);
 
 export default function Spells() {
   const {

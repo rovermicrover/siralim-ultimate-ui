@@ -22,11 +22,12 @@ import {
   ITraitIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
 import { IField } from "../components/filters/types";
 import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name", resource: "traits" },
+  name: { type: "string", label: "Name", resource: ESearchEndPoints.traits },
   material_name: { type: "string", label: "Material Name" },
 };
 
@@ -34,7 +35,7 @@ const queryParamsStructure = new QueryParamStructure<
   ITraitStrFilterSchema | ITraitIntFilterSchema
 >();
 
-const fetchTraits = buildSearch<ITraitsSearchSchema>("traits");
+const fetchTraits = buildSearch<ITraitsSearchSchema>(ESearchEndPoints.traits);
 
 export default function Traits() {
   const {

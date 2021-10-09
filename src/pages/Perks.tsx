@@ -20,6 +20,7 @@ import {
   IPerkIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
@@ -31,9 +32,9 @@ const FIELDS: Record<string, IField> = {
   specialization_name: {
     type: "string",
     label: "Specialization",
-    resource: "specializations",
+    resource: ESearchEndPoints.specializations,
   },
-  name: { type: "string", label: "Name", resource: "perks" },
+  name: { type: "string", label: "Name", resource: ESearchEndPoints.perks },
   ranks: { type: "number", label: "Ranks" },
   cost: { type: "number", label: "Cost" },
   annointment: { type: "boolean", label: "Annointment" },
@@ -44,7 +45,7 @@ const queryParamsStructure = new QueryParamStructure<
   IPerkStrFilterSchema | IPerkIntFilterSchema
 >();
 
-const fetchPerks = buildSearch<IPerksSearchSchema>("perks");
+const fetchPerks = buildSearch<IPerksSearchSchema>(ESearchEndPoints.perks);
 
 export default function Perks() {
   const {

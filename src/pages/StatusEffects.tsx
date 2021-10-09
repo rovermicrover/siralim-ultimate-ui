@@ -20,13 +20,18 @@ import {
   IStatusEffectIntFilterSchema,
 } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
+import { ESearchEndPoints } from "../lib/endpoints";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import { useQuery } from "../components/useQuery";
 
 const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name", resource: "status_effects" },
+  name: {
+    type: "string",
+    label: "Name",
+    resource: ESearchEndPoints.statusEffects,
+  },
   category: { type: "string", label: "Category" },
   turns: { type: "number", label: "Turns" },
   leave_chance: { type: "number", label: "Leave Chance" },
@@ -37,8 +42,9 @@ const queryParamsStructure = new QueryParamStructure<
   IStatusEffectStrFilterSchema | IStatusEffectIntFilterSchema
 >();
 
-const fetchStatusEffects =
-  buildSearch<IStatusEffectsSearchSchema>("status-effects");
+const fetchStatusEffects = buildSearch<IStatusEffectsSearchSchema>(
+  ESearchEndPoints.statusEffects
+);
 
 export default function StatusEffects() {
   const {
