@@ -5,8 +5,7 @@ on:
       - '*'
       - '!main'
   pull_request:
-    branches:
-      - '*'
+     types: [assigned, opened, synchronize, reopened]
 jobs:
   test:
     runs-on: ubuntu-latest
