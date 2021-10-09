@@ -1,13 +1,6 @@
 name: siralim-ultimate-ui-ci-feature-branch
-on:
-  push:
-    branches:
-      - '*'
-      - '!main'
-  pull_request:
-    branches:
-      - '*'
-      - '!main'
+on: [push]
+
 jobs:
   test:
     runs-on: ubuntu-latest
