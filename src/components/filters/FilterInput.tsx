@@ -70,6 +70,9 @@ export default function FilterInput<IFilter extends TAllFilters>({
 }) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [filterValueDebounced] = useDebounce(filter.value, 200);
+  const isNullComparator = NULL_COMPARITORS.some(
+    (c: NullFilterComparators) => c === filter.comparator
+  );
 
   const fieldType = fields[filter.field].type;
   const fieldResource = fields[filter.field].resource;
@@ -98,10 +101,10 @@ export default function FilterInput<IFilter extends TAllFilters>({
 
   const handleComparitorChange = (e: SelectChangeEvent<string>) => {
     const newComparator = e.target.value;
-    const isNullComparator = NULL_COMPARITORS.some(
+    const isNewNullComparator = NULL_COMPARITORS.some(
       (c: NullFilterComparators) => c === newComparator
     );
-    const newValue = isNullComparator ? null : filter.value;
+    const newValue = isNewNullComparator ? null : filter.value;
     updateFilter(index, {
       ...filter,
       comparator: e.target.value,
@@ -206,40 +209,42 @@ export default function FilterInput<IFilter extends TAllFilters>({
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={4}>
-            {fieldResource ? (
-              <Autocomplete
-                freeSolo
-                options={suggestions}
-                filterOptions={(x) => x}
-                onChange={(e, value) => handleValueChange(value)}
-                onInputChange={(e, value) => handleValueChange(value)}
-                value={filter.value}
-                renderInput={(params) => (
-                  <TextField
-                    variant="standard"
-                    label="Value"
-                    type={fieldType}
-                    {...params}
-                  />
-                )}
-              />
-            ) : fieldType === "boolean" ? (
-              <Checkbox
-                checked={Boolean(filter.value)}
-                onChange={(e) => handleValueChange(e.target.checked)}
-              />
-            ) : (
-              <TextField
-                fullWidth
-                variant="standard"
-                label="Value"
-                value={filter.value}
-                type={fieldType}
-                onChange={(e) => handleValueChange(e.target.value)}
-              />
-            )}
-          </Grid>
+          {!isNullComparator && (
+            <Grid item xs={12} sm={4}>
+              {fieldResource ? (
+                <Autocomplete
+                  freeSolo
+                  options={suggestions}
+                  filterOptions={(x) => x}
+                  onChange={(e, value) => handleValueChange(value)}
+                  onInputChange={(e, value) => handleValueChange(value)}
+                  value={filter.value}
+                  renderInput={(params) => (
+                    <TextField
+                      variant="standard"
+                      label="Value"
+                      type={fieldType}
+                      {...params}
+                    />
+                  )}
+                />
+              ) : fieldType === "boolean" ? (
+                <Checkbox
+                  checked={Boolean(filter.value)}
+                  onChange={(e) => handleValueChange(e.target.checked)}
+                />
+              ) : (
+                <TextField
+                  fullWidth
+                  variant="standard"
+                  label="Value"
+                  value={filter.value}
+                  type={fieldType}
+                  onChange={(e) => handleValueChange(e.target.value)}
+                />
+              )}
+            </Grid>
+          )}
         </Grid>
       </FormGroup>
     </Paper>
