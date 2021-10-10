@@ -16,6 +16,8 @@ import { QueryParamProvider } from "use-query-params";
 import Header from "./Header";
 import Nav from "./Nav";
 
+import Home from "./pages/Home";
+
 import Creatures from "./pages/Creatures";
 import Traits from "./pages/Traits";
 import Perks from "./pages/Perks";
@@ -103,6 +105,9 @@ function App() {
                   </Route>
                   <Route path="/status-effects">
                     <StatusEffects />
+                  </Route>
+                  <Route path="/">
+                    <Home />
                   </Route>
                 </Switch>
               </main>
