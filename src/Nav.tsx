@@ -23,7 +23,7 @@ import StatusEffectsPng from "./images/nav/status_effects.png";
 import GitLightSvg from "./images/nav/github/favicon-light.svg";
 import GitDarkSvg from "./images/nav/github/favicon-dark.svg";
 
-import AuthorJpg from "./images/nav/author.jpg";
+import AuthorJpg from "./images/nav/author-1x.jpg";
 
 import SteamJpg from "./images/nav/steam.jpg";
 
