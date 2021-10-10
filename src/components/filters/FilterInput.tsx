@@ -18,32 +18,22 @@ import { IField, TAllFilters } from "./types";
 import {
   NumericFilterComparators,
   StringFilterComparators,
+  BoolFilterComparators,
+  NullFilterComparators,
 } from "../../lib/openAPI";
 import { buildSearch } from "../../lib/search";
 
-const STRING_COMPARITORS: StringFilterComparators[] = [
-  "ilike",
+const STRING_COMPARITORS: (StringFilterComparators | NullFilterComparators)[] =
+  ["ilike", "==", "!=", "is_not_null", "is_null"];
+const BOOL_COMPARITORS: (BoolFilterComparators | NullFilterComparators)[] = [
   "==",
   "!=",
   "is_not_null",
   "is_null",
 ];
-const BOOL_COMPARITORS: StringFilterComparators[] = [
-  "==",
-  "!=",
-  "is_not_null",
-  "is_null",
-];
-const NUMBER_COMPARITORS: NumericFilterComparators[] = [
-  "==",
-  "!=",
-  ">",
-  ">=",
-  "<",
-  "<=",
-  "is_not_null",
-  "is_null",
-];
+const NUMBER_COMPARITORS: (NumericFilterComparators | NullFilterComparators)[] =
+  ["==", "!=", ">", ">=", "<", "<=", "is_not_null", "is_null"];
+const NULL_COMPARITORS: NullFilterComparators[] = ["is_not_null", "is_null"];
 
 const COMPARITOR_TO_LABELS = {
   ilike: "Contains",
@@ -106,7 +96,16 @@ export default function FilterInput<IFilter extends TAllFilters>({
   };
 
   const handleComparitorChange = (e: SelectChangeEvent<string>) => {
-    updateFilter(index, { ...filter, comparator: e.target.value } as IFilter);
+    const newComparator = e.target.value;
+    const isNullComparator = NULL_COMPARITORS.some(
+      (c: NullFilterComparators) => c === newComparator
+    );
+    const newValue = isNullComparator ? null : filter.value;
+    updateFilter(index, {
+      ...filter,
+      comparator: e.target.value,
+      value: newValue,
+    } as IFilter);
   };
 
   const handleValueChange = (value: string | boolean | number | null) => {
