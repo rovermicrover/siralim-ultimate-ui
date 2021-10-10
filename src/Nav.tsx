@@ -25,7 +25,7 @@ import GitDarkSvg from "./images/nav/github/favicon-dark.svg";
 
 import AuthorJpg from "./images/nav/author-1x.jpg";
 
-import SteamJpg from "./images/nav/steam.jpg";
+import SteamJpg from "./images/nav/steam-1x.jpg";
 
 import SourceIcon from "@mui/icons-material/Source";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
