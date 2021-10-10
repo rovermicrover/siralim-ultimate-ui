@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Autocomplete from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
+import Tooltip from "@mui/material/Tooltip";
 import { useDebounce } from "use-debounce";
 
 import { IField, TAllFilters } from "./types";
@@ -162,14 +163,16 @@ export default function FilterInput<IFilter extends TAllFilters>({
       <FormGroup>
         <Grid container spacing={2}>
           <Grid item xs={2} sm={1}>
-            <IconButton
-              color="inherit"
-              aria-label="open filters"
-              onClick={() => removeFilter(index)}
-              edge="start"
-            >
-              <DeleteIcon />
-            </IconButton>
+            <Tooltip title="Remove Filter">
+              <IconButton
+                color="inherit"
+                aria-label="remove filter"
+                onClick={() => removeFilter(index)}
+                edge="start"
+              >
+                <DeleteIcon color="error" />
+              </IconButton>
+            </Tooltip>
           </Grid>
           <Grid item xs={10} sm={4}>
             <FormControl fullWidth variant="standard">

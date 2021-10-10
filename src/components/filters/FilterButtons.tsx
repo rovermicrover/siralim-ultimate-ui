@@ -35,7 +35,7 @@ export default function FilterButtons({
             onClick={() => clearFilters()}
             edge="start"
           >
-            <ClearAllIcon />
+            <ClearAllIcon color="error" />
           </IconButton>
         </Tooltip>
       )}
