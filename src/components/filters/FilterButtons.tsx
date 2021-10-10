@@ -1,5 +1,6 @@
 import React from "react";
 import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 
@@ -16,23 +17,27 @@ export default function FilterButtons({
 }: IFilterButtonsProps) {
   return (
     <>
-      <IconButton
-        color="inherit"
-        aria-label="open filters"
-        onClick={() => setIsFilterDrawerOpen(true)}
-        edge="start"
-      >
-        <FilterListIcon />
-      </IconButton>
-      {hasFilters && (
+      <Tooltip title="Filter">
         <IconButton
           color="inherit"
-          aria-label="clear filters"
-          onClick={() => clearFilters()}
+          aria-label="open filters"
+          onClick={() => setIsFilterDrawerOpen(true)}
           edge="start"
         >
-          <ClearAllIcon />
+          <FilterListIcon />
         </IconButton>
+      </Tooltip>
+      {hasFilters && (
+        <Tooltip title="Clear Filters">
+          <IconButton
+            color="inherit"
+            aria-label="clear filters"
+            onClick={() => clearFilters()}
+            edge="start"
+          >
+            <ClearAllIcon />
+          </IconButton>
+        </Tooltip>
       )}
     </>
   );
