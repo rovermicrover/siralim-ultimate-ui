@@ -1,6 +1,6 @@
 # Siralim Ultimate UI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+App for the front end of [Siralim Ultimate Unofficial Codex Site](https://siralim-ultimate.rovermicrover.com/).
 
 ## How To Dev / Test
 

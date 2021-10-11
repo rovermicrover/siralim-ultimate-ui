@@ -13,13 +13,14 @@ export interface ICreatureFiltersSchema {
     | ICreatureIntFilterSchema
     | ICreatureStrFilterSchema
     | ICreatureArrayStrFilterSchema
+    | ICreatureNullFilterSchema
   >;
 }
 
 export interface ICreatureIntFilterSchema {
   field: CreatureIntFilterEnum;
   comparator: NumericFilterComparators;
-  value?: Partial<number> & Partial<number>;
+  value: Partial<number> & Partial<number>;
 }
 
 export interface ICreatureModel {
@@ -41,6 +42,12 @@ export interface ICreatureModel {
   updated_at: string;
 }
 
+export interface ICreatureNullFilterSchema {
+  field: CreatureAllFilterEnum;
+  comparator: NullFilterComparators;
+  value: any;
+}
+
 export interface ICreatureSortingRequestSchema {
   by?: CreatureSortingEnum;
   direction?: SortDirections;
@@ -54,7 +61,7 @@ export interface ICreatureSortingResponseSchema {
 export interface ICreatureStrFilterSchema {
   field: CreatureStrFilterEnum;
   comparator: StringFilterComparators;
-  value?: string;
+  value: string;
 }
 
 export interface ICreaturesGetSchema {
@@ -89,13 +96,15 @@ export interface IHealthCheckSchema {
 }
 
 export interface IKlassFiltersSchema {
-  filters: Array<IKlassIntFilterSchema | IKlassStrFilterSchema>;
+  filters: Array<
+    IKlassIntFilterSchema | IKlassStrFilterSchema | IKlassNullFilterSchema
+  >;
 }
 
 export interface IKlassIntFilterSchema {
   field: KlassIntFilterEnum;
   comparator: NumericFilterComparators;
-  value?: Partial<number> & Partial<number>;
+  value: Partial<number> & Partial<number>;
 }
 
 export interface IKlassModel {
@@ -107,6 +116,12 @@ export interface IKlassModel {
   icon: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface IKlassNullFilterSchema {
+  field: KlassAllFilterEnum;
+  comparator: NullFilterComparators;
+  value: any;
 }
 
 export interface IKlassSortingRequestSchema {
@@ -122,7 +137,7 @@ export interface IKlassSortingResponseSchema {
 export interface IKlassStrFilterSchema {
   field: KlassStrFilterEnum;
   comparator: StringFilterComparators;
-  value?: string;
+  value: string;
 }
 
 export interface IKlassesGetSchema {
@@ -168,7 +183,7 @@ export interface IPerkArrayStrFilterSchema {
 export interface IPerkBoolFilterSchema {
   field: PerkBoolFilterEnum;
   comparator: BoolFilterComparators;
-  value?: boolean;
+  value: boolean;
 }
 
 export interface IPerkFiltersSchema {
@@ -177,13 +192,14 @@ export interface IPerkFiltersSchema {
     | IPerkBoolFilterSchema
     | IPerkStrFilterSchema
     | IPerkArrayStrFilterSchema
+    | IPerkNullFilterSchema
   >;
 }
 
 export interface IPerkIntFilterSchema {
   field: PerkIntFilterEnum;
   comparator: NumericFilterComparators;
-  value?: Partial<number> & Partial<number>;
+  value: Partial<number> & Partial<number>;
 }
 
 export interface IPerkModel {
@@ -202,6 +218,12 @@ export interface IPerkModel {
   updated_at: string;
 }
 
+export interface IPerkNullFilterSchema {
+  field: PerkAllFilterEnum;
+  comparator: NullFilterComparators;
+  value: any;
+}
+
 export interface IPerkSortingRequestSchema {
   by?: PerkSortingEnum;
   direction?: SortDirections;
@@ -215,7 +237,7 @@ export interface IPerkSortingResponseSchema {
 export interface IPerkStrFilterSchema {
   field: PerkStrFilterEnum;
   comparator: StringFilterComparators;
-  value?: string;
+  value: string;
 }
 
 export interface IPerksGetSchema {
@@ -242,13 +264,15 @@ export interface IPerksSearchSchema {
 }
 
 export interface IRaceFiltersSchema {
-  filters: Array<IRaceIntFilterSchema | IRaceStrFilterSchema>;
+  filters: Array<
+    IRaceIntFilterSchema | IRaceStrFilterSchema | IRaceNullFilterSchema
+  >;
 }
 
 export interface IRaceIntFilterSchema {
   field: RaceIntFilterEnum;
   comparator: NumericFilterComparators;
-  value?: Partial<number> & Partial<number>;
+  value: Partial<number> & Partial<number>;
 }
 
 export interface IRaceModel {
@@ -260,6 +284,12 @@ export interface IRaceModel {
   default_klass: IKlassModel;
   created_at: string;
   updated_at: string;
+}
+
+export interface IRaceNullFilterSchema {
+  field: RaceAllFilterEnum;
+  comparator: NullFilterComparators;
+  value: any;
 }
 
 export interface IRaceSortingRequestSchema {
@@ -275,7 +305,7 @@ export interface IRaceSortingResponseSchema {
 export interface IRaceStrFilterSchema {
   field: RaceStrFilterEnum;
   comparator: StringFilterComparators;
-  value?: string;
+  value: string;
 }
 
 export interface IRacesGetSchema {
@@ -306,13 +336,15 @@ export interface IRootSchema {
 }
 
 export interface ISourceFiltersSchema {
-  filters: Array<ISourceIntFilterSchema | ISourceStrFilterSchema>;
+  filters: Array<
+    ISourceIntFilterSchema | ISourceStrFilterSchema | ISourceNullFilterSchema
+  >;
 }
 
 export interface ISourceIntFilterSchema {
   field: SourceIntFilterEnum;
   comparator: NumericFilterComparators;
-  value?: Partial<number> & Partial<number>;
+  value: Partial<number> & Partial<number>;
 }
 
 export interface ISourceModel {
@@ -322,6 +354,12 @@ export interface ISourceModel {
   description?: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface ISourceNullFilterSchema {
+  field: SourceAllFilterEnum;
+  comparator: NullFilterComparators;
+  value: any;
 }
 
 export interface ISourceSortingRequestSchema {
@@ -337,7 +375,7 @@ export interface ISourceSortingResponseSchema {
 export interface ISourceStrFilterSchema {
   field: SourceStrFilterEnum;
   comparator: StringFilterComparators;
-  value?: string;
+  value: string;
 }
 
 export interface ISourcesGetSchema {
@@ -365,14 +403,16 @@ export interface ISourcesSearchSchema {
 
 export interface ISpecializationFiltersSchema {
   filters: Array<
-    ISpecializationIntFilterSchema | ISpecializationStrFilterSchema
+    | ISpecializationIntFilterSchema
+    | ISpecializationStrFilterSchema
+    | ISpecializationNullFilterSchema
   >;
 }
 
 export interface ISpecializationIntFilterSchema {
   field: SpecializationIntFilterEnum;
   comparator: NumericFilterComparators;
-  value?: Partial<number> & Partial<number>;
+  value: Partial<number> & Partial<number>;
 }
 
 export interface ISpecializationModel {
@@ -383,6 +423,12 @@ export interface ISpecializationModel {
   icon?: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface ISpecializationNullFilterSchema {
+  field: SpecializationAllFilterEnum;
+  comparator: NullFilterComparators;
+  value: any;
 }
 
 export interface ISpecializationSortingRequestSchema {
@@ -398,7 +444,7 @@ export interface ISpecializationSortingResponseSchema {
 export interface ISpecializationStrFilterSchema {
   field: SpecializationStrFilterEnum;
   comparator: StringFilterComparators;
-  value?: string;
+  value: string;
 }
 
 export interface ISpecializationsGetSchema {
@@ -432,14 +478,17 @@ export interface ISpellArrayStrFilterSchema {
 
 export interface ISpellFiltersSchema {
   filters: Array<
-    ISpellIntFilterSchema | ISpellStrFilterSchema | ISpellArrayStrFilterSchema
+    | ISpellIntFilterSchema
+    | ISpellStrFilterSchema
+    | ISpellArrayStrFilterSchema
+    | ISpellNullFilterSchema
   >;
 }
 
 export interface ISpellIntFilterSchema {
   field: SpellIntFilterEnum;
   comparator: NumericFilterComparators;
-  value?: Partial<number> & Partial<number>;
+  value: Partial<number> & Partial<number>;
 }
 
 export interface ISpellModel {
@@ -455,6 +504,12 @@ export interface ISpellModel {
   updated_at: string;
 }
 
+export interface ISpellNullFilterSchema {
+  field: SpellAllFilterEnum;
+  comparator: NullFilterComparators;
+  value: any;
+}
+
 export interface ISpellSortingRequestSchema {
   by?: SpellSortingEnum;
   direction?: SortDirections;
@@ -468,7 +523,7 @@ export interface ISpellSortingResponseSchema {
 export interface ISpellStrFilterSchema {
   field: SpellStrFilterEnum;
   comparator: StringFilterComparators;
-  value?: string;
+  value: string;
 }
 
 export interface ISpellsGetSchema {
@@ -495,13 +550,17 @@ export interface ISpellsSearchSchema {
 }
 
 export interface IStatusEffectFiltersSchema {
-  filters: Array<IStatusEffectIntFilterSchema | IStatusEffectStrFilterSchema>;
+  filters: Array<
+    | IStatusEffectIntFilterSchema
+    | IStatusEffectStrFilterSchema
+    | IStatusEffectNullFilterSchema
+  >;
 }
 
 export interface IStatusEffectIntFilterSchema {
   field: StatusEffectIntFilterEnum;
   comparator: NumericFilterComparators;
-  value?: Partial<number> & Partial<number>;
+  value: Partial<number> & Partial<number>;
 }
 
 export interface IStatusEffectModel {
@@ -518,10 +577,16 @@ export interface IStatusEffectModel {
   updated_at: string;
 }
 
+export interface IStatusEffectNullFilterSchema {
+  field: StatusEffectAllFilterEnum;
+  comparator: NullFilterComparators;
+  value: any;
+}
+
 export interface IStatusEffectStrFilterSchema {
   field: StatusEffectStrFilterEnum;
   comparator: StringFilterComparators;
-  value?: string;
+  value: string;
 }
 
 export interface IStatusEffectsGetSchema {
@@ -565,14 +630,17 @@ export interface ITraitArrayStrFilterSchema {
 
 export interface ITraitFiltersSchema {
   filters: Array<
-    ITraitIntFilterSchema | ITraitStrFilterSchema | ITraitArrayStrFilterSchema
+    | ITraitIntFilterSchema
+    | ITraitStrFilterSchema
+    | ITraitArrayStrFilterSchema
+    | ITraitNullFilterSchema
   >;
 }
 
 export interface ITraitIntFilterSchema {
   field: TraitIntFilterEnum;
   comparator: NumericFilterComparators;
-  value?: Partial<number> & Partial<number>;
+  value: Partial<number> & Partial<number>;
 }
 
 export interface ITraitModel {
@@ -584,6 +652,12 @@ export interface ITraitModel {
   tags: Array<string>;
   created_at: string;
   updated_at: string;
+}
+
+export interface ITraitNullFilterSchema {
+  field: TraitAllFilterEnum;
+  comparator: NullFilterComparators;
+  value: any;
 }
 
 export interface ITraitSortingRequestSchema {
@@ -599,7 +673,7 @@ export interface ITraitSortingResponseSchema {
 export interface ITraitStrFilterSchema {
   field: TraitStrFilterEnum;
   comparator: StringFilterComparators;
-  value?: string;
+  value: string;
 }
 
 export interface ITraitsGetSchema {
@@ -634,19 +708,32 @@ export interface IValidationError {
 /**
  * An enumeration.
  */
-export type ArrayFilterComparators =
-  | "&&"
-  | "@>"
-  | "<@"
-  | "=="
-  | "!="
-  | "is_null"
-  | "is_not_null";
+export type ArrayFilterComparators = "&&" | "@>" | "<@" | "==" | "!=";
 
 /**
  * An enumeration.
  */
-export type BoolFilterComparators = "==" | "!=" | "is_null" | "is_not_null";
+export type BoolFilterComparators = "==" | "!=";
+
+/**
+ * An enumeration.
+ */
+export type CreatureAllFilterEnum =
+  | "id"
+  | "name"
+  | "health"
+  | "attack"
+  | "intelligence"
+  | "defense"
+  | "speed"
+  | "klass_id"
+  | "klass_name"
+  | "race_id"
+  | "race_name"
+  | "trait_id"
+  | "trait_name"
+  | "trait_tags"
+  | "full_text";
 
 /**
  * An enumeration.
@@ -700,6 +787,11 @@ export type CreatureStrFilterEnum =
 /**
  * An enumeration.
  */
+export type KlassAllFilterEnum = "id" | "name";
+
+/**
+ * An enumeration.
+ */
 export type KlassIntFilterEnum = "id";
 
 /**
@@ -715,15 +807,27 @@ export type KlassStrFilterEnum = "name";
 /**
  * An enumeration.
  */
-export type NumericFilterComparators =
-  | "=="
-  | "!="
-  | ">"
-  | ">="
-  | "<"
-  | "<="
-  | "is_null"
-  | "is_not_null";
+export type NullFilterComparators = "is_null" | "is_not_null";
+
+/**
+ * An enumeration.
+ */
+export type NumericFilterComparators = "==" | "!=" | ">" | ">=" | "<" | "<=";
+
+/**
+ * An enumeration.
+ */
+export type PerkAllFilterEnum =
+  | "id"
+  | "name"
+  | "ranks"
+  | "cost"
+  | "annointment"
+  | "ascension"
+  | "specialization_id"
+  | "specialization_name"
+  | "tags"
+  | "full_text";
 
 /**
  * An enumeration.
@@ -763,6 +867,16 @@ export type PerkStrFilterEnum = "name" | "specialization_name" | "full_text";
 /**
  * An enumeration.
  */
+export type RaceAllFilterEnum =
+  | "id"
+  | "name"
+  | "default_klass_id"
+  | "default_klass_name"
+  | "full_text";
+
+/**
+ * An enumeration.
+ */
 export type RaceIntFilterEnum = "id" | "default_klass_id";
 
 /**
@@ -788,6 +902,11 @@ export type SortDirections = "asc" | "desc";
 /**
  * An enumeration.
  */
+export type SourceAllFilterEnum = "id" | "name" | "full_text";
+
+/**
+ * An enumeration.
+ */
 export type SourceIntFilterEnum = "id";
 
 /**
@@ -803,6 +922,11 @@ export type SourceStrFilterEnum = "name" | "full_text";
 /**
  * An enumeration.
  */
+export type SpecializationAllFilterEnum = "id" | "name";
+
+/**
+ * An enumeration.
+ */
 export type SpecializationIntFilterEnum = "id";
 
 /**
@@ -814,6 +938,20 @@ export type SpecializationSortingEnum = "id" | "name";
  * An enumeration.
  */
 export type SpecializationStrFilterEnum = "name";
+
+/**
+ * An enumeration.
+ */
+export type SpellAllFilterEnum =
+  | "id"
+  | "name"
+  | "charges"
+  | "klass_id"
+  | "klass_name"
+  | "source_id"
+  | "source_name"
+  | "tags"
+  | "full_text";
 
 /**
  * An enumeration.
@@ -851,6 +989,18 @@ export type SpellStrFilterEnum =
 /**
  * An enumeration.
  */
+export type StatusEffectAllFilterEnum =
+  | "id"
+  | "name"
+  | "category"
+  | "turns"
+  | "leave_chance"
+  | "max_stacks"
+  | "full_text";
+
+/**
+ * An enumeration.
+ */
 export type StatusEffectCategoriesEnum = "buff" | "debuff" | "minion";
 
 /**
@@ -882,13 +1032,17 @@ export type StatusEffetSortingEnum =
 /**
  * An enumeration.
  */
-export type StringFilterComparators =
-  | "=="
-  | "!="
-  | "is_null"
-  | "is_not_null"
-  | "like"
-  | "ilike";
+export type StringFilterComparators = "==" | "!=" | "like" | "ilike";
+
+/**
+ * An enumeration.
+ */
+export type TraitAllFilterEnum =
+  | "id"
+  | "name"
+  | "material_name"
+  | "tags"
+  | "full_text";
 
 /**
  * An enumeration.

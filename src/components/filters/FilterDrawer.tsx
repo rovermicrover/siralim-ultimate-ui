@@ -8,6 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Paper from "@mui/material/Paper";
+import Tooltip from "@mui/material/Tooltip";
 
 import { IField, TAllFilters } from "./types";
 
@@ -51,37 +52,43 @@ export default function FilterDrawer<IFilter extends TAllFilters>({
       <Toolbar />
       <Grid container spacing={2} sx={{ textAlign: "center" }}>
         <Grid item xs={4}>
-          <IconButton
-            color="inherit"
-            aria-label="add filters"
-            onClick={() =>
-              addFilter({
-                field: "name",
-                comparator: "ilike",
-                value: "",
-              } as IFilter)
-            }
-          >
-            <AddIcon />
-          </IconButton>
+          <Tooltip title="Add Filter">
+            <IconButton
+              color="inherit"
+              aria-label="add filter"
+              onClick={() =>
+                addFilter({
+                  field: "name",
+                  comparator: "ilike",
+                  value: "",
+                } as IFilter)
+              }
+            >
+              <AddIcon color="success" />
+            </IconButton>
+          </Tooltip>
         </Grid>
         <Grid item xs={4}>
-          <IconButton
-            color="inherit"
-            aria-label="clear filters"
-            onClick={() => clearFilters()}
-          >
-            <ClearAllIcon />
-          </IconButton>
+          <Tooltip title="Clear Filters">
+            <IconButton
+              color="inherit"
+              aria-label="clear filters"
+              onClick={() => clearFilters()}
+            >
+              <ClearAllIcon color="error" />
+            </IconButton>
+          </Tooltip>
         </Grid>
         <Grid item xs={4}>
-          <IconButton
-            color="inherit"
-            aria-label="close filters"
-            onClick={() => setIsFilterDrawerOpen(false)}
-          >
-            <HighlightOffIcon />
-          </IconButton>
+          <Tooltip title="Close Filters">
+            <IconButton
+              color="inherit"
+              aria-label="close filters"
+              onClick={() => setIsFilterDrawerOpen(false)}
+            >
+              <HighlightOffIcon color="error" />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
       {filters.length > 0 && (

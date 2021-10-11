@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Autocomplete from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
+import Tooltip from "@mui/material/Tooltip";
 import { useDebounce } from "use-debounce";
 
 import { IField, TAllFilters } from "./types";
@@ -18,32 +19,22 @@ import { IField, TAllFilters } from "./types";
 import {
   NumericFilterComparators,
   StringFilterComparators,
+  BoolFilterComparators,
+  NullFilterComparators,
 } from "../../lib/openAPI";
 import { buildSearch } from "../../lib/search";
 
-const STRING_COMPARITORS: StringFilterComparators[] = [
-  "ilike",
+const STRING_COMPARITORS: (StringFilterComparators | NullFilterComparators)[] =
+  ["ilike", "==", "!=", "is_not_null", "is_null"];
+const BOOL_COMPARITORS: (BoolFilterComparators | NullFilterComparators)[] = [
   "==",
   "!=",
   "is_not_null",
   "is_null",
 ];
-const BOOL_COMPARITORS: StringFilterComparators[] = [
-  "==",
-  "!=",
-  "is_not_null",
-  "is_null",
-];
-const NUMBER_COMPARITORS: NumericFilterComparators[] = [
-  "==",
-  "!=",
-  ">",
-  ">=",
-  "<",
-  "<=",
-  "is_not_null",
-  "is_null",
-];
+const NUMBER_COMPARITORS: (NumericFilterComparators | NullFilterComparators)[] =
+  ["==", "!=", ">", ">=", "<", "<=", "is_not_null", "is_null"];
+const NULL_COMPARITORS: NullFilterComparators[] = ["is_not_null", "is_null"];
 
 const COMPARITOR_TO_LABELS = {
   ilike: "Contains",
@@ -79,6 +70,9 @@ export default function FilterInput<IFilter extends TAllFilters>({
 }) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [filterValueDebounced] = useDebounce(filter.value, 200);
+  const isNullComparator = NULL_COMPARITORS.some(
+    (c: NullFilterComparators) => c === filter.comparator
+  );
 
   const fieldType = fields[filter.field].type;
   const fieldResource = fields[filter.field].resource;
@@ -106,7 +100,16 @@ export default function FilterInput<IFilter extends TAllFilters>({
   };
 
   const handleComparitorChange = (e: SelectChangeEvent<string>) => {
-    updateFilter(index, { ...filter, comparator: e.target.value } as IFilter);
+    const newComparator = e.target.value;
+    const isNewNullComparator = NULL_COMPARITORS.some(
+      (c: NullFilterComparators) => c === newComparator
+    );
+    const newValue = isNewNullComparator ? null : filter.value;
+    updateFilter(index, {
+      ...filter,
+      comparator: e.target.value,
+      value: newValue,
+    } as IFilter);
   };
 
   const handleValueChange = (value: string | boolean | number | null) => {
@@ -163,14 +166,16 @@ export default function FilterInput<IFilter extends TAllFilters>({
       <FormGroup>
         <Grid container spacing={2}>
           <Grid item xs={2} sm={1}>
-            <IconButton
-              color="inherit"
-              aria-label="open filters"
-              onClick={() => removeFilter(index)}
-              edge="start"
-            >
-              <DeleteIcon />
-            </IconButton>
+            <Tooltip title="Remove Filter">
+              <IconButton
+                color="inherit"
+                aria-label="remove filter"
+                onClick={() => removeFilter(index)}
+                edge="start"
+              >
+                <DeleteIcon color="error" />
+              </IconButton>
+            </Tooltip>
           </Grid>
           <Grid item xs={10} sm={4}>
             <FormControl fullWidth variant="standard">
@@ -204,40 +209,42 @@ export default function FilterInput<IFilter extends TAllFilters>({
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={4}>
-            {fieldResource ? (
-              <Autocomplete
-                freeSolo
-                options={suggestions}
-                filterOptions={(x) => x}
-                onChange={(e, value) => handleValueChange(value)}
-                onInputChange={(e, value) => handleValueChange(value)}
-                value={filter.value}
-                renderInput={(params) => (
-                  <TextField
-                    variant="standard"
-                    label="Value"
-                    type={fieldType}
-                    {...params}
-                  />
-                )}
-              />
-            ) : fieldType === "boolean" ? (
-              <Checkbox
-                checked={Boolean(filter.value)}
-                onChange={(e) => handleValueChange(e.target.checked)}
-              />
-            ) : (
-              <TextField
-                fullWidth
-                variant="standard"
-                label="Value"
-                value={filter.value}
-                type={fieldType}
-                onChange={(e) => handleValueChange(e.target.value)}
-              />
-            )}
-          </Grid>
+          {!isNullComparator && (
+            <Grid item xs={12} sm={4}>
+              {fieldResource ? (
+                <Autocomplete
+                  freeSolo
+                  options={suggestions}
+                  filterOptions={(x) => x}
+                  onChange={(e, value) => handleValueChange(value)}
+                  onInputChange={(e, value) => handleValueChange(value)}
+                  value={filter.value}
+                  renderInput={(params) => (
+                    <TextField
+                      variant="standard"
+                      label="Value"
+                      type={fieldType}
+                      {...params}
+                    />
+                  )}
+                />
+              ) : fieldType === "boolean" ? (
+                <Checkbox
+                  checked={Boolean(filter.value)}
+                  onChange={(e) => handleValueChange(e.target.checked)}
+                />
+              ) : (
+                <TextField
+                  fullWidth
+                  variant="standard"
+                  label="Value"
+                  value={filter.value}
+                  type={fieldType}
+                  onChange={(e) => handleValueChange(e.target.value)}
+                />
+              )}
+            </Grid>
+          )}
         </Grid>
       </FormGroup>
     </Paper>
