@@ -54,7 +54,7 @@ interface NavIconLinkProps {
 function NavIconLink({ title, icon, iconWidth }: NavIconLinkProps) {
   // Check if the icon is base64 img data or assume it's an SVG Icon Component
   return typeof icon === "string" ? (
-    <img src={icon} width={iconWidth} alt={title} />
+    <img src={icon} height={iconWidth} width={iconWidth} alt={title} />
   ) : (
     React.createElement(icon, { sx: { fontSize: `${iconWidth}px` } })
   );
