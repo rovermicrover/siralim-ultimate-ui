@@ -11,11 +11,7 @@ export default function TagsPills({ tags, spacing = 8 }: ITagsPillsProps) {
   return (
     <div>
       {tags.map((t: string) => (
-        <Chip
-          sx={{ marginRight: `${spacing}px`, marginBottom: `${spacing}px` }}
-          key={t}
-          label={t}
-        />
+        <Chip sx={{ marginRight: `${spacing}px` }} key={t} label={t} />
       ))}
     </div>
   );

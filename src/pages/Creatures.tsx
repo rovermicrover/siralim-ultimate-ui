@@ -218,11 +218,7 @@ export default function Creatures() {
                   <TableCell align="center">{creature.speed}</TableCell>
                 </TableRow>
                 <TableRow
-                  sx={
-                    creature.trait.tags.length > 0
-                      ? { "& > *": { borderBottom: "unset !important" } }
-                      : {}
-                  }
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
                   <TableCell colSpan={9} style={{ paddingTop: 0 }}>
                     <Typography variant="subtitle2" component="div">
@@ -234,12 +230,22 @@ export default function Creatures() {
                   </TableCell>
                 </TableRow>
                 {creature.trait.tags.length > 0 && (
-                  <TableRow>
+                  <TableRow
+                    sx={{ "& > *": { borderBottom: "unset !important" } }}
+                  >
                     <TableCell colSpan={8} style={{ paddingTop: 0 }}>
                       <TagsPills tags={creature.trait.tags} />
                     </TableCell>
                   </TableRow>
                 )}
+                <TableRow>
+                  <TableCell colSpan={8} style={{ paddingTop: 0 }}>
+                    <b>
+                      Sources:{" "}
+                      {creature.sources.map(({ name }) => name).join(" | ")}
+                    </b>
+                  </TableCell>
+                </TableRow>
               </React.Fragment>
             ))}
           </TableBody>
