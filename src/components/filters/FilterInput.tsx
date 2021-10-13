@@ -106,7 +106,7 @@ export default function FilterInput<IFilter extends TAllFilters>({
         : fields[newField].type === "boolean"
         ? "=="
         : fields[newField].type === "string_array"
-        ? "&&"
+        ? "@>"
         : "ilike";
     updateFilter(index, {
       ...filter,
