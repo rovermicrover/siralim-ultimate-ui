@@ -4,10 +4,18 @@ import Box from "@mui/material/Box";
 import { MuiSafeLink } from "../components/MuiRouterLink";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddIcon from "@mui/icons-material/Add";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
   return (
     <Box sx={{ padding: "2em" }}>
+      <Helmet>
+        <title>Welcome To The Siralim Ultimate Unofficial Codex</title>
+        <meta
+          name="description"
+          content="Welcome To The Siralim Ultimate Unofficial Codex"
+        />
+      </Helmet>
       <Typography variant="h3" component="h1" gutterBottom>
         Welcome To The Siralim Ultimate Unofficial Codex
       </Typography>

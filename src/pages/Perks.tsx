@@ -9,6 +9,7 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
+import { Helmet } from "react-helmet";
 
 import { QueryParamStructure } from "../lib/queryParams";
 import { IPerksSearchSchema } from "../lib/openAPI";
@@ -63,6 +64,13 @@ export default function Perks() {
 
   return (
     <>
+      <Helmet>
+        <title>Perks List | Siralim Ultimate Unofficial Codex</title>
+        <meta
+          name="description"
+          content="Perks List | Siralim Ultimate Unofficial Codex"
+        />
+      </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}

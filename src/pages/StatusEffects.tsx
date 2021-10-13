@@ -9,6 +9,7 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
+import { Helmet } from "react-helmet";
 
 import { QueryParamStructure } from "../lib/queryParams";
 import { IStatusEffectsSearchSchema } from "../lib/openAPI";
@@ -62,6 +63,13 @@ export default function StatusEffects() {
 
   return (
     <>
+      <Helmet>
+        <title>Status Effects List | Siralim Ultimate Unofficial Codex</title>
+        <meta
+          name="description"
+          content="Status Effects List | Siralim Ultimate Unofficial Codex"
+        />
+      </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}

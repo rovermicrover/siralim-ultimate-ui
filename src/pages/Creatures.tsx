@@ -11,6 +11,7 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { Helmet } from "react-helmet";
 
 import { StringParam, withDefault } from "use-query-params";
 import { QueryParamStructure } from "../lib/queryParams";
@@ -94,6 +95,13 @@ export default function Creatures() {
 
   return (
     <>
+      <Helmet>
+        <title>Creatures Bestiary | Siralim Ultimate Unofficial Codex</title>
+        <meta
+          name="description"
+          content="Creatures Bestiary | Siralim Ultimate Unofficial Codex"
+        />
+      </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}

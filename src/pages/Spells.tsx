@@ -9,6 +9,7 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
+import { Helmet } from "react-helmet";
 
 import { QueryParamStructure } from "../lib/queryParams";
 import { ISpellsSearchSchema } from "../lib/openAPI";
@@ -59,6 +60,13 @@ export default function Spells() {
 
   return (
     <>
+      <Helmet>
+        <title>Spells List | Siralim Ultimate Unofficial Codex</title>
+        <meta
+          name="description"
+          content="Spells List | Siralim Ultimate Unofficial Codex"
+        />
+      </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}

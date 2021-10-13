@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import { Helmet } from "react-helmet";
 
 import { QueryParamStructure } from "../lib/queryParams";
 import { ITraitsSearchSchema } from "../lib/openAPI";
@@ -53,6 +54,13 @@ export default function Traits() {
 
   return (
     <>
+      <Helmet>
+        <title>Traits List | Siralim Ultimate Unofficial Codex</title>
+        <meta
+          name="description"
+          content="Traits List | Siralim Ultimate Unofficial Codex"
+        />
+      </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
         setIsFilterDrawerOpen={setIsFilterDrawerOpen}
