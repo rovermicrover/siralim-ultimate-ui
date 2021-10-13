@@ -33,6 +33,10 @@ const FIELDS: Record<string, IField> = {
     resource: ESearchEndPoints.classes,
   },
   charges: { type: "number", label: "Charges" },
+  tags: {
+    type: "string_array",
+    label: "Tags",
+  },
 };
 
 const queryParamsStructure = new QueryParamStructure<

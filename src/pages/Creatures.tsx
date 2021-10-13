@@ -50,6 +50,10 @@ const FIELDS: Record<string, IField> = {
   intelligence: { abbr: "INT", type: "number", label: "Intelligence" },
   defense: { abbr: "DEF", type: "number", label: "Defense" },
   speed: { abbr: "SPD", type: "number", label: "Speed" },
+  trait_tags: {
+    type: "string_array",
+    label: "Tags",
+  },
 };
 
 const SORTABLE_FIELDS = [

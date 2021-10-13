@@ -21,8 +21,10 @@ import {
   StringFilterComparators,
   BoolFilterComparators,
   NullFilterComparators,
+  ArrayFilterComparators,
 } from "../../lib/openAPI";
 import { buildSearch } from "../../lib/search";
+import Chip from "@mui/material/Chip";
 
 const STRING_COMPARITORS: (StringFilterComparators | NullFilterComparators)[] =
   ["ilike", "==", "!=", "is_not_null", "is_null"];
@@ -35,6 +37,13 @@ const BOOL_COMPARITORS: (BoolFilterComparators | NullFilterComparators)[] = [
 const NUMBER_COMPARITORS: (NumericFilterComparators | NullFilterComparators)[] =
   ["==", "!=", ">", ">=", "<", "<=", "is_not_null", "is_null"];
 const NULL_COMPARITORS: NullFilterComparators[] = ["is_not_null", "is_null"];
+const ARRAY_COMPARITORS: ArrayFilterComparators[] = [
+  "&&",
+  "@>",
+  "<@",
+  "==",
+  "!=",
+];
 
 const COMPARITOR_TO_LABELS = {
   ilike: "Contains",
@@ -47,12 +56,16 @@ const COMPARITOR_TO_LABELS = {
   ">=": ">=",
   "<": "<",
   "<=": "<=",
+  "&&": "Overlaps",
+  "@>": "Contains",
+  "<@": "Is Contained By",
 };
 
 const TYPE_TO_COMPARITORS = {
   string: STRING_COMPARITORS,
   boolean: BOOL_COMPARITORS,
   number: NUMBER_COMPARITORS,
+  string_array: ARRAY_COMPARITORS,
 };
 
 export default function FilterInput<IFilter extends TAllFilters>({
@@ -84,12 +97,16 @@ export default function FilterInput<IFilter extends TAllFilters>({
         ? 1
         : fields[newField].type === "boolean"
         ? true
+        : fields[newField].type === "string_array"
+        ? []
         : "";
     const newComparator =
       fields[newField].type === "number"
         ? ">="
         : fields[newField].type === "boolean"
         ? "=="
+        : fields[newField].type === "string_array"
+        ? "&&"
         : "ilike";
     updateFilter(index, {
       ...filter,
@@ -112,14 +129,19 @@ export default function FilterInput<IFilter extends TAllFilters>({
     } as IFilter);
   };
 
-  const handleValueChange = (value: string | boolean | number | null) => {
-    const targetValue = value ? String(value) : "";
+  const handleValueChange = (
+    value: string | boolean | number | string[] | null
+  ) => {
     const newValue =
       fields[filter.field].type === "number"
-        ? parseInt(targetValue)
+        ? Number(value)
         : fields[filter.field].type === "boolean"
-        ? Boolean(targetValue)
-        : `${targetValue}`;
+        ? Boolean(value)
+        : fields[filter.field].type === "string_array"
+        ? value
+        : value
+        ? String(value)
+        : "";
     updateFilter(index, { ...filter, value: newValue } as IFilter);
   };
 
@@ -177,7 +199,7 @@ export default function FilterInput<IFilter extends TAllFilters>({
               </IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs={10} sm={4}>
+          <Grid item xs={10} sm={fieldType === "string_array" ? 6 : 4}>
             <FormControl fullWidth variant="standard">
               <InputLabel>Field</InputLabel>
               <Select
@@ -193,7 +215,7 @@ export default function FilterInput<IFilter extends TAllFilters>({
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={fieldType === "string_array" ? 5 : 3}>
             <FormControl fullWidth variant="standard">
               <InputLabel>Comparitor</InputLabel>
               <Select
@@ -210,7 +232,7 @@ export default function FilterInput<IFilter extends TAllFilters>({
             </FormControl>
           </Grid>
           {!isNullComparator && (
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={fieldType === "string_array" ? 12 : 4}>
               {fieldResource ? (
                 <Autocomplete
                   freeSolo
@@ -232,6 +254,31 @@ export default function FilterInput<IFilter extends TAllFilters>({
                 <Checkbox
                   checked={Boolean(filter.value)}
                   onChange={(e) => handleValueChange(e.target.checked)}
+                />
+              ) : fieldType === "string_array" ? (
+                <Autocomplete
+                  multiple
+                  options={[]}
+                  freeSolo
+                  value={filter.value}
+                  onChange={(e, value) => handleValueChange(value)}
+                  renderTags={(value: readonly string[], getTagProps) =>
+                    value.map((option: string, index: number) => (
+                      <Chip
+                        variant="outlined"
+                        label={option}
+                        {...getTagProps({ index })}
+                      />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      variant="standard"
+                      label="Values"
+                      placeholder="Values"
+                      {...params}
+                    />
+                  )}
                 />
               ) : (
                 <TextField

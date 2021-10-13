@@ -27,6 +27,10 @@ import jsonLD from "../lib/jsonLD";
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.traits },
   material_name: { type: "string", label: "Material Name" },
+  tags: {
+    type: "string_array",
+    label: "Tags",
+  },
 };
 
 const queryParamsStructure = new QueryParamStructure<

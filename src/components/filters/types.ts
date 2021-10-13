@@ -10,7 +10,7 @@ import {
 import { ESearchEndPoints } from "../../lib/endpoints";
 
 export interface IField {
-  type: "string" | "boolean" | "number";
+  type: "string" | "boolean" | "number" | "string_array";
   label: string;
   abbr?: string;
   resource?: ESearchEndPoints;

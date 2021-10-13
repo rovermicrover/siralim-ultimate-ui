@@ -37,6 +37,10 @@ const FIELDS: Record<string, IField> = {
   cost: { type: "number", label: "Cost" },
   annointment: { type: "boolean", label: "Annointment" },
   ascension: { type: "boolean", label: "Ascension" },
+  tags: {
+    type: "string_array",
+    label: "Tags",
+  },
 };
 
 const queryParamsStructure = new QueryParamStructure<
