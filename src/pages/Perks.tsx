@@ -99,6 +99,8 @@ export default function Perks() {
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
+                showFirstButton={true}
+                showLastButton={true}
               />
             </TableRow>
             <TableRow>
@@ -226,6 +228,8 @@ export default function Perks() {
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
+                showFirstButton={true}
+                showLastButton={true}
               />
             </TableRow>
           </TableFooter>

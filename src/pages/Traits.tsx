@@ -89,6 +89,8 @@ export default function Traits() {
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
+                showFirstButton={true}
+                showLastButton={true}
               />
             </TableRow>
             <TableRow>
@@ -147,6 +149,8 @@ export default function Traits() {
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
+                showFirstButton={true}
+                showLastButton={true}
               />
             </TableRow>
           </TableFooter>

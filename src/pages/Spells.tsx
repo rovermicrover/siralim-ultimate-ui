@@ -95,6 +95,8 @@ export default function Spells() {
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
+                showFirstButton={true}
+                showLastButton={true}
               />
             </TableRow>
             <TableRow>
@@ -178,6 +180,8 @@ export default function Spells() {
                 onPageChange={pageChange}
                 rowsPerPage={query.size}
                 onRowsPerPageChange={sizeChange}
+                showFirstButton={true}
+                showLastButton={true}
               />
             </TableRow>
           </TableFooter>
