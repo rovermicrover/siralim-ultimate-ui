@@ -155,7 +155,7 @@ export default function Creatures() {
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
-                  <TableCell align="center" sx={{ width: "32px" }} scope="row">
+                  <TableCell align="center" sx={{ width: "32px" }}>
                     <img
                       width="64"
                       height="64"
