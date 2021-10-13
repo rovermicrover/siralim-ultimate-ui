@@ -24,6 +24,7 @@ import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import BoolIcon from "../components/BoolIcon";
 import TagsPills from "../components/TagsPills";
+import jsonLD from "../lib/jsonLD";
 
 const FIELDS: Record<string, IField> = {
   specialization_name: {
@@ -70,6 +71,7 @@ export default function Perks() {
           name="description"
           content="Perks List | Siralim Ultimate Unofficial Codex"
         />
+        <script type="application/ld+json">{JSON.stringify(jsonLD)}</script>
       </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}

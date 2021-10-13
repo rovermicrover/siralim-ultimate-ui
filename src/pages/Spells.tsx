@@ -23,6 +23,7 @@ import TagsPills from "../components/TagsPills";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
+import jsonLD from "../lib/jsonLD";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.spells },
@@ -66,6 +67,7 @@ export default function Spells() {
           name="description"
           content="Spells List | Siralim Ultimate Unofficial Codex"
         />
+        <script type="application/ld+json">{JSON.stringify(jsonLD)}</script>
       </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}

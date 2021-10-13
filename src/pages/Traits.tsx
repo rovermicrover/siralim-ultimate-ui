@@ -22,6 +22,7 @@ import FilterDrawer from "../components/filters/FilterDrawer";
 import SearchInput from "../components/SearchInput";
 import TagsPills from "../components/TagsPills";
 import { IField } from "../components/filters/types";
+import jsonLD from "../lib/jsonLD";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.traits },
@@ -60,6 +61,7 @@ export default function Traits() {
           name="description"
           content="Traits List | Siralim Ultimate Unofficial Codex"
         />
+        <script type="application/ld+json">{JSON.stringify(jsonLD)}</script>
       </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}

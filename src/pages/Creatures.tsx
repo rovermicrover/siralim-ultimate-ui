@@ -26,6 +26,7 @@ import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import { IField } from "../components/filters/types";
 import SearchInput from "../components/SearchInput";
+import jsonLD from "../lib/jsonLD";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.creatures },
@@ -101,6 +102,7 @@ export default function Creatures() {
           name="description"
           content="Creatures Bestiary | Siralim Ultimate Unofficial Codex"
         />
+        <script type="application/ld+json">{JSON.stringify(jsonLD)}</script>
       </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}

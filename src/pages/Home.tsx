@@ -5,6 +5,7 @@ import { MuiSafeLink } from "../components/MuiRouterLink";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddIcon from "@mui/icons-material/Add";
 import { Helmet } from "react-helmet";
+import jsonLD from "../lib/jsonLD";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
           name="description"
           content="Welcome To The Siralim Ultimate Unofficial Codex"
         />
+        <script type="application/ld+json">{JSON.stringify(jsonLD)}</script>
       </Helmet>
       <Typography variant="h3" component="h1" gutterBottom>
         Welcome To The Siralim Ultimate Unofficial Codex

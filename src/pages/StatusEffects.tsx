@@ -22,6 +22,7 @@ import SearchInput from "../components/SearchInput";
 import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
+import jsonLD from "../lib/jsonLD";
 
 const FIELDS: Record<string, IField> = {
   name: {
@@ -69,6 +70,7 @@ export default function StatusEffects() {
           name="description"
           content="Status Effects List | Siralim Ultimate Unofficial Codex"
         />
+        <script type="application/ld+json">{JSON.stringify(jsonLD)}</script>
       </Helmet>
       <FilterDrawer
         isFilterDrawerOpen={isFilterDrawerOpen}
