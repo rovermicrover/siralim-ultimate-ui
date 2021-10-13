@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import { QueryParamStructure } from "../lib/queryParams";
 import { ITraitsSearchSchema } from "../lib/openAPI";

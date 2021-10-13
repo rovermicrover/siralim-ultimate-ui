@@ -9,7 +9,7 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import { QueryParamStructure } from "../lib/queryParams";
 import { ISpellsSearchSchema } from "../lib/openAPI";

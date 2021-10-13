@@ -11,7 +11,7 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import { StringParam, withDefault } from "use-query-params";
 import { QueryParamStructure } from "../lib/queryParams";

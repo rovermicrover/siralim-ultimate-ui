@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { MuiSafeLink } from "../components/MuiRouterLink";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddIcon from "@mui/icons-material/Add";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import jsonLD from "../lib/jsonLD";
 
 export default function Home() {

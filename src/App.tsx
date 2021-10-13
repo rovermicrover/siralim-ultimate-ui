@@ -12,6 +12,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
+import { HelmetProvider } from "react-helmet-async";
 
 import Header from "./Header";
 import Nav from "./Nav";
@@ -60,61 +61,63 @@ function App() {
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <CssBaseline />
       <SkipNavLink id="skip" data-testid="skip-link" />
-      <Router>
-        <QueryParamProvider ReactRouterRoute={Route}>
-          <Box sx={{ display: "flex" }}>
-            <Header isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
-            <Nav
-              isDarkTheme={isDarkTheme}
-              setIsDarkTheme={setIsDarkTheme}
-              isNavOpen={isNavOpen}
-            />
-            <Box
-              id="main-wrapper"
-              sx={{
-                flexGrow: 1,
-                p: 3,
-                padding: "0px",
-                display: "flex",
-                overflow: "auto",
-                "& .MuiTableCell-body": {
-                  padding: cellPadding,
-                },
-              }}
-            >
-              <main
-                data-testid="main"
-                style={{
-                  width: "100%",
-                  padding: "64px 0px 0px 0px",
+      <HelmetProvider>
+        <Router>
+          <QueryParamProvider ReactRouterRoute={Route}>
+            <Box sx={{ display: "flex" }}>
+              <Header isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
+              <Nav
+                isDarkTheme={isDarkTheme}
+                setIsDarkTheme={setIsDarkTheme}
+                isNavOpen={isNavOpen}
+              />
+              <Box
+                id="main-wrapper"
+                sx={{
+                  flexGrow: 1,
+                  p: 3,
+                  padding: "0px",
+                  display: "flex",
+                  overflow: "auto",
+                  "& .MuiTableCell-body": {
+                    padding: cellPadding,
+                  },
                 }}
               >
-                <SkipNavContent data-testid="content" />
-                <Switch>
-                  <Route path="/creatures">
-                    <Creatures />
-                  </Route>
-                  <Route path="/traits">
-                    <Traits />
-                  </Route>
-                  <Route path="/perks">
-                    <Perks />
-                  </Route>
-                  <Route path="/spells">
-                    <Spells />
-                  </Route>
-                  <Route path="/status-effects">
-                    <StatusEffects />
-                  </Route>
-                  <Route path="/">
-                    <Home />
-                  </Route>
-                </Switch>
-              </main>
+                <main
+                  data-testid="main"
+                  style={{
+                    width: "100%",
+                    padding: "64px 0px 0px 0px",
+                  }}
+                >
+                  <SkipNavContent data-testid="content" />
+                  <Switch>
+                    <Route path="/creatures">
+                      <Creatures />
+                    </Route>
+                    <Route path="/traits">
+                      <Traits />
+                    </Route>
+                    <Route path="/perks">
+                      <Perks />
+                    </Route>
+                    <Route path="/spells">
+                      <Spells />
+                    </Route>
+                    <Route path="/status-effects">
+                      <StatusEffects />
+                    </Route>
+                    <Route path="/">
+                      <Home />
+                    </Route>
+                  </Switch>
+                </main>
+              </Box>
             </Box>
-          </Box>
-        </QueryParamProvider>
-      </Router>
+          </QueryParamProvider>
+        </Router>
+      </HelmetProvider>
     </ThemeProvider>
   );
 }
