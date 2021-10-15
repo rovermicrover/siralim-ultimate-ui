@@ -149,6 +149,7 @@ export default function Spells() {
                     <img
                       src={spell.klass.icon}
                       width="32"
+                      height="32"
                       alt={`${spell.name} Klass Icon ${spell.klass.name}`}
                       aria-hidden="true"
                     />
