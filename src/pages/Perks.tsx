@@ -168,6 +168,7 @@ export default function Perks() {
                 >
                   <TableCell>
                     <img
+                      height="32"
                       width="32"
                       src={perk.specialization.icon}
                       alt={`Perk Specialization Icon ${perk.specialization.name}`}
