@@ -50,21 +50,21 @@ export function buildQueryParamsMutators<IFilter extends TAllFilters>(
   };
 
   const qChange = (newQ: string) => {
-    setQuery({ ...query, q: newQ });
+    setQuery({ ...query, page: 0, q: newQ });
   };
 
   const updateFilter = (index: number, filter: IFilter) => {
     const { filters } = query;
     const newFilters = [...filters];
     newFilters[index] = filter;
-    setQuery({ ...query, filters: newFilters });
+    setQuery({ ...query, page: 0, filters: newFilters });
   };
 
   const addFilter = (filter: IFilter) => {
     const { filters } = query;
     const newFilters = [...filters];
     newFilters.push(filter);
-    setQuery({ ...query, filters: newFilters });
+    setQuery({ ...query, page: 0, filters: newFilters });
   };
 
   const removeFilter = (index: number) => {
@@ -73,11 +73,11 @@ export function buildQueryParamsMutators<IFilter extends TAllFilters>(
       ...filters.slice(0, index),
       ...filters.slice(index + 1, filters.length),
     ];
-    setQuery({ ...query, filters: newFilters });
+    setQuery({ ...query, page: 0, filters: newFilters });
   };
 
   const clearFilters = () => {
-    setQuery({ ...query, filters: [] });
+    setQuery({ ...query, page: 0, filters: [] });
   };
 
   return {
