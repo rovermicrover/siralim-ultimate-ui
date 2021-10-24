@@ -25,6 +25,8 @@ import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import jsonLD from "../lib/jsonLD";
 
+import ManaPng from "../images/stats/mana.png";
+
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.spells },
   klass_name: {
@@ -32,7 +34,7 @@ const FIELDS: Record<string, IField> = {
     label: "Class",
     resource: ESearchEndPoints.classes,
   },
-  charges: { type: "number", label: "Charges" },
+  charges: { type: "number", label: "Charges", icon: ManaPng },
   tags: {
     type: "string_array",
     label: "Tags",
@@ -132,6 +134,7 @@ export default function Spells() {
                 align="center"
                 field={"charges"}
                 name={FIELDS["charges"].label}
+                icon={FIELDS["charges"].icon}
                 sort={query}
                 reduceSort={reduceSort}
               />

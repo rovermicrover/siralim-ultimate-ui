@@ -4,12 +4,15 @@ import React from "react";
 import { css, jsx } from "@emotion/react";
 import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { SvgIconTypeMap } from "@mui/material/SvgIcon";
 
 import { ISort, ISortAction, TSortDirection } from "../lib/queryParams";
 
 interface ISortedTableHeaderProps {
   field: string;
   name: string;
+  icon?: string | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
   sort: ISort;
   reduceSort: (sortAction: ISortAction) => void;
   align?: "center" | "left" | "right" | "justify" | "inherit" | undefined;
@@ -32,6 +35,7 @@ function setSort(
 export default function SortedTableHeader({
   field,
   name,
+  icon,
   sort,
   reduceSort,
   align = "left",
@@ -66,6 +70,13 @@ export default function SortedTableHeader({
           }
         `}
       >
+        {icon ? (
+          typeof icon == "string" ? (
+            <img src={icon} />
+          ) : (
+            React.createElement(icon)
+          )
+        ) : null}
         {name}
       </TableSortLabel>
     </TableCell>

@@ -28,6 +28,12 @@ import { IField } from "../components/filters/types";
 import SearchInput from "../components/SearchInput";
 import jsonLD from "../lib/jsonLD";
 
+import HealthPng from "../images/stats/health.png";
+import AttackPng from "../images/stats/attack.png";
+import DefensehPng from "../images/stats/defense.png";
+import IntelligencePng from "../images/stats/intelligence.png";
+import SpeedPng from "../images/stats/speed.png";
+
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.creatures },
   klass_name: {
@@ -45,11 +51,16 @@ const FIELDS: Record<string, IField> = {
     label: "Trait",
     resource: ESearchEndPoints.traits,
   },
-  health: { abbr: "HP", type: "number", label: "Health" },
-  attack: { abbr: "ATK", type: "number", label: "Attack" },
-  intelligence: { abbr: "INT", type: "number", label: "Intelligence" },
-  defense: { abbr: "DEF", type: "number", label: "Defense" },
-  speed: { abbr: "SPD", type: "number", label: "Speed" },
+  health: { abbr: "HP", type: "number", label: "Health", icon: HealthPng },
+  attack: { abbr: "ATK", type: "number", label: "Attack", icon: AttackPng },
+  intelligence: {
+    abbr: "INT",
+    type: "number",
+    label: "Intelligence",
+    icon: IntelligencePng,
+  },
+  defense: { abbr: "DEF", type: "number", label: "Defense", icon: DefensehPng },
+  speed: { abbr: "SPD", type: "number", label: "Speed", icon: SpeedPng },
   trait_tags: {
     type: "string_array",
     label: "Tags",
@@ -159,6 +170,7 @@ export default function Creatures() {
                       ? FIELDS[field].label
                       : FIELDS[field].abbr || FIELDS[field].label
                   }
+                  icon={FIELDS[field].icon}
                   sort={query}
                   reduceSort={reduceSort}
                 />

@@ -1,3 +1,6 @@
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { SvgIconTypeMap } from "@mui/material/SvgIcon";
+
 import {
   ICreaturesSearchSchema,
   IRacesSearchSchema,
@@ -14,6 +17,7 @@ export interface IField {
   label: string;
   abbr?: string;
   resource?: ESearchEndPoints;
+  icon?: string | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
 }
 
 export type ISearchSchema =
