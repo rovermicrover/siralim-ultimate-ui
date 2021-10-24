@@ -72,7 +72,7 @@ export default function SortedTableHeader({
       >
         {icon ? (
           typeof icon == "string" ? (
-            <img src={icon} />
+            <img src={icon} alt={name} />
           ) : (
             React.createElement(icon)
           )
