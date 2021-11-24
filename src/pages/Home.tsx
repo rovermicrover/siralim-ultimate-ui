@@ -30,7 +30,7 @@ export default function Home() {
         <MuiSafeLink href="https://www.thylacinestudios.com/">
           Thylacine Studios
         </MuiSafeLink>
-        . This site is currently up to date with version 0.11.X we are working on getting the new dara for 0.12.X.
+        . This site is currently up to date with version 0.11.X we are working on getting the new data for 0.12.X.
       </Typography>
       <Typography component="p" gutterBottom>
         The top links in the left hand nav will take you to different types of
