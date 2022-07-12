@@ -29,6 +29,7 @@ import AuthorJpg from "./images/nav/author-1x.jpg";
 import SteamJpg from "./images/nav/steam-1x.jpg";
 
 import SourceIcon from "@mui/icons-material/Source";
+import BugReportIcon from '@mui/icons-material/BugReport';
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 interface IInteralRoute {
@@ -117,6 +118,11 @@ export default function Nav({
       href: "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
       title: "SU on Steam",
       icon: SteamJpg,
+    },
+    {
+      href: "https://forms.gle/fKwnGNFDtU8b2WiU7",
+      title: "Submit Issue With Data",
+      icon: BugReportIcon,
     },
     {
       href: "https://docs.google.com/spreadsheets/d/1RYRvKTCLLJxXrZ_7OOjG8j98L_fjE5KNHtLG4wHn9Xw/edit#gid=0",
