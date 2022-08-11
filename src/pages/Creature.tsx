@@ -23,7 +23,6 @@ import AttackPng from "../images/stats/attack.png";
 import DefensehPng from "../images/stats/defense.png";
 import IntelligencePng from "../images/stats/intelligence.png";
 import SpeedPng from "../images/stats/speed.png";
-import { create } from "domain";
 
 const fetchCreature = buildGetResource<ICreaturesGetSchema>(
   ESearchEndPoints.creatures
