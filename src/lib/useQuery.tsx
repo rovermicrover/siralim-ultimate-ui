@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDebounce } from "use-debounce/lib";
+import { useDebounce } from "use-debounce";
 import { useQueryParams } from "use-query-params";
 import {
   buildQueryParamsMutators,

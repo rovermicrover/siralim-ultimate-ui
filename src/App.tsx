@@ -6,13 +6,15 @@ import "./App.css";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import createPersistedState from "use-persisted-state";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { QueryParamProvider } from "use-query-params";
+import { QueryParamProvider,  } from "use-query-params";
+import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { HelmetProvider } from "react-helmet-async";
+
+import useLocalStorage from './lib/useLocalStorage';
 
 import Header from "./Header";
 import Nav from "./Nav";
@@ -43,12 +45,10 @@ function getBrowserIsDarkTheme() {
     : false;
 }
 
-const useIsDarkThemeState = createPersistedState("isDarkTheme");
-
 function App() {
   const browserIsDarkTheme = getBrowserIsDarkTheme();
   const [isDarkTheme, setIsDarkTheme] =
-    useIsDarkThemeState<boolean>(browserIsDarkTheme);
+    useLocalStorage<boolean>("isDarkTheme", browserIsDarkTheme);
 
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
 
@@ -63,7 +63,7 @@ function App() {
       <SkipNavLink id="skip" data-testid="skip-link" />
       <HelmetProvider>
         <Router>
-          <QueryParamProvider ReactRouterRoute={Route}>
+          <QueryParamProvider adapter={ReactRouter5Adapter}>
             <Box sx={{ display: "flex" }}>
               <Header isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
               <Nav
