@@ -28,7 +28,7 @@ import TagsPills from "../components/TagsPills";
 import jsonLD from "../lib/jsonLD";
 import { MuiSafeLink } from "../components/MuiRouterLink";
 
-import BugReportIcon from '@mui/icons-material/BugReport';
+import BugReportIcon from "@mui/icons-material/BugReport";
 
 const FIELDS: Record<string, IField> = {
   specialization_name: {
@@ -234,7 +234,14 @@ export default function Perks() {
                 )}
                 <TableRow>
                   <TableCell colSpan={8} style={{ paddingTop: 0 }}>
-                    <MuiSafeLink href={buildBugReportUrl({ dataType: "Perks", target: perk.name })}><BugReportIcon/></MuiSafeLink>
+                    <MuiSafeLink
+                      href={buildBugReportUrl({
+                        dataType: "Perks",
+                        target: perk.name,
+                      })}
+                    >
+                      <BugReportIcon />
+                    </MuiSafeLink>
                   </TableCell>
                 </TableRow>
               </React.Fragment>

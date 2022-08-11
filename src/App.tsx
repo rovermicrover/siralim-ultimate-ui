@@ -10,11 +10,11 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { QueryParamProvider,  } from "use-query-params";
-import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
+import { QueryParamProvider } from "use-query-params";
+import { ReactRouter5Adapter } from "use-query-params/adapters/react-router-5";
 import { HelmetProvider } from "react-helmet-async";
 
-import useLocalStorage from './lib/useLocalStorage';
+import useLocalStorage from "./lib/useLocalStorage";
 
 import Header from "./Header";
 import Nav from "./Nav";
@@ -22,6 +22,7 @@ import Nav from "./Nav";
 import Home from "./pages/Home";
 
 import Creatures from "./pages/Creatures";
+import Creature from "./pages/Creature";
 import Traits from "./pages/Traits";
 import Perks from "./pages/Perks";
 import Spells from "./pages/Spells";
@@ -47,8 +48,10 @@ function getBrowserIsDarkTheme() {
 
 function App() {
   const browserIsDarkTheme = getBrowserIsDarkTheme();
-  const [isDarkTheme, setIsDarkTheme] =
-    useLocalStorage<boolean>("isDarkTheme", browserIsDarkTheme);
+  const [isDarkTheme, setIsDarkTheme] = useLocalStorage<boolean>(
+    "isDarkTheme",
+    browserIsDarkTheme
+  );
 
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
 
@@ -93,6 +96,9 @@ function App() {
                 >
                   <SkipNavContent data-testid="content" />
                   <Switch>
+                    <Route path="/creatures/:id">
+                      <Creature />
+                    </Route>
                     <Route path="/creatures">
                       <Creatures />
                     </Route>

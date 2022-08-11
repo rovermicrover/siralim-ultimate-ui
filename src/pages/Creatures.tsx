@@ -30,7 +30,7 @@ import SearchInput from "../components/SearchInput";
 import jsonLD from "../lib/jsonLD";
 import { MuiSafeLink } from "../components/MuiRouterLink";
 
-import BugReportIcon from '@mui/icons-material/BugReport';
+import BugReportIcon from "@mui/icons-material/BugReport";
 
 import HealthPng from "../images/stats/health.png";
 import AttackPng from "../images/stats/attack.png";
@@ -188,20 +188,25 @@ export default function Creatures() {
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
                   <TableCell align="center" sx={{ width: "32px" }}>
-                    <img
-                      width="64"
-                      height="64"
-                      src={creature.battle_sprite}
-                      alt={`${creature.name} Battle Sprite`}
-                      aria-hidden="true"
-                    />
-                    <Typography
-                      variant="subtitle2"
-                      gutterBottom
-                      component="div"
+                    <MuiSafeLink
+                      to={`/creatures/${creature.slug}`}
+                      target="_blank"
                     >
-                      {creature.name}
-                    </Typography>
+                      <img
+                        width="64"
+                        height="64"
+                        src={creature.battle_sprite}
+                        alt={`${creature.name} Battle Sprite`}
+                        aria-hidden="true"
+                      />
+                      <Typography
+                        variant="subtitle2"
+                        gutterBottom
+                        component="div"
+                      >
+                        {creature.name}
+                      </Typography>
+                    </MuiSafeLink>
                   </TableCell>
                   <TableCell align="center">
                     <img
@@ -274,7 +279,14 @@ export default function Creatures() {
                 </TableRow>
                 <TableRow>
                   <TableCell colSpan={8} style={{ paddingTop: 0 }}>
-                    <MuiSafeLink href={buildBugReportUrl({ dataType: "Creatures", target: creature.name })}><BugReportIcon/></MuiSafeLink>
+                    <MuiSafeLink
+                      href={buildBugReportUrl({
+                        dataType: "Creatures",
+                        target: creature.name,
+                      })}
+                    >
+                      <BugReportIcon />
+                    </MuiSafeLink>
                   </TableCell>
                 </TableRow>
               </React.Fragment>

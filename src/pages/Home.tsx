@@ -18,7 +18,7 @@ export default function Home() {
         />
         <script type="application/ld+json">{JSON.stringify(jsonLD)}</script>
       </Helmet>
-      <Typography variant="h3" component="h1" gutterBottom>
+      <Typography variant="h3" component="h2" gutterBottom>
         Welcome To The Siralim Ultimate Unofficial Codex
       </Typography>
       <Typography component="p" gutterBottom>

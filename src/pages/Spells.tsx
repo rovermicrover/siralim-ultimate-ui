@@ -27,7 +27,7 @@ import FilterDrawer from "../components/filters/FilterDrawer";
 import jsonLD from "../lib/jsonLD";
 import { MuiSafeLink } from "../components/MuiRouterLink";
 
-import BugReportIcon from '@mui/icons-material/BugReport';
+import BugReportIcon from "@mui/icons-material/BugReport";
 
 import ManaPng from "../images/stats/mana.png";
 
@@ -189,7 +189,14 @@ export default function Spells() {
                 )}
                 <TableRow>
                   <TableCell colSpan={8} style={{ paddingTop: 0 }}>
-                    <MuiSafeLink href={buildBugReportUrl({ dataType: "Spells", target: spell.name })}><BugReportIcon/></MuiSafeLink>
+                    <MuiSafeLink
+                      href={buildBugReportUrl({
+                        dataType: "Spells",
+                        target: spell.name,
+                      })}
+                    >
+                      <BugReportIcon />
+                    </MuiSafeLink>
                   </TableCell>
                 </TableRow>
               </React.Fragment>

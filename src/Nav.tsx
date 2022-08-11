@@ -29,7 +29,7 @@ import AuthorJpg from "./images/nav/author-1x.jpg";
 import SteamJpg from "./images/nav/steam-1x.jpg";
 
 import SourceIcon from "@mui/icons-material/Source";
-import BugReportIcon from '@mui/icons-material/BugReport';
+import BugReportIcon from "@mui/icons-material/BugReport";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 interface IInteralRoute {

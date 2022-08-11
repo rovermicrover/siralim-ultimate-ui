@@ -26,7 +26,7 @@ import { IField } from "../components/filters/types";
 import jsonLD from "../lib/jsonLD";
 import { MuiSafeLink } from "../components/MuiRouterLink";
 
-import BugReportIcon from '@mui/icons-material/BugReport';
+import BugReportIcon from "@mui/icons-material/BugReport";
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.traits },
@@ -154,7 +154,14 @@ export default function Traits() {
                 )}
                 <TableRow>
                   <TableCell colSpan={8} style={{ paddingTop: 0 }}>
-                    <MuiSafeLink href={buildBugReportUrl({ dataType: "Traits", target: trait.name })}><BugReportIcon/></MuiSafeLink>
+                    <MuiSafeLink
+                      href={buildBugReportUrl({
+                        dataType: "Traits",
+                        target: trait.name,
+                      })}
+                    >
+                      <BugReportIcon />
+                    </MuiSafeLink>
                   </TableCell>
                 </TableRow>
               </React.Fragment>
