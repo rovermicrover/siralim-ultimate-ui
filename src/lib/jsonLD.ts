@@ -1,6 +1,6 @@
 const jsonLD = {
   "@context": "http://schema.org/",
-  "@type": "VideoGame",
+  "@type": ["VideoGame", "SoftwareApplication"],
   name: "Siralim Ultimate",
   url: "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
   description:
