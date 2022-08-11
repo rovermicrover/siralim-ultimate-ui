@@ -19,6 +19,7 @@ import { ICreaturesSearchSchema } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 import { ESearchEndPoints } from "../lib/endpoints";
 import { useQuery } from "../lib/useQuery";
+import { buildBugReportUrl } from "../lib/bugReportForm";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import TagsPills from "../components/TagsPills";
@@ -27,6 +28,9 @@ import FilterDrawer from "../components/filters/FilterDrawer";
 import { IField } from "../components/filters/types";
 import SearchInput from "../components/SearchInput";
 import jsonLD from "../lib/jsonLD";
+import { MuiSafeLink } from "../components/MuiRouterLink";
+
+import BugReportIcon from '@mui/icons-material/BugReport';
 
 import HealthPng from "../images/stats/health.png";
 import AttackPng from "../images/stats/attack.png";
@@ -258,12 +262,19 @@ export default function Creatures() {
                     </TableCell>
                   </TableRow>
                 )}
-                <TableRow>
+                <TableRow
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
+                >
                   <TableCell colSpan={8} style={{ paddingTop: 0 }}>
                     <b>
                       Sources:{" "}
                       {creature.sources.map(({ name }) => name).join(" | ")}
                     </b>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={8} style={{ paddingTop: 0 }}>
+                    <MuiSafeLink href={buildBugReportUrl({ dataType: "Creatures", target: creature.name })}><BugReportIcon/></MuiSafeLink>
                   </TableCell>
                 </TableRow>
               </React.Fragment>

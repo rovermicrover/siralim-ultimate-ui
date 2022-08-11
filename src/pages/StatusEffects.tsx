@@ -16,6 +16,7 @@ import { IStatusEffectsSearchSchema } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 import { ESearchEndPoints } from "../lib/endpoints";
 import { useQuery } from "../lib/useQuery";
+import { buildBugReportUrl } from "../lib/bugReportForm";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
@@ -23,6 +24,9 @@ import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import jsonLD from "../lib/jsonLD";
+import { MuiSafeLink } from "../components/MuiRouterLink";
+
+import BugReportIcon from '@mui/icons-material/BugReport';
 
 const FIELDS: Record<string, IField> = {
   name: {
@@ -181,9 +185,16 @@ export default function StatusEffects() {
                     {statusEffect.max_stacks}
                   </TableCell>
                 </TableRow>
-                <TableRow>
+                <TableRow
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
+                >
                   <TableCell colSpan={5} style={{ paddingTop: 0 }}>
                     {statusEffect.description}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={8} style={{ paddingTop: 0 }}>
+                    <MuiSafeLink href={buildBugReportUrl({ dataType: "Status Effects (Buffs, Debuffs, Minions)", target: statusEffect.name })}><BugReportIcon/></MuiSafeLink>
                   </TableCell>
                 </TableRow>
               </React.Fragment>

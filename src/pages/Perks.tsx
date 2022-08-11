@@ -16,6 +16,7 @@ import { IPerksSearchSchema } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 import { ESearchEndPoints } from "../lib/endpoints";
 import { useQuery } from "../lib/useQuery";
+import { buildBugReportUrl } from "../lib/bugReportForm";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
@@ -25,6 +26,9 @@ import FilterDrawer from "../components/filters/FilterDrawer";
 import BoolIcon from "../components/BoolIcon";
 import TagsPills from "../components/TagsPills";
 import jsonLD from "../lib/jsonLD";
+import { MuiSafeLink } from "../components/MuiRouterLink";
+
+import BugReportIcon from '@mui/icons-material/BugReport';
 
 const FIELDS: Record<string, IField> = {
   specialization_name: {
@@ -213,23 +217,26 @@ export default function Perks() {
                   </TableCell>
                 </TableRow>
                 <TableRow
-                  sx={
-                    perk.tags.length > 0
-                      ? { "& > *": { borderBottom: "unset !important" } }
-                      : {}
-                  }
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
                   <TableCell colSpan={6} style={{ paddingTop: 0 }}>
                     {perk.description}
                   </TableCell>
                 </TableRow>
                 {perk.tags.length > 0 && (
-                  <TableRow>
+                  <TableRow
+                    sx={{ "& > *": { borderBottom: "unset !important" } }}
+                  >
                     <TableCell colSpan={6} style={{ paddingTop: 0 }}>
                       <TagsPills tags={perk.tags} />
                     </TableCell>
                   </TableRow>
                 )}
+                <TableRow>
+                  <TableCell colSpan={8} style={{ paddingTop: 0 }}>
+                    <MuiSafeLink href={buildBugReportUrl({ dataType: "Perks", target: perk.name })}><BugReportIcon/></MuiSafeLink>
+                  </TableCell>
+                </TableRow>
               </React.Fragment>
             ))}
           </TableBody>

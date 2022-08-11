@@ -16,6 +16,7 @@ import { ISpellsSearchSchema } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 import { ESearchEndPoints } from "../lib/endpoints";
 import { useQuery } from "../lib/useQuery";
+import { buildBugReportUrl } from "../lib/bugReportForm";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import SearchInput from "../components/SearchInput";
@@ -24,6 +25,9 @@ import { IField } from "../components/filters/types";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
 import jsonLD from "../lib/jsonLD";
+import { MuiSafeLink } from "../components/MuiRouterLink";
+
+import BugReportIcon from '@mui/icons-material/BugReport';
 
 import ManaPng from "../images/stats/mana.png";
 
@@ -168,23 +172,26 @@ export default function Spells() {
                   <TableCell align="right">{spell.source.name}</TableCell>
                 </TableRow>
                 <TableRow
-                  sx={
-                    spell.tags.length > 0
-                      ? { "& > *": { borderBottom: "unset !important" } }
-                      : {}
-                  }
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
                   <TableCell colSpan={4} style={{ paddingTop: 0 }}>
                     {spell.description}
                   </TableCell>
                 </TableRow>
                 {spell.tags.length > 0 && (
-                  <TableRow>
+                  <TableRow
+                    sx={{ "& > *": { borderBottom: "unset !important" } }}
+                  >
                     <TableCell colSpan={4} style={{ paddingTop: 0 }}>
                       <TagsPills tags={spell.tags} />
                     </TableCell>
                   </TableRow>
                 )}
+                <TableRow>
+                  <TableCell colSpan={8} style={{ paddingTop: 0 }}>
+                    <MuiSafeLink href={buildBugReportUrl({ dataType: "Spells", target: spell.name })}><BugReportIcon/></MuiSafeLink>
+                  </TableCell>
+                </TableRow>
               </React.Fragment>
             ))}
           </TableBody>

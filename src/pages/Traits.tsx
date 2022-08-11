@@ -15,6 +15,7 @@ import { ITraitsSearchSchema } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
 import { ESearchEndPoints } from "../lib/endpoints";
 import { useQuery } from "../lib/useQuery";
+import { buildBugReportUrl } from "../lib/bugReportForm";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import FilterButtons from "../components/filters/FilterButtons";
@@ -23,6 +24,9 @@ import SearchInput from "../components/SearchInput";
 import TagsPills from "../components/TagsPills";
 import { IField } from "../components/filters/types";
 import jsonLD from "../lib/jsonLD";
+import { MuiSafeLink } from "../components/MuiRouterLink";
+
+import BugReportIcon from '@mui/icons-material/BugReport';
 
 const FIELDS: Record<string, IField> = {
   name: { type: "string", label: "Name", resource: ESearchEndPoints.traits },
@@ -133,23 +137,26 @@ export default function Traits() {
                   <TableCell align="center">{trait.material_name}</TableCell>
                 </TableRow>
                 <TableRow
-                  sx={
-                    trait.tags.length
-                      ? { "& > *": { borderBottom: "unset !important" } }
-                      : {}
-                  }
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
                   <TableCell colSpan={2} style={{ paddingTop: 0 }}>
                     {trait.description}
                   </TableCell>
                 </TableRow>
                 {trait.tags.length > 0 && (
-                  <TableRow>
+                  <TableRow
+                    sx={{ "& > *": { borderBottom: "unset !important" } }}
+                  >
                     <TableCell colSpan={2} style={{ paddingTop: 0 }}>
                       <TagsPills tags={trait.tags} />
                     </TableCell>
                   </TableRow>
                 )}
+                <TableRow>
+                  <TableCell colSpan={8} style={{ paddingTop: 0 }}>
+                    <MuiSafeLink href={buildBugReportUrl({ dataType: "Traits", target: trait.name })}><BugReportIcon/></MuiSafeLink>
+                  </TableCell>
+                </TableRow>
               </React.Fragment>
             ))}
           </TableBody>
