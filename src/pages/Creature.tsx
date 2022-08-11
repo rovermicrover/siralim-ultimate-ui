@@ -23,6 +23,7 @@ import AttackPng from "../images/stats/attack.png";
 import DefensehPng from "../images/stats/defense.png";
 import IntelligencePng from "../images/stats/intelligence.png";
 import SpeedPng from "../images/stats/speed.png";
+import { create } from "domain";
 
 const fetchCreature = buildGetResource<ICreaturesGetSchema>(
   ESearchEndPoints.creatures
@@ -35,13 +36,26 @@ export default function Creatures() {
     <>
       <Helmet>
         <title>
-          Creature {creature.name} | Siralim Ultimate Unofficial Codex
+          Creature {creature.name} - {creature.race.name} - {creature.klass.name} | Siralim Ultimate Unofficial Codex
         </title>
         <meta
           name="description"
-          content={`Creatures ${creature.name} | Siralim Ultimate Unofficial Codex`}
+          content={`Creatures ${creature.name} - ${creature.race.name} - ${creature.klass.name} | Siralim Ultimate Unofficial Codex`}
         />
+        <link rel="canonical" href={`https://${window.location.hostname}/creatures/${creature.slug}`}></link>
         <script type="application/ld+json">{JSON.stringify(jsonLD)}</script>
+
+        <meta property="og:type" content="article"/>
+        <meta property="og:site_name" content="Siralim Ultimate Unofficial Codex"/>
+        <meta property="og:title" content={creature.name}/>
+        <meta property="og:url" content={`https://${window.location.hostname}/creatures/${creature.slug}`}/>
+        <meta property="og:description" content={`Siralim Ultimate Creature ${creature.name} - ${creature.race.name} - ${creature.klass.name} | Siralim Ultimate Unofficial Codex`}/>
+
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:site" content="@thylastudios"/>
+        <meta name="twitter:url" content={`https://${window.location.hostname}/creatures/${creature.slug}`}/>
+        <meta name="twitter:title" content={creature.name}/>
+        <meta name="twitter:description" content={`Siralim Ultimate Creature ${creature.name} - ${creature.race.name} - ${creature.klass.name} | Siralim Ultimate Unofficial Codex`}/>
       </Helmet>
       <Table>
         <TableBody>
