@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SkipNavLink, SkipNavContent } from "@reach/skip-nav";
 import "@reach/skip-nav/styles.css";
 
@@ -46,6 +46,15 @@ function getBrowserIsDarkTheme() {
     : false;
 }
 
+declare global {
+  interface Window {
+    dataLayer: any[];
+    gtag: (key: string, ...args: any[]) => void;
+  }
+}
+
+const GOOGLE_TRACKING_ID = "G-ZSNS8WJHPS";
+
 function App() {
   const browserIsDarkTheme = getBrowserIsDarkTheme();
   const [isDarkTheme, setIsDarkTheme] = useLocalStorage<boolean>(
@@ -59,6 +68,15 @@ function App() {
   const isLg = useMediaQuery(theme.breakpoints.up("lg"));
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const cellPadding = isLg ? "16px" : isMd ? "12px" : "8px";
+
+  useEffect(() => {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = (key: string, ...args: any[]): void => {
+      window.dataLayer.push([key, ...args]);
+    };
+    window.gtag("js", new Date());
+    window.gtag("config", GOOGLE_TRACKING_ID);
+  }, []);
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>

@@ -2,6 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self'; 
+      style-src 'self' 'unsafe-inline'; 
+      connect-src 'self' www.google-analytics.com www.googletagmanager.com ws:; 
+      script-src 'self' www.googletagmanager.com;
+      img-src 'self' data:;"
+    />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <title>Siralim Ultimate Unofficial Codex</title>
@@ -27,13 +34,6 @@
     -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZSNS8WJHPS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-ZSNS8WJHPS');
-    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
