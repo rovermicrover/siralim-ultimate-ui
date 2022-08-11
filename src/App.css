@@ -1,21 +1,21 @@
 html {
   height: -webkit-fill-available;
   height: -moz-available;
-  height: fill-available;
+  height: stretch;
 }
 
 body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
   min-height: -moz-available;
-  min-height: fill-available;
+  min-height: stretch;
 }
 
 #main-wrapper {
   height: 100vh;
   height: -webkit-fill-available;
   height: -moz-available;
-  height: fill-available;
+  height: stretch;
   overflow-y: visible;
 }
 
@@ -23,7 +23,7 @@ body {
   height: 100%;
   height: -webkit-fill-available;
   height: -moz-available;
-  height: fill-available;
+  height: stretch;
 }
 
 img {
