@@ -30,7 +30,7 @@ export default function Home() {
         <MuiSafeLink href="https://www.thylacinestudios.com/">
           Thylacine Studios
         </MuiSafeLink>
-        . This site is currently up to date with version 1.0.6.
+        . This site is currently up to date with version 1.1.1.
       </Typography>
       <Typography component="p" gutterBottom>
         The top links in the left hand nav will take you to different types of
