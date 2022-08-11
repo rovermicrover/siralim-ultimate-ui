@@ -1,7 +1,8 @@
 const jsonLD = {
   "@context": "http://schema.org/",
-  "@type": ["VideoGame", "SoftwareApplication"],
+  "@type": "SoftwareApplication",
   name: "Siralim Ultimate",
+  applicationCategory: "GameApplication",
   url: "https://store.steampowered.com/app/1289810/Siralim_Ultimate/",
   description:
     "Siralim Ultimate is a monster-catching, dungeon-crawling RPG with a ridiculous amount of depth. Summon over 1200 different creatures and travel through randomly generated dungeons to acquire resources, new creatures, and loot.",
@@ -13,8 +14,8 @@ const jsonLD = {
   },
   publisher: "Thylacine Studios",
   genre: ["RPG", "Indie", "Creature Collector", "Rouge Lite"],
-  gamePlatform: [
-    "PC game ",
+  operatingSystem: [
+    "Windows",
     "Xbox One",
     "Xbox Series X",
     "Xbox Series S",
