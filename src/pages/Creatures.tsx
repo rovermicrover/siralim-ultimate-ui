@@ -20,56 +20,17 @@ import { buildSearch } from "../lib/search";
 import { ESearchEndPoints } from "../lib/endpoints";
 import { useQuery } from "../lib/useQuery";
 import { buildBugReportUrl } from "../lib/bugReportForm";
+import creatureFields from "../lib/creatureFields";
 
 import SortedTableHeader from "../components/SortedTableHeader";
 import TagsPills from "../components/TagsPills";
 import FilterButtons from "../components/filters/FilterButtons";
 import FilterDrawer from "../components/filters/FilterDrawer";
-import { IField } from "../components/filters/types";
 import SearchInput from "../components/SearchInput";
 import jsonLD from "../lib/jsonLD";
 import { MuiSafeLink } from "../components/MuiRouterLink";
 
 import BugReportIcon from "@mui/icons-material/BugReport";
-
-import HealthPng from "../images/stats/health.png";
-import AttackPng from "../images/stats/attack.png";
-import DefensehPng from "../images/stats/defense.png";
-import IntelligencePng from "../images/stats/intelligence.png";
-import SpeedPng from "../images/stats/speed.png";
-
-const FIELDS: Record<string, IField> = {
-  name: { type: "string", label: "Name", resource: ESearchEndPoints.creatures },
-  klass_name: {
-    type: "string",
-    label: "Class",
-    resource: ESearchEndPoints.classes,
-  },
-  race_name: {
-    type: "string",
-    label: "Race",
-    resource: ESearchEndPoints.races,
-  },
-  trait_name: {
-    type: "string",
-    label: "Trait",
-    resource: ESearchEndPoints.traits,
-  },
-  health: { abbr: "HP", type: "number", label: "Health", icon: HealthPng },
-  attack: { abbr: "ATK", type: "number", label: "Attack", icon: AttackPng },
-  intelligence: {
-    abbr: "INT",
-    type: "number",
-    label: "Intelligence",
-    icon: IntelligencePng,
-  },
-  defense: { abbr: "DEF", type: "number", label: "Defense", icon: DefensehPng },
-  speed: { abbr: "SPD", type: "number", label: "Speed", icon: SpeedPng },
-  trait_tags: {
-    type: "string_array",
-    label: "Tags",
-  },
-};
 
 const SORTABLE_FIELDS = [
   "name",
@@ -131,7 +92,7 @@ export default function Creatures() {
         updateFilter={updateFilter}
         removeFilter={removeFilter}
         clearFilters={clearFilters}
-        fields={FIELDS}
+        fields={creatureFields}
       />
       <TableContainer className="data-table-container" component={Paper}>
         <Table stickyHeader>
@@ -171,10 +132,11 @@ export default function Creatures() {
                   field={field}
                   name={
                     isLg
-                      ? FIELDS[field].label
-                      : FIELDS[field].abbr || FIELDS[field].label
+                      ? creatureFields[field].label
+                      : creatureFields[field].abbr ||
+                        creatureFields[field].label
                   }
-                  icon={FIELDS[field].icon}
+                  icon={creatureFields[field].icon}
                   sort={query}
                   reduceSort={reduceSort}
                 />

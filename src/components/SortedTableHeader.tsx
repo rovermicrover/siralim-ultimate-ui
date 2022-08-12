@@ -8,6 +8,7 @@ import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material/SvgIcon";
 
 import { ISort, ISortAction, TSortDirection } from "../lib/queryParams";
+import SafeIcon from "./SafeIcon";
 
 interface ISortedTableHeaderProps {
   field: string;
@@ -70,14 +71,7 @@ export default function SortedTableHeader({
           }
         `}
       >
-        {icon ? (
-          typeof icon == "string" ? (
-            <img src={icon} alt={name} />
-          ) : (
-            React.createElement(icon)
-          )
-        ) : null}
-        {name}
+        <SafeIcon icon={icon} name={name} /> {name}
       </TableSortLabel>
     </TableCell>
   );
