@@ -103,6 +103,9 @@ function App() {
                   "& .MuiTableCell-body": {
                     padding: cellPadding,
                   },
+                  "& .MuiTableCell-head": {
+                    padding: cellPadding,
+                  },
                 }}
               >
                 <main
