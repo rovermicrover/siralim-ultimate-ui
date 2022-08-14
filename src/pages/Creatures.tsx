@@ -9,6 +9,7 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
+import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Helmet } from "react-helmet-async";
@@ -32,10 +33,9 @@ import { MuiSafeLink } from "../components/MuiRouterLink";
 
 import BugReportIcon from "@mui/icons-material/BugReport";
 
-const SORTABLE_FIELDS = [
-  "name",
-  "klass_name",
-  "race_name",
+const NAME_FIELDS = ["name", "klass_name", "race_name"];
+
+const ATTRIBUTE_FIELDS = [
   "health",
   "attack",
   "intelligence",
@@ -73,6 +73,7 @@ export default function Creatures() {
 
   const theme = useTheme();
   const isLg = useMediaQuery(theme.breakpoints.up("lg"));
+  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <>
@@ -125,18 +126,35 @@ export default function Creatures() {
               />
             </TableRow>
             <TableRow>
-              {SORTABLE_FIELDS.map((field) => (
+              {NAME_FIELDS.map(key => { return {key, field: creatureFields[key]} }).map(({ key, field }, i) => (
                 <SortedTableHeader
-                  align="center"
-                  key={field}
-                  field={field}
+                  align={i > 0 ? "center" : "left"}
+                  key={key}
+                  field={key}
                   name={
                     isLg
-                      ? creatureFields[field].label
-                      : creatureFields[field].abbr ||
-                        creatureFields[field].label
+                      ? field.label
+                      : field.abbr ||
+                      field.label
                   }
-                  icon={creatureFields[field].icon}
+                  icon={field.icon}
+                  sort={query}
+                  reduceSort={reduceSort}
+                />
+              ))}
+              {ATTRIBUTE_FIELDS.map(key => { return {key, field: creatureFields[key]} }).map(({ key, field }) => (
+                <SortedTableHeader
+                  align="center"
+                  key={key}
+                  field={key}
+                  name={
+                    isLg
+                      ? field.label
+                      : isSm 
+                        ? field.abbr || field.label
+                        : ""
+                  }
+                  icon={field.icon}
                   sort={query}
                   reduceSort={reduceSort}
                 />
@@ -149,14 +167,14 @@ export default function Creatures() {
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
-                  <TableCell align="center" sx={{ width: "32px" }}>
+                  <TableCell align="left" sx={{ width: "32px" }}>
                     <MuiSafeLink
                       to={`/creatures/${creature.slug}`}
                       target="_blank"
                     >
                       <img
                         width="64"
-                        height="64"
+                        style={{maxWidth: "100%"}}
                         src={creature.battle_sprite}
                         alt={`${creature.name} Battle Sprite`}
                         aria-hidden="true"
@@ -171,36 +189,44 @@ export default function Creatures() {
                     </MuiSafeLink>
                   </TableCell>
                   <TableCell align="center">
-                    <img
-                      src={creature.klass.icon}
-                      height="32"
-                      width="32"
-                      alt={`${creature.name} Klass Icon ${creature.klass.name}`}
-                      aria-hidden="true"
-                    />
-                    <Typography
-                      variant="subtitle2"
-                      gutterBottom
-                      component="div"
-                    >
-                      {creature.klass.name}
-                    </Typography>
+                    <Tooltip title={creature.klass.name}>
+                      <img
+                        src={creature.klass.icon}
+                        width="32"
+                        style={{maxWidth: "100%"}}
+                        alt={`${creature.name} Klass Icon ${creature.klass.name}`}
+                        aria-hidden="true"
+                      />
+                    </Tooltip>
+                    {isSm ? (
+                      <Typography
+                        variant="subtitle2"
+                        gutterBottom
+                        component="div"
+                      >
+                        {creature.klass.name}
+                      </Typography>
+                    ) : null}
                   </TableCell>
                   <TableCell align="center">
-                    <img
-                      src={creature.race.icon}
-                      height="32"
-                      width="32"
-                      alt={`${creature.name} Race Icon ${creature.race.name}`}
-                      aria-hidden="true"
-                    />
-                    <Typography
-                      variant="subtitle2"
-                      gutterBottom
-                      component="div"
-                    >
-                      {creature.race.name}
-                    </Typography>
+                    <Tooltip title={creature.race.name}>
+                      <img
+                        src={creature.race.icon}
+                        width="32"
+                        style={{maxWidth: "100%"}}
+                        alt={`${creature.name} Race Icon ${creature.race.name}`}
+                        aria-hidden="true"
+                      />
+                    </Tooltip>
+                    {isSm ? (
+                      <Typography
+                        variant="subtitle2"
+                        gutterBottom
+                        component="div"
+                      >
+                        {creature.race.name}
+                      </Typography>
+                      ) : null}
                   </TableCell>
                   <TableCell align="center">{creature.health}</TableCell>
                   <TableCell align="center">{creature.attack}</TableCell>

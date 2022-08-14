@@ -67,7 +67,8 @@ function App() {
   const theme = useTheme();
   const isLg = useMediaQuery(theme.breakpoints.up("lg"));
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
-  const cellPadding = isLg ? "16px" : isMd ? "12px" : "8px";
+  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
+  const cellPadding = isLg ? "16px" : isMd ? "12px" : isSm ? "8px" : "6px";
 
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
