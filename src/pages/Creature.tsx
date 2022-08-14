@@ -181,7 +181,7 @@ export default function Creatures() {
               {creature.trait.description}
             </Typography>
             {creature.trait.tags.length > 0 && (
-              <Box sx={{ padding: "1em 0px" }}>
+              <Box sx={{ padding: "0.5em 0px" }}>
                 <TagsPills tags={creature.trait.tags} />
               </Box>
             )}

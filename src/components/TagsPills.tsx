@@ -4,14 +4,14 @@ import Chip from "@mui/material/Chip";
 
 interface ITagsPillsProps {
   tags: string[];
-  spacing?: number;
+  spacing?: string;
 }
 
-export default function TagsPills({ tags, spacing = 8 }: ITagsPillsProps) {
+export default function TagsPills({ tags, spacing = '8px' }: ITagsPillsProps) {
   return (
-    <div>
+    <div style={{ marginBottom: spacing}}>
       {tags.map((t: string) => (
-        <Chip sx={{ marginRight: `${spacing}px` }} key={t} label={t} />
+        <Chip sx={{ margin: `${spacing} ${spacing} 0px 0px`}} key={t} label={t} />
       ))}
     </div>
   );
