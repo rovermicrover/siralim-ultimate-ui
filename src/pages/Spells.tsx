@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { Helmet } from "react-helmet-async";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 import { QueryParamStructure } from "../lib/queryParams";
 import { ISpellsSearchSchema } from "../lib/openAPI";
@@ -68,6 +69,9 @@ export default function Spells() {
     },
   } = useQuery(fetchSpells, queryParamsStructure);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
+
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <>
@@ -137,12 +141,11 @@ export default function Spells() {
               <SortedTableHeader
                 align="center"
                 field={"charges"}
-                name={FIELDS["charges"].label}
+                name={isSm ? FIELDS["charges"].label : ""}
                 icon={FIELDS["charges"].icon}
                 sort={query}
                 reduceSort={reduceSort}
               />
-              <TableCell align="right">Source</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -169,7 +172,6 @@ export default function Spells() {
                     </Typography>
                   </TableCell>
                   <TableCell align="center">{spell.charges}</TableCell>
-                  <TableCell align="right">{spell.source.name}</TableCell>
                 </TableRow>
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
@@ -187,6 +189,13 @@ export default function Spells() {
                     </TableCell>
                   </TableRow>
                 )}
+                <TableRow
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
+                >
+                  <TableCell colSpan={8} style={{ paddingTop: 0 }}>
+                    <b>Source: {spell.source.name}</b>
+                  </TableCell>
+                </TableRow>
                 <TableRow>
                   <TableCell colSpan={8} style={{ paddingTop: 0 }}>
                     <MuiSafeLink
