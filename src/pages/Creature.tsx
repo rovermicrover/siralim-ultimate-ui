@@ -102,7 +102,7 @@ export default function Creatures() {
                   <TableCell colSpan={2} align="center">
                     <img
                       width="256"
-                      style={{maxWidth: "100%"}}
+                      style={{ maxWidth: "100%" }}
                       src={creature.battle_sprite}
                       alt={`${creature.name} Battle Sprite`}
                       aria-hidden="true"
@@ -114,7 +114,7 @@ export default function Creatures() {
                     <img
                       src={creature.klass.icon}
                       width="64"
-                      style={{maxWidth: "100%"}}
+                      style={{ maxWidth: "100%" }}
                       alt={`${creature.name} Klass Icon ${creature.klass.name}`}
                       aria-hidden="true"
                     />
@@ -130,7 +130,7 @@ export default function Creatures() {
                     <img
                       src={creature.race.icon}
                       width="64"
-                      style={{maxWidth: "100%"}}
+                      style={{ maxWidth: "100%" }}
                       alt={`${creature.name} Race Icon ${creature.race.name}`}
                       aria-hidden="true"
                     />

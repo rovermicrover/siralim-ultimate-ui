@@ -9,7 +9,7 @@ import TableFooter from "@mui/material/TableFooter";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Helmet } from "react-helmet-async";
@@ -126,33 +126,28 @@ export default function Creatures() {
               />
             </TableRow>
             <TableRow>
-              {NAME_FIELDS.map(key => { return {key, field: creatureFields[key]} }).map(({ key, field }, i) => (
+              {NAME_FIELDS.map((key) => {
+                return { key, field: creatureFields[key] };
+              }).map(({ key, field }, i) => (
                 <SortedTableHeader
                   align={i > 0 ? "center" : "left"}
                   key={key}
                   field={key}
-                  name={
-                    isLg
-                      ? field.label
-                      : field.abbr ||
-                      field.label
-                  }
+                  name={isLg ? field.label : field.abbr || field.label}
                   icon={field.icon}
                   sort={query}
                   reduceSort={reduceSort}
                 />
               ))}
-              {ATTRIBUTE_FIELDS.map(key => { return {key, field: creatureFields[key]} }).map(({ key, field }) => (
+              {ATTRIBUTE_FIELDS.map((key) => {
+                return { key, field: creatureFields[key] };
+              }).map(({ key, field }) => (
                 <SortedTableHeader
                   align="center"
                   key={key}
                   field={key}
                   name={
-                    isLg
-                      ? field.label
-                      : isSm 
-                        ? field.abbr || field.label
-                        : ""
+                    isLg ? field.label : isSm ? field.abbr || field.label : ""
                   }
                   icon={field.icon}
                   sort={query}
@@ -174,7 +169,7 @@ export default function Creatures() {
                     >
                       <img
                         width="64"
-                        style={{maxWidth: "100%"}}
+                        style={{ maxWidth: "100%" }}
                         src={creature.battle_sprite}
                         alt={`${creature.name} Battle Sprite`}
                         aria-hidden="true"
@@ -193,7 +188,7 @@ export default function Creatures() {
                       <img
                         src={creature.klass.icon}
                         width="32"
-                        style={{maxWidth: "100%"}}
+                        style={{ maxWidth: "100%" }}
                         alt={`${creature.name} Klass Icon ${creature.klass.name}`}
                         aria-hidden="true"
                       />
@@ -213,7 +208,7 @@ export default function Creatures() {
                       <img
                         src={creature.race.icon}
                         width="32"
-                        style={{maxWidth: "100%"}}
+                        style={{ maxWidth: "100%" }}
                         alt={`${creature.name} Race Icon ${creature.race.name}`}
                         aria-hidden="true"
                       />
@@ -226,7 +221,7 @@ export default function Creatures() {
                       >
                         {creature.race.name}
                       </Typography>
-                      ) : null}
+                    ) : null}
                   </TableCell>
                   <TableCell align="center">{creature.health}</TableCell>
                   <TableCell align="center">{creature.attack}</TableCell>
