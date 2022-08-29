@@ -194,7 +194,7 @@ export default function Creatures() {
             <DiscussionEmbed
               shortname={creature.name}
               config={{
-                identifier: `creatures/${creature.id}`,
+                identifier: `creatures-${creature.id}`,
                 title: `Creature ${creature.name}`,
               }}
             />
