@@ -74,7 +74,9 @@ export default function Nav({
 }: INavProps) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
-  const iconWidth = isMd ? 32 : 24;
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
+  const iconWidth = isLg ? 32 : isMd ?  24 : 16;
+  const itemPadding = isMd ?  12 : 6;
   const itemTextStyle = { lineHeight: `${iconWidth}px`, margin: "0px" };
   const drawerWidth = isNavOpen ? 240 : iconWidth + 26;
 
@@ -167,7 +169,7 @@ export default function Nav({
                 title={route.title}
                 to={(route as IInteralRoute).to}
                 href={(route as IExternalRoute).href}
-                sx={{ paddingLeft: "12px" }}
+                sx={{ paddingLeft: "12px", paddingRight: "12px" }}
               >
                 <ListItemIcon aria-hidden="true">
                   {isNavOpen ? (
