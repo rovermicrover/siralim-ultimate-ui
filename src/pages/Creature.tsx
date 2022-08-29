@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { Helmet } from "react-helmet-async";
+import { DiscussionEmbed } from "disqus-react";
 
 import { ICreaturesGetSchema } from "../lib/openAPI";
 import { buildGetResource } from "../lib/getResource";
@@ -188,6 +189,15 @@ export default function Creatures() {
             <Typography variant="body1" component="p" gutterBottom>
               Sources: {creature.sources.map(({ name }) => name).join(" | ")}
             </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <DiscussionEmbed
+              shortname={creature.name}
+              config={{
+                identifier: `creatures/${creature.id}`,
+                title: `Creature ${creature.name}`,
+              }}
+            />
           </Grid>
         </Grid>
       </Box>
