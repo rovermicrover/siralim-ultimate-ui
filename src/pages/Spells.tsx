@@ -110,7 +110,7 @@ export default function Spells() {
                 <SearchInput q={query.q} qChange={qChange} />
               </TableCell>
             </TableRow>
-            <TableRow role="presentation">
+            <TableRow id="head-pagination-row" role="presentation">
               <TablePagination
                 role="presentation"
                 count={count}

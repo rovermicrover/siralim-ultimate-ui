@@ -104,7 +104,7 @@ function App() {
                   "& .MuiTableCell-body": {
                     padding: cellPadding,
                   },
-                  "& .MuiTableCell-head": {
+                  "& :not(#head-pagination-row) > .MuiTableCell-head": {
                     padding: cellPadding,
                   },
                 }}
