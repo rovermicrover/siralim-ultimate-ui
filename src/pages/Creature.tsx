@@ -25,6 +25,7 @@ import { MuiSafeLink } from "../components/MuiRouterLink";
 import BugReportIcon from "@mui/icons-material/BugReport";
 
 import SafeIcon from "../components/SafeIcon";
+import { DISQUS_SHORTNAME } from "../lib/disqus";
 
 const fetchCreature = buildGetResource<ICreaturesGetSchema>(
   ESearchEndPoints.creatures
@@ -192,7 +193,7 @@ export default function Creatures() {
           </Grid>
           <Grid item xs={12}>
             <DiscussionEmbed
-              shortname={creature.name}
+              shortname={DISQUS_SHORTNAME}
               config={{
                 identifier: `creatures-${creature.id}`,
                 title: `Creature ${creature.name}`,
