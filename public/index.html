@@ -4,10 +4,11 @@
     <meta charset="utf-8" />
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self'; 
-      style-src 'self' 'unsafe-inline'; 
+      style-src 'self' 'unsafe-inline' c.disquscdn.com; 
       connect-src 'self' www.google-analytics.com www.googletagmanager.com ws:; 
-      script-src 'self' www.googletagmanager.com siralim-ultimate-unofficial-codex.disqus.com;
-      img-src 'self' data:;"
+      script-src 'self' www.googletagmanager.com siralim-ultimate-unofficial-codex.disqus.com c.disquscdn.com;
+      img-src 'self' data: referrer.disqus.com c.disquscdn.com;
+      frame-src disqus.com;"
     />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
