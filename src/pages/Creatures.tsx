@@ -162,6 +162,23 @@ export default function Creatures() {
                 <TableRow
                   sx={{ "& > *": { borderBottom: "unset !important" } }}
                 >
+                  <TableCell colSpan={9} style={{ paddingBottom: 0 }}>
+                    <MuiSafeLink
+                      to={`/creatures/${creature.slug}`}
+                      target="_blank"
+                    >
+                      <Typography
+                        variant="h4"
+                        component="h3"
+                      >
+                        {creature.name}
+                      </Typography>
+                    </MuiSafeLink>
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "& > *": { borderBottom: "unset !important" } }}
+                >
                   <TableCell align="left" sx={{ width: "32px" }}>
                     <MuiSafeLink
                       to={`/creatures/${creature.slug}`}
@@ -169,18 +186,10 @@ export default function Creatures() {
                     >
                       <img
                         width="64"
-                        style={{ maxWidth: "100%" }}
                         src={creature.battle_sprite}
                         alt={`${creature.name} Battle Sprite`}
                         aria-hidden="true"
                       />
-                      <Typography
-                        variant="subtitle2"
-                        gutterBottom
-                        component="div"
-                      >
-                        {creature.name}
-                      </Typography>
                     </MuiSafeLink>
                   </TableCell>
                   <TableCell align="center">
@@ -188,7 +197,6 @@ export default function Creatures() {
                       <img
                         src={creature.klass.icon}
                         width="32"
-                        style={{ maxWidth: "100%" }}
                         alt={`${creature.name} Klass Icon ${creature.klass.name}`}
                         aria-hidden="true"
                       />
@@ -208,7 +216,6 @@ export default function Creatures() {
                       <img
                         src={creature.race.icon}
                         width="32"
-                        style={{ maxWidth: "100%" }}
                         alt={`${creature.name} Race Icon ${creature.race.name}`}
                         aria-hidden="true"
                       />
