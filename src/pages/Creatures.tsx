@@ -167,10 +167,7 @@ export default function Creatures() {
                       to={`/creatures/${creature.slug}`}
                       target="_blank"
                     >
-                      <Typography
-                        variant="h4"
-                        component="h3"
-                      >
+                      <Typography variant="h4" component="h3">
                         {creature.name}
                       </Typography>
                     </MuiSafeLink>

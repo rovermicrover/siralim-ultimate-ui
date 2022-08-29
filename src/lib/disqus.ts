@@ -1,1 +1,1 @@
-export const DISQUS_SHORTNAME = 'siralim-ultimate-unofficial-codex';
+export const DISQUS_SHORTNAME = "siralim-ultimate-unofficial-codex";

@@ -75,8 +75,7 @@ export default function Nav({
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const isLg = useMediaQuery(theme.breakpoints.up("lg"));
-  const iconWidth = isLg ? 32 : isMd ?  24 : 16;
-  const itemPadding = isMd ?  12 : 6;
+  const iconWidth = isLg ? 32 : isMd ? 24 : 16;
   const itemTextStyle = { lineHeight: `${iconWidth}px`, margin: "0px" };
   const drawerWidth = isNavOpen ? 240 : iconWidth + 26;
 
