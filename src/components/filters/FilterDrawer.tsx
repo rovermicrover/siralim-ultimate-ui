@@ -86,7 +86,7 @@ export default function FilterDrawer<IFilter extends TAllFilters>({
               aria-label="close filters"
               onClick={() => setIsFilterDrawerOpen(false)}
             >
-              <HighlightOffIcon color="error" />
+              <HighlightOffIcon />
             </IconButton>
           </Tooltip>
         </Grid>
