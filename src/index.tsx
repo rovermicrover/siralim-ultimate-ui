@@ -7,7 +7,6 @@ import reportWebVitals from "./reportWebVitals";
 declare global {
   interface Window {
     dataLayer: any[];
-    gtag: (key: string, ...args: any[]) => void;
   }
 }
 
