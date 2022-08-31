@@ -15,11 +15,11 @@ const GOOGLE_TRACKING_ID = "G-ZSNS8WJHPS";
 
 // GTAG init
 window.dataLayer = window.dataLayer || [];
-window.gtag = (key: string, ...args: any[]): void => {
+function gtag(key: string, ...args: any[]): void {
   window.dataLayer.push([key, ...args]);
 };
-window.gtag("js", new Date());
-window.gtag("config", GOOGLE_TRACKING_ID);
+gtag("js", new Date());
+gtag("config", GOOGLE_TRACKING_ID);
 
 ReactDOM.render(
   <React.StrictMode>
