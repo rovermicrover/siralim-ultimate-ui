@@ -2,23 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import { gtagInit } from "./lib/gtag";
 import reportWebVitals from "./reportWebVitals";
 
-declare global {
-  interface Window {
-    dataLayer: any[];
-  }
-}
-
-const GOOGLE_TRACKING_ID = "G-ZSNS8WJHPS";
-
-// GTAG init
-window.dataLayer = window.dataLayer || [];
-function gtag(key: string, ...args: any[]): void {
-  window.dataLayer.push([key, ...args]);
-};
-gtag("js", new Date());
-gtag("config", GOOGLE_TRACKING_ID);
+gtagInit();
 
 ReactDOM.render(
   <React.StrictMode>
