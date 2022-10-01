@@ -176,6 +176,11 @@ export default function Creatures() {
                 </TableRow>
               </TableBody>
             </Table>
+            {creature.description && (
+              <Typography variant="body1" component="p" gutterBottom>
+                {creature.description}
+              </Typography>
+            )}
             <Typography variant="h4" component="h3" gutterBottom>
               Trait: {creature.trait.name}
             </Typography>
