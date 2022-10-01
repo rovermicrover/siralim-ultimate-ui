@@ -11,6 +11,7 @@ import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import { Helmet } from "react-helmet-async";
 
+import { StringParam, withDefault } from "use-query-params";
 import { QueryParamStructure } from "../lib/queryParams";
 import { IPerksSearchSchema } from "../lib/openAPI";
 import { buildSearch } from "../lib/search";
@@ -49,7 +50,9 @@ const FIELDS: Record<string, IField> = {
 
 const queryParamsStructure = new QueryParamStructure<
   IPerksSearchSchema["filter"]["filters"][number]
->();
+>({
+  sort_by: withDefault(StringParam, "specialization_name"),
+});
 
 const fetchPerks = buildSearch<IPerksSearchSchema>(ESearchEndPoints.perks);
 

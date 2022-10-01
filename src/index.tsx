@@ -2,7 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import { gtagInit } from "./lib/gtag";
 import reportWebVitals from "./reportWebVitals";
+
+gtagInit();
 
 ReactDOM.render(
   <React.StrictMode>
